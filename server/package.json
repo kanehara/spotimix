@@ -1,0 +1,34 @@
+{
+  "name": "spotimix-server",
+  "version": "1.0.0",
+  "description": "Server for the spotimix app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "spotimix",
+    "spotify",
+    "music"
+  ],
+  "author": "Yohei.Kanehara <kanehara@umich.edu>",
+  "license": "MIT",
+  "dependencies": {
+    "dataloader": "^1.3.0",
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphql": "^0.11.7",
+    "morgan": "^1.9.0",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "rimraf": "^2.6.2",
+    "supertest": "^3.0.0",
+    "tape": "^4.8.0"
+  },
+  "engines": {
+    "node": ">=8.6.0"
+  }
+}
