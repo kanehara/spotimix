@@ -1,6 +1,6 @@
-const app = require("./app")
-const morgan = require("morgan")
-const logger = require("./logger")
+const app = require('./app')
+const morgan = require('morgan')
+const logger = require('./logger')
 
 app.use(morgan('combined', {stream: logger.stream}))
 

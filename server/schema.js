@@ -1,9 +1,7 @@
 const {
   GraphQLSchema,
   GraphQLObjectType,
-  GraphQLInt,
-  GraphQLString,
-  GraphQLList
+  GraphQLInt
 } = require('graphql')
 
 const MyType = new GraphQLObjectType({
