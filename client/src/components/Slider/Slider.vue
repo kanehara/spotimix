@@ -59,10 +59,23 @@ export default {
   outline: none;
   transition: opacity .2s;
   margin-right: 10px;
-  transition: background-color .2s;
+  transition: all .2s;
   cursor: pointer;
   &:focus {
     outline: none;
+  }
+
+  &::-webkit-slider-thumb {
+    transition: all .2s;
+    background: $primaryFontColor;
+  }
+  &::-moz-range-thumb {
+    transition: all .2s;
+    background: $primaryFontColor;
+  }
+  &::-ms-thumb {
+    transition: all .2s;
+    background: $primaryFontColor;
   }
 
   &:hover, &:active {
