@@ -26,7 +26,10 @@ const getMyTopArtists = async accessToken => fetch('/me/top/artists', accessToke
   .then(data => data.items)
 const getMyTopTracks = async accessToken => fetch('/me/top/tracks', accessToken)
   .then(data => data.items)
-const getRecommendations = async (accessToken, args) => fetch(`/recommendations?${querystring.stringify(args)}`, accessToken)
+const getRecommendations = async (accessToken, params) => fetch(`/recommendations?${querystring.stringify(params)}`, accessToken)
+const search = async (accessToken, params) => fetch(`/search?${querystring.stringify(params)}`, accessToken)
+const getGenres = async accessToken => fetch(`/recommendations/available-genre-seeds`, accessToken)
+  .then(data => data.genres)
 
 app.use('/graphql', graphqlHTTP(async req => {
   const accessTokenRes = await axios
@@ -47,7 +50,9 @@ app.use('/graphql', graphqlHTTP(async req => {
         getMe,
         getMyTopArtists,
         getMyTopTracks,
-        getRecommendations
+        getRecommendations,
+        getGenres,
+        search
       },
       req
     },
