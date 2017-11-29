@@ -56,7 +56,7 @@ input[type="text"] {
   padding: 4px;
 
   &:focus {
-    border: 1px solid $spotifyGreen;
+    border: 2px solid $spotifyGreen;
     outline: none;
   }
 }
