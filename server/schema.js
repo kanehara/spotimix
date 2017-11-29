@@ -125,6 +125,29 @@ const Recommendations = new GraphQLObjectType({
   })
 })
 
+const Search = new GraphQLObjectType({
+  name: 'Search',
+  description: 'Search',
+  fields: () => ({
+    tracks: {
+      type: new GraphQLList(Track),
+      resolve: (query, args, context) =>
+        context.services.search(context.accessToken, {
+          type: 'track',
+          q: `${query}*`
+        }).then(data => data.tracks.items)
+    },
+    artists: {
+      type: new GraphQLList(Artist),
+      resolve: (query, args, context) =>
+        context.services.search(context.accessToken, {
+          type: 'artist',
+          q: `${query}*`
+        }).then(data => data.artists.items)
+    }
+  })
+})
+
 module.exports = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
@@ -233,6 +256,20 @@ module.exports = new GraphQLSchema({
             while tracks with low valence sound more negative (e.g. sad, depressed, angry).`
           }
         }
+      },
+      search: {
+        type: Search,
+        args: {
+          q: {
+            type: GraphQLString,
+            description: 'The search query'
+          }
+        },
+        resolve: (root, args, context) => args.q
+      },
+      genres: {
+        type: new GraphQLList(GraphQLString),
+        resolve: async (root, args, context) => context.services.getGenres(context.accessToken)
       }
     })
   })
