@@ -4,6 +4,7 @@ import createLogger from 'vuex/dist/logger'
 import createPersistedState from 'vuex-persistedstate'
 import Cookies from 'js-cookie'
 import auth from './modules/auth'
+import seeds from './modules/seeds'
 
 Vue.use(Vuex)
 
@@ -11,7 +12,8 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   modules: {
-    auth
+    auth,
+    seeds
   },
   strict: debug,
   plugins: debug ? [createLogger(), createPersistedState()] : [createPersistedState({

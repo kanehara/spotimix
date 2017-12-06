@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~style/colors';
+@import '~styles/colors';
 
 .slidercontainer {
   width: 100%;

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Slider from '@/components/Slider/index'
+import Slider from '@/components/Input/Slider'
 
 export default {
   components: {

@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~style/colors';
+@import '~styles/colors';
 
 .header {
   background-color: $contentBackground;
