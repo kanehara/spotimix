@@ -5,10 +5,12 @@ const app = express()
 const querystring = require('querystring')
 const cookieParser = require('cookie-parser')
 const axios = require('axios')
+const cors = require('cors')
 const logger = require('./logger')
 const initRoutes = require('./routes')
 
 app.use(cookieParser())
+app.use(cors())
 
 // TODO: Move loaders to own module
 const fetch = async (path, accessToken) => {

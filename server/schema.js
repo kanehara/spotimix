@@ -131,18 +131,20 @@ const Search = new GraphQLObjectType({
   fields: () => ({
     tracks: {
       type: new GraphQLList(Track),
-      resolve: (query, args, context) =>
+      resolve: (q, args, context) =>
         context.services.search(context.accessToken, {
           type: 'track',
-          q: `${query}*`
+          q,
+          limit: 5
         }).then(data => data.tracks.items)
     },
     artists: {
       type: new GraphQLList(Artist),
-      resolve: (query, args, context) =>
+      resolve: (q, args, context) =>
         context.services.search(context.accessToken, {
           type: 'artist',
-          q: `${query}*`
+          q,
+          limit: 5
         }).then(data => data.artists.items)
     }
   })

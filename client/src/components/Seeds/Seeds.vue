@@ -5,23 +5,34 @@
     </div>
     <div class="seeds">
       <div class="item">
-        <label for="track"><h5>Track</h5></label>
-        <input type="text" id="track">
+        <TrackSearch/>
       </div>
       <div class="item">
-        <label for="artist"><h5>Artist</h5></label>
-        <input type="text" id="artist">
+        <ArtistSearch/>
       </div>
       <div class="item">
-        <label for="genre"><h5>Genre</h5></label>
-        <input type="text" id="genre">
+        <GenreSearch/>
       </div>
     </div>
   </div>
 </template>
 
+<script>
+import TrackSearch from './TrackSearch'
+import ArtistSearch from './ArtistSearch'
+import GenreSearch from './GenreSearch'
+
+export default {
+  components: {
+    TrackSearch,
+    ArtistSearch,
+    GenreSearch
+  }
+}
+</script>
+
 <style scoped lang="scss" >
-@import '~style/breakpoints';
+@import '~styles/breakpoints';
 
 .seedsHeader {
   h4 {

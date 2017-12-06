@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~style/colors';
+@import '~styles/colors';
 
 .button {
   border-radius: 15px;
@@ -22,8 +22,8 @@ export default {
   border: 3px solid $tertiaryColor;
   height: 20px;
   background: $spotifyGreen;
-  transition: background-color .2s;
-  transition: opacity .2s;
+  transition: background-color .5s;
+  transition: opacity .5s;
   
   &:focus {
     outline: 0;

@@ -19,8 +19,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~style/colors.scss';
-@import '~style/breakpoints.scss';
+@import '~styles/colors.scss';
+@import '~styles/breakpoints.scss';
 
 #app {
   font-family: 'Montserrat', sans-serif;
@@ -28,7 +28,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: $primaryFontColor;
-  height: 100%;
 }
 
 #content {
@@ -40,7 +39,6 @@ export default {
 
 body, html {
   margin: 0;
-  height: 100%;
   background-color: $bodyBackground;
 }
 
