@@ -19,13 +19,13 @@ export default {
 
 .header {
   background-color: $contentBackground;
-  border-bottom: 1.25px solid $quaternaryColor;
+  border-bottom: 1.25px solid $theme3;
   padding: 15px;
 }
 
 h1 {
   margin: 0;
-  color: $spotifyGreen;
+  color: $theme4;
 
   &:hover {
     cursor: pointer;

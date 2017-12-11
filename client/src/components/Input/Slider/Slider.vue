@@ -80,27 +80,27 @@ export default {
 
   &:hover, &:active {
     &::-webkit-slider-runnable-track {
-      border-color: $spotifyGreen;
+      border-color: $theme4;
     }
     &::-moz-range-track {
-      border-color: $spotifyGreen;
+      border-color: $theme4;
     }
     &::-ms-fill-lower {
-      border-color: $spotifyGreen;
+      border-color: $theme4;
     }
     &::-ms-fill-upper {
-      border-color: $spotifyGreen;
+      border-color: $theme4;
     }
 
 
     &::-webkit-slider-thumb {
-      background: $spotifyGreen;
+      background: $theme4;
     }
     &::-moz-range-thumb {
-      background: $spotifyGreen;
+      background: $theme4;
     }
     &::-ms-thumb {
-      background: $spotifyGreen;
+      background: $theme4;
     }
   }
 
@@ -109,15 +109,15 @@ export default {
     pointer-events: none;
 
     &::-webkit-slider-thumb {
-      border-color: $quaternaryColor;
+      border-color: $theme3;
     }
 
     &::-moz-range-thumb {
-      border-color: $quaternaryColor;
+      border-color: $theme3;
     }
 
     &::-ms-thumb {
-      border-color: $quaternaryColor;
+      border-color: $theme3;
     }
   }
 }
@@ -143,17 +143,17 @@ $thumb-height: 25px !default;
 $thumb-width: 10px !default;
 $thumb-shadow-size: 4px !default;
 $thumb-shadow-blur: 4px !default;
-$thumb-shadow-color: $secondaryColor;
+$thumb-shadow-color: $theme1;
 $thumb-border-width: 2px !default;
-$thumb-border-color: $spotifyGreen !default;
+$thumb-border-color: $theme4 !default;
 
 $track-width: 100% !default;
 $track-height: 7.5px !default;
 $track-shadow-size: 1px !default;
 $track-shadow-blur: 1px !default;
-$track-shadow-color: $secondaryColor;
+$track-shadow-color: $theme1;
 $track-border-width: 1px !default;
-$track-border-color: $quaternaryColor;
+$track-border-color: $theme3;
 
 $track-radius: 5px !default;
 $contrast: 5% !default;

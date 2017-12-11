@@ -47,14 +47,14 @@ body {
 }
 
 input[type="text"] {
-  border: 2px solid $quaternaryColor;
+  border: 2px solid $theme3;
   border-radius: 5px;
   height: 30px;
   font-size: 14px;
   padding: 4px;
 
   &:focus {
-    border: 2px solid $spotifyGreen;
+    border: 2px solid $theme4;
     outline: none;
   }
 }

@@ -1,3 +1,5 @@
 export const ADD_SEED = 'ADD_SEED'
 export const REMOVE_SEED = 'REMOVE_SEED'
 export const REMOVE_ALL_SEEDS = 'REMOVE_ALL_SEEDS'
+export const FOCUS_SEED_INPUT = 'FOCUS_SEED_INPUT'
+export const DEFOCUS_SEED_INPUTS = 'DEFOCUS_SEED_INPUTS'

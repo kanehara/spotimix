@@ -19,9 +19,9 @@ export default {
 .button {
   border-radius: 15px;
   width: 20px;
-  border: 3px solid $tertiaryColor;
+  border: 3px solid $theme2;
   height: 20px;
-  background: $spotifyGreen;
+  background: $theme4;
   transition: background-color .5s;
   transition: opacity .5s;
   
@@ -31,16 +31,16 @@ export default {
 
   &:hover {
     cursor: pointer;
-    border-color: $spotifyGreen;
+    border-color: $theme4;
   }
 
   &.disabled {
-    background: $quaternaryColor;
+    background: $theme3;
     opacity: $disabledOpacity;
 
     &:hover {
       opacity: $disabledOpacity + .5;
-      border-color: $quaternaryColor;
+      border-color: $theme3;
     }
   }
 }

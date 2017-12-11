@@ -1,10 +1,12 @@
 <template>
-  <div v-if="show && suggestions && suggestions.length > 0" class="suggestions">
-    <div class="cell" v-for="s in suggestions" :key="s.id">
-      <div class="detail" v-if="s.detail">{{s.detail}}</div>
-      <div class="name" v-if="s.name">{{s.name}}</div>
+  <transition name="slideDown">
+    <div v-if="show && suggestions && suggestions.length > 0" class="suggestions">
+      <div class="cell" v-for="s in suggestions" :key="s.id" @click="select({id: s.id, name: s.name})">
+        <div class="detail" v-if="s.detail">{{s.detail}}</div>
+        <div class="name" v-if="s.name">{{s.name}}</div>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -17,6 +19,11 @@ export default {
       type: Array,
       default: () => [],
       validator: value => value.length === 0 || value.every(v => v.id && v.name)
+    },
+  },
+  methods: {
+    select(suggestion) {
+      this.$emit('select', suggestion)
     }
   }
 }
@@ -28,15 +35,14 @@ export default {
 $b-radius: 10px;
 
 .suggestions {
-  border: 1px solid $tertiaryColor;
   border-radius: $b-radius;
   max-height: 300px;
   overflow-y: scroll;
   
   .cell {
-    border-bottom: 1px solid $tertiaryColor;
+    border: 1px solid $theme2;
     padding: 6px;
-    background: $primaryColor;
+    background: $theme0;
 
     &:first-child {
       border-top-left-radius: $b-radius;
@@ -44,20 +50,34 @@ $b-radius: 10px;
     }
 
     &:last-child {
-      border-bottom: none;
       border-bottom-left-radius: $b-radius;
       border-bottom-right-radius: $b-radius;
     }
 
     &:hover {
       cursor: pointer;
-      background: $quaternaryColor;
+      background: $theme3;
     }
     .detail {
       font-size: .75em;
       margin-bottom: 5px;
-      color: $spotifyGreen;
+      color: $theme4;
     }
   }
+}
+
+.slideDown-enter-active {
+  transition: all .2s ease-in;
+}
+.slideDown-leave-active {
+  transition: all .1s ease-out;
+}
+
+.slideDown-enter, .slideDown-leave-to {
+  height: 0;
+}
+
+.slideDown-enter-to, .slideDown-leave {
+  height: 500px;
 }
 </style>

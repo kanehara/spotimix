@@ -1,13 +1,14 @@
 <template>
   <div class="container">
     <div class="inputContainer" @click="focusInput" :class="{focused: isInputFocused}">
-      <slot name="tags"></slot>
+      <slot name="left"></slot>
       <input 
         type="text" 
         class="search"
         ref="input"
         :id="id" 
         :value="value" 
+        :disabled="disabled"
         @focus="focus" 
         @focusout="focusout"
         @input="onInput($event.target.value)">
@@ -25,7 +26,8 @@ import {throttle} from 'lodash'
 export default {
   props: {
     id: String,
-    value: String
+    value: String,
+    disabled: Boolean
   },
   data() {
     return {
@@ -55,7 +57,6 @@ export default {
 <style scoped lang="scss">
 @import '~styles/z-index.scss';
 @import '~styles/colors.scss';
-$inputHeight: 35px;
 $b-radius: 10px;
 
 .container {
@@ -68,14 +69,16 @@ $b-radius: 10px;
     width: 100%;
     cursor: text;
     display: flex;
+    flex-wrap: wrap;
     background-color: white;
     padding: 4px;
     box-sizing: border-box;
-    height: $inputHeight;
+    height: auto;
     border-radius: 5px;
+    border: 1.5px solid transparent;
 
     &.focused {
-      border: 1.5px solid $spotifyGreen;
+      border: 1.5px solid $theme4;
     }
 
     input.search {
@@ -85,12 +88,17 @@ $b-radius: 10px;
       border: none;
       box-shadow: none;
       outline: 0;
+      height: 30px;
+
+      &[disabled] {
+        color: transparent;
+      }
     }
   }
 
   .suggestions {
     position: absolute;
-    top: 37.5px;
+    top: calc(100% + 1.5px);
     z-index: $z-5;
     width: 100%;
   }

@@ -6,6 +6,7 @@ import router from './router'
 import VueApollo from 'vue-apollo'
 import apolloClient from './apollo-client'
 import store from './store'
+require('styles/transitions.scss')
 require('semantic-ui-icon/icon.min.css')
 
 Vue.config.productionTip = false
@@ -17,8 +18,7 @@ const apolloProvider = new VueApollo({
 const stopProp = e => e.stopPropagation()
 function callBinding(binding, vnode, event) {
   if (binding.value && typeof binding.value === 'function') {
-    binding.value()
-    event.stopImmediatePropagation()
+    binding.value(event)
   } else {
     console.warn('Value passed to v-click-outside directive should be a function')
   }

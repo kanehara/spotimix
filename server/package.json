@@ -30,7 +30,7 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1",
+    "nodemon": "^1.12.5",
     "rimraf": "^2.6.2",
     "standard": "*",
     "supertest": "^3.0.0",

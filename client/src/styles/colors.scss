@@ -1,13 +1,24 @@
-$primaryColor: rgb(0, 0, 0);
-$secondaryColor: rgb(27, 27, 27);
-$tertiaryColor: rgb(59, 59, 59);
-$quaternaryColor: rgb(100, 100, 100);
+$black: rgb(0, 0, 0);
+$onix: rgb(27, 27, 27);
+$slate: rgb(59, 59, 59);
+$gray: rgb(100, 100, 100);
 $spotifyGreen: rgb(42, 183, 89);
+$red: rgb(247, 38, 38);
+$darkRed: rgb(197, 7, 7);
 
-$secondaryFontColor: $quaternaryColor;
+$theme0: $black;
+$theme1: $onix;
+$theme2: $slate;
+$theme3: $gray;
+$theme4: $spotifyGreen;
+
 $primaryFontColor: white;
+$secondaryFontColor: $theme3;
 
 $disabledOpacity: .25;
 
-$contentBackground: $secondaryColor;
-$bodyBackground: $primaryColor;
+$contentBackground: $theme1;
+$bodyBackground: $theme0;
+
+$negRed: $darkRed;
+$negRed-hover: $red;
