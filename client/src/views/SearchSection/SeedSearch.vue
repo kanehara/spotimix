@@ -35,8 +35,8 @@ import {
   FOCUS_SEED_INPUT,
   DEFOCUS_SEED_INPUTS
 } from 'x/seeds/mutation-types'
-import Search from '@/components/Input/Search'
-import Suggestions from '@/components/Input/Suggestions'
+import Search from '@/components/Search'
+import Suggestions from '@/components/Suggestions'
 import Tag from '@/components/Tag'
 
 export default {
@@ -71,15 +71,20 @@ export default {
       this.addSeed(seed)
     },
     clickOutside(e) {
-      this.DEFOCUS_SEED_INPUTS()
-      e.stopImmediatePropagation()
+      if (this.isSeedInputFocused) {
+        this.DEFOCUS_SEED_INPUTS()
+        e.stopImmediatePropagation()
+      }
     },
-    focus() {
+    focus(e) {
       this.FOCUS_SEED_INPUT({type: this.seedType})
-      this.$emit('focus')
+      this.$emit('focus', e)
     },
-    focusout() {
-      this.$emit('focusout')
+    focusout(e) {
+      if (!e.relatedTarget || !e.relatedTarget.matches('.search')) {
+        this.DEFOCUS_SEED_INPUTS()
+      }
+      this.$emit('focusout', e)
     },
     addSeed(seed) {
       this.ADD_SEED({type: this.seedType, ...seed})
@@ -95,7 +100,7 @@ export default {
         return state.seeds.seeds[this.seedType]
       }
     }),
-    ...mapGetters(['seedsCount']),
+    ...mapGetters(['seedsCount', 'isSeedInputFocused']),
     disabled() {
       return this.seedsCount === 5
     },

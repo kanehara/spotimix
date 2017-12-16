@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <div class="seedsHeader">
+  <div class="searchSectionContainer">
+    <div class="searchSectionHeader">
       <h4>Please select up to 5 seeds</h4>
     </div>
-    <div class="seeds">
+    <div class="searchSection">
       <div class="item">
         <TrackSearch/>
       </div>
@@ -33,18 +33,26 @@ export default {
 
 <style scoped lang="scss" >
 @import '~styles/breakpoints';
+@import '~styles/colors';
 
-.seedsHeader {
+.searchSectionContainer {
+  background: $theme2;
+  border-radius: 7.5px;
+  padding: 25px 10px;
+  margin-bottom: 30px;
+  box-shadow: $theme4 2px 2px 2.75px 0px;
+}
+
+.searchSectionHeader {
   h4 {
     margin: 0;
   }
 }
 
-.seeds {
+.searchSection {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   flex-direction: column;
-  margin-bottom: 30px;
 
   @include minTablet {
     flex-direction: row;
@@ -60,6 +68,7 @@ h5 {
   text-align: left;
   padding: 5px 15px;
   width: 100%;
+  box-sizing: border-box;
 
   input[type="text"] {
     width: 100%;

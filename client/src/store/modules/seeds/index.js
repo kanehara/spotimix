@@ -1,4 +1,4 @@
-import * as mutationTypes from './mutation-types'
+import * as MUTATION_TYPES from './mutation-types'
 
 export const SEED_TYPES = {
   TRACK: 'tracks',
@@ -24,31 +24,32 @@ const getters = {
   trackSeeds: state => state.seeds[SEED_TYPES.TRACK],
   artistSeeds: state => state.seeds[SEED_TYPES.ARTIST],
   genreSeeds: state => state.seeds[SEED_TYPES.GENRE],
-  seedsCount: state => Object.values(state.seeds).reduce((prev, curr) => prev + curr.length, 0)
+  seedsCount: state => Object.values(state.seeds).reduce((prev, curr) => prev + curr.length, 0),
+  isSeedInputFocused: state => !!state.focusedSeedInput,
 }
 
 const actions = {
 }
 
 const mutations = {
-  [mutationTypes.ADD_SEED] (state, {id, type, name}) {
+  [MUTATION_TYPES.ADD_SEED] (state, {id, type, name}) {
     if (!state.seeds[type].find(s => s.id === id) && reduceTotalSeeds(state) < 5) {
       state.seeds[type].push({id, name})
     }
   },
-  [mutationTypes.REMOVE_SEED] (state, {id, type}) {
+  [MUTATION_TYPES.REMOVE_SEED] (state, {id, type}) {
     const i = state.seeds[type].findIndex(s => s.id === id)
     if (i !== -1) {
       state.seeds[type].splice(i, 1)
     }
   },
-  [mutationTypes.REMOVE_ALL_SEEDS] (state) {
+  [MUTATION_TYPES.REMOVE_ALL_SEEDS] (state) {
     Object.values(SEED_TYPES).forEach(s => { state[s] = [] })
   },
-  [mutationTypes.FOCUS_SEED_INPUT] (state, {type}) {
+  [MUTATION_TYPES.FOCUS_SEED_INPUT] (state, {type}) {
     state.focusedSeedInput = type
   },
-  [mutationTypes.DEFOCUS_SEED_INPUTS] (state) {
+  [MUTATION_TYPES.DEFOCUS_SEED_INPUTS] (state) {
     state.focusedSeedInput = null
   }
 }

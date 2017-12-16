@@ -3,13 +3,14 @@
     <ToggleButton :disabled.sync="disabled" className="toggleButton"/>
     <input
       v-model.number="value"
-      @input="input ()"
+      @input="input"
       type="range" 
+      class="slider"  
       :min="min" 
       :max="max"
-      class="slider"  
+      :step="step"
       :disabled="disabled">
-    <label :class="{disabled: disabled}">{{value}}</label>
+    <label :class="{disabled: disabled}">{{value | format(labelMapper)}}</label>
   </div>
 </template>
 
@@ -18,13 +19,17 @@ import ToggleButton from './ToggleButton'
 
 export default {
   props: {
-    min: {
-      type: Number,
-      default: 0
+    initialValue: Number,
+    initialDisabled: Boolean,
+    min: Number,
+    max: Number,
+    labelMapper: {
+      type: Function,
+      default: v => v
     },
-    max: {
+    step: {
       type: Number,
-      default: 100
+      default: 1
     }
   },
   components: {
@@ -32,13 +37,27 @@ export default {
   },
   data () {
     return {
-      value: (this.min + this.max) / 2,
-      disabled: false
+      disabled: this.initialDisabled,
+      value: this.initialValue
+    }
+  },
+  filters: {
+    format(v, labelMapper) {
+      const formatted = labelMapper(v)
+      return isNaN(formatted) ? formatted : Math.round(formatted)
+    }
+  },
+  watch: {
+    disabled(newVal) {
+      newVal
+        ? this.$emit('disable')
+        : this.$emit('enable')
     }
   },
   methods: {
-    input () {
-      console.log(this.value)
+    input (e) {
+      this.value = e.target.value
+      this.$emit('input', Number(e.target.value))
     }
   }
 }
@@ -48,7 +67,6 @@ export default {
 @import '~styles/colors';
 
 .slidercontainer {
-  width: 100%;
   display: flex;
   align-items: center;
 }
@@ -128,6 +146,7 @@ export default {
 
 label {
   width: 50px;
+  transition: all .2s;
 
   &.disabled {
     opacity: $disabledOpacity;

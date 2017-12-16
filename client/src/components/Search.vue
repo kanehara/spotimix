@@ -1,8 +1,9 @@
 <template>
   <div class="container">
-    <div class="inputContainer" @click="focusInput" :class="{focused: isInputFocused}">
+    <div class="inputContainer" @click="focusInput" :class="{focused: isInputFocused, disabled: disabled}">
       <slot name="left"></slot>
       <input 
+        v-if="!disabled"
         type="text" 
         class="search"
         ref="input"
@@ -39,15 +40,15 @@ export default {
       throttle(() => this.$emit('input', val), 500)()
     },
     focusInput() {
-      this.$refs.input.focus()
+      this.$refs.input && this.$refs.input.focus()
     },
-    focus() {
+    focus(e) {
       this.isInputFocused = true
-      this.$emit('focus')
+      this.$emit('focus', e)
     },
-    focusout() {
+    focusout(e) {
       this.isInputFocused = false
-      this.$emit('focusout')
+      this.$emit('focusout', e)
     }
 
   }
@@ -69,13 +70,20 @@ $b-radius: 10px;
     width: 100%;
     cursor: text;
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     background-color: white;
     padding: 4px;
     box-sizing: border-box;
     height: auto;
+    min-height: 41px;
     border-radius: 5px;
     border: 1.5px solid transparent;
+
+    &.disabled {
+      cursor: default;
+      background-color: lightgray;
+    }
 
     &.focused {
       border: 1.5px solid $theme4;
