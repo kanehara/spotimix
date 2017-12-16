@@ -5,9 +5,6 @@
       v-model="query"
       :seedType="seedType"
       :suggestions="suggestions">
-      <i slot="right"
-        class="angle down icon dropdown-icon"
-        @click.stop="console.log('hi')"/>
     </SeedSearch>
   </div>
 </template>

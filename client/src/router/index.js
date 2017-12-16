@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Callback from '@/components/Callback'
-import _404 from '@/components/_404'
+import Home from '@/views/Home'
+import Callback from '@/views/Callback'
+import _404 from '@/views/_404'
 
 Vue.use(Router)
 

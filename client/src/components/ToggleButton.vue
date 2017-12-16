@@ -1,5 +1,5 @@
 <template>
-  <button @click="click ()" class="button" :class="[className, {disabled: disabled}]"></button>
+  <button @click="click" class="button" :class="[className, {disabled: disabled}]"></button>
 </template>
 
 <script>
@@ -22,8 +22,7 @@ export default {
   border: 3px solid $theme2;
   height: 20px;
   background: $theme4;
-  transition: background-color .5s;
-  transition: opacity .5s;
+  transition: all .3s;
   
   &:focus {
     outline: 0;
@@ -31,7 +30,7 @@ export default {
 
   &:hover {
     cursor: pointer;
-    border-color: $theme4;
+    border-color: transparent;
   }
 
   &.disabled {
@@ -40,7 +39,7 @@ export default {
 
     &:hover {
       opacity: $disabledOpacity + .5;
-      border-color: $theme3;
+      border-color: $theme2;
     }
   }
 }

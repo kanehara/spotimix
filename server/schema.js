@@ -135,7 +135,7 @@ const Search = new GraphQLObjectType({
         context.services.search(context.accessToken, {
           type: 'track',
           q,
-          limit: 5
+          limit: 10
         }).then(data => data.tracks.items)
     },
     artists: {
@@ -144,7 +144,7 @@ const Search = new GraphQLObjectType({
         context.services.search(context.accessToken, {
           type: 'artist',
           q,
-          limit: 5
+          limit: 10
         }).then(data => data.artists.items)
     }
   })
