@@ -1,10 +1,19 @@
 <template>
-  <button class="submitButton" @click="click" :disabled="disabled"><h1>{{ label }}</h1></button>
+  <div class="submitButtonContainer">  
+    <button 
+    v-show="!loading"
+    id="submitButton" 
+    @click="click" 
+    :disabled="disabled">
+      <h1>{{ label }}</h1>
+    </button>
+    <h1 v-show="loading">Loading...</h1>
+  </div>
 </template>
 
 <script>
 export default {
-  props: ['label', 'disabled'],
+  props: ['label', 'disabled', 'loading'],
   methods: {
     click() {
       this.$emit('click')
@@ -16,7 +25,7 @@ export default {
 <style lang="scss" scoped>
 @import '~styles/colors';
 
-.submitButton {
+#submitButton {
   padding: 0 50px; 
   border-radius: 7.5px;
   outline: 0;

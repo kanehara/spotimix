@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 import attributes from './modules/attributes'
 import auth from './modules/auth'
 import seeds from './modules/seeds'
+import mix from './modules/mix'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
   modules: {
     attributes,
     auth,
-    seeds
+    seeds,
+    mix
   },
   strict: debug,
   plugins: debug ? [createLogger(), createPersistedState()] : [createPersistedState({

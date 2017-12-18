@@ -81,7 +81,7 @@ export default {
       this.$emit('focus', e)
     },
     focusout(e) {
-      if (!e.relatedTarget || !e.relatedTarget.matches('.search')) {
+      if (e.relatedTarget && !e.relatedTarget.matches('.search')) {
         this.DEFOCUS_SEED_INPUTS()
       }
       this.$emit('focusout', e)
