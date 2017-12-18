@@ -161,7 +161,9 @@ module.exports = new GraphQLSchema({
       },
       recommendations: {
         type: Recommendations,
-        resolve: (root, args, context) => context.services.getRecommendations(context.accessToken, args),
+        resolve: (root, args, context) => (args.seed_artists || args.seed_genres || args.seed_tracks)
+          ? context.services.getRecommendations(context.accessToken, args)
+          : [],
         args: {
           limit: {
             type: GraphQLInt,
