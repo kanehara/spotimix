@@ -1,8 +1,5 @@
 <template>
   <div>
-    <Header>
-      <router-link to="/" slot="left">Back</router-link>
-    </Header>
     <div class="results">
       <div class="header">
         <h4 class="title">Title</h4>
