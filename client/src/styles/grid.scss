@@ -1,0 +1,6 @@
+@mixin result-grid {
+  display: grid;
+  grid-template-columns: auto 30% 10%;
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+}

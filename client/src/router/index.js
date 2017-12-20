@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
+import Results from '@/views/Results'
 import Callback from '@/views/Callback'
 import _404 from '@/views/_404'
 
@@ -20,6 +21,11 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         console.log('entering')
       }
+    },
+    {
+      path: '/results',
+      name: '/results',
+      component: Results
     },
     {
       path: '*',

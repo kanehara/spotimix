@@ -1,5 +1,8 @@
 <template>
   <div>
+    <Header>
+      <router-link v-if="hasResults" slot="right" to="/results">Results</router-link>
+    </Header>
     <SearchSection/>
     <SubmitButton 
       class="submitButton" 
@@ -17,11 +20,13 @@ import gql from 'graphql-tag'
 import Mixer from '@/views/Mixer'
 import SearchSection from '@/views/SearchSection'
 import SubmitButton from '@/components/SubmitButton'
+import Header from '@/views/Header'
 import { MIX, RECEIVE_RESULTS } from 'x/mix/mutation-types'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   components: {
+    Header,
     Mixer,
     SearchSection,
     SubmitButton
@@ -68,7 +73,8 @@ export default {
       'artistSeeds',
       'genreSeeds',
       'totalSeeds',
-      'results'
+      'results',
+      'hasResults'
     ])
   },
   apollo: {
@@ -112,9 +118,16 @@ export default {
           tracks {
             id
             name
+            duration_ms
+            external_urls {
+              spotify
+            }
             artists {
               id
               name
+              external_urls {
+                spotify
+              }
             }
           }
         }

@@ -1,26 +1,14 @@
 <template>
   <div id="app">
-    <SpotimixHeader/>
     <div id="content">
       <router-view/>
     </div>
   </div>
 </template>
 
-<script>
-import Header from '@/views/Header'
-
-export default {
-  name: 'app',
-  components: {
-    SpotimixHeader: Header
-  }
-}
-</script>
-
 <style lang="scss">
-@import '~styles/colors.scss';
-@import '~styles/breakpoints.scss';
+@import '~styles/colors';
+@import '~styles/breakpoints';
 
 #app {
   font-family: 'Montserrat', sans-serif;
@@ -44,18 +32,34 @@ body, html {
 
 body {
   padding: 0 5%;
+
+  font-size: .8rem;
+  @include minMobile {
+    font-size: 1rem;
+  }
 }
 
 input[type="text"] {
   border: 2px solid $theme3;
   border-radius: 5px;
   height: 30px;
-  font-size: 14px;
+  font-size: 1em;
   padding: 4px;
 
   &:focus {
     border: 2px solid $theme4;
     outline: none;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: $theme4;
+  padding: 5px 2px;
+  font-weight: bold;
+
+  &:hover {
+    border-bottom: 2px solid $theme4;
   }
 }
 

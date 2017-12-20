@@ -31,7 +31,6 @@ export default {
   width: auto;
   justify-content: space-between;
   transition: all .2s;
-  font-size: 14px;
 
   &:hover {
     cursor: default;
