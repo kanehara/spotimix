@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      transitionDirection: 'right'
+      transitionDirection: 'left'
     }
   },
   computed: {

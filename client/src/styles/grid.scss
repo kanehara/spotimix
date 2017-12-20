@@ -1,6 +1,14 @@
+@import '~styles/breakpoints';
+
 @mixin result-grid {
   display: grid;
-  grid-template-columns: auto 30% 10%;
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
+  grid-column-gap: 3px;
+  grid-row-gap: 3px;
+  grid-template-columns: auto 40% 20%;
+
+  @include minTablet {
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+    grid-template-columns: auto 40% 10%;
+  }
 }

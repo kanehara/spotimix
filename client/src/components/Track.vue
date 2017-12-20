@@ -31,6 +31,10 @@ export default {
 
   .title, .artist, .duration {
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 10px 0;
   }
 }
 </style>

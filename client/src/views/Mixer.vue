@@ -177,7 +177,7 @@ export default {
       loadingKey: 'loadingCount',
       result(res) {
         this.RECEIVE_RESULTS({results: this.recommendations.tracks})
-        this.$router.push('results')
+        this.$router.push('results?animate=true')
       }
     },
   },

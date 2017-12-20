@@ -1,12 +1,19 @@
 <template>
   <div>
-    <div class="results">
-      <div class="header">
-        <h4 class="title">Title</h4>
-        <h4 class="artist">Artist</h4>
-        <h4 class="duration">Duration</h4>
+    <div class="container">
+      <h1 v-if="hasNoResults">No Results!</h1>
+      <div v-else>
+        <div class="header">
+          <h4 class="title">Title</h4>
+          <h4 class="artist">Artist</h4>
+          <h4 class="duration">Duration</h4>
+        </div>
+        <div class="results">
+          <Stagger :appear="!!animate">
+            <Track v-for="(r, index) in results" :track="r" :key="r.id" :data-index="index"/>
+          </Stagger>
+        </div>
       </div>
-      <Track v-for="r in results" :track="r" :key="r.id"/>
     </div>
   </div>
 </template>
@@ -14,15 +21,23 @@
 <script>
 import Track from '@/components/Track'
 import Header from '@/views/Header'
+import Stagger from '@/transitions/group/Stagger'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     Header,
-    Track
+    Track,
+    Stagger
   },
   computed: {
-    ...mapGetters(['results'])
+    ...mapGetters(['results']),
+    animate() {
+      return this.$route.query.animate
+    },
+    hasNoResults() {
+      return this.results.length === 0
+    }
   }
 }
 </script>
@@ -31,8 +46,7 @@ export default {
 @import '~styles/grid';
 @import '~styles/colors';
 
-.results {
-  padding: 5%;
+.container {
   padding-top: 0;
 }
 
@@ -44,6 +58,8 @@ export default {
   .title, .artist, .duration {
     text-align: left;
   }
+
+  margin-bottom: 20px;
 }
 </style>
 

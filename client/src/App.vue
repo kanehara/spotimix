@@ -21,8 +21,12 @@
 #content {
   max-width: 1440px;
   height: 100%;
-  padding: 30px 5%;
   background-color: $contentBackground;
+  
+  padding: 10px 20px;
+  @include minMobile {
+    padding: 30px 5%;
+  }
 }
 
 body, html {
@@ -31,10 +35,14 @@ body, html {
 }
 
 body {
-  padding: 0 5%;
-
-  font-size: .8rem;
+  font-size: .6rem;
+  
   @include minMobile {
+    padding: 0 5%;
+    font-size: .8rem;
+  }
+  
+  @include minTablet {
     font-size: 1rem;
   }
 }
