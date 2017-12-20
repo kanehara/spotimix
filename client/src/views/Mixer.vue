@@ -7,7 +7,11 @@
       @click="submit" 
       :loading="loadingCount !== 0"
       :disabled="totalSeeds === 0 || totalSeeds > 5"/>
-    <SliderContainer v-for="a in allAttributes" :key="a.name" :attribute="a"/>
+    <SliderContainer 
+      v-for="a in allAttributes" 
+      :key="a.name" 
+      :attribute="a" 
+      :disabled="totalSeeds === 0 || totalSeeds > 5"/>
   </div>
 </template>
 

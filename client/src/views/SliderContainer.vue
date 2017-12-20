@@ -1,5 +1,5 @@
 <template>
-  <div class="sliderContainer">
+  <div class="sliderContainer" :class="{ disabled: disabled }">
     <span class="sliderLabel" :data-attribute-type="attribute.name">{{attribute.name}}</span>
     <Slider 
       class="slider"
@@ -25,7 +25,7 @@ import {
 } from 'x/attributes/mutation-types'
 
 export default {
-  props: ['attribute'],
+  props: ['attribute', 'disabled'],
   components: {
     Slider
   },
@@ -54,6 +54,11 @@ export default {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+
+  &.disabled {
+    pointer-events: none;
+    opacity: .2;
+  }
 
   .slider {
     flex-grow: 1;
