@@ -91,6 +91,25 @@ const Track = new GraphQLObjectType({
     artists: {
       type: new GraphQLList(Artist),
       resolve: data => data.artists
+    },
+    external_urls: {
+      type: ExternalUrls,
+      resolve: data => data.external_urls
+    },
+    duration_ms: {
+      type: GraphQLInt,
+      resolve: data => data.duration_ms
+    }
+  })
+})
+
+const ExternalUrls = new GraphQLObjectType({
+  name: 'ExternalUrls',
+  description: 'An external urls object',
+  fields: () => ({
+    spotify: {
+      type: GraphQLString,
+      resolve: data => data.spotify
     }
   })
 })
@@ -110,6 +129,10 @@ const Artist = new GraphQLObjectType({
     href: {
       type: GraphQLString,
       resolve: data => data.href
+    },
+    external_urls: {
+      type: ExternalUrls,
+      resolve: data => data.external_urls
     }
   })
 })

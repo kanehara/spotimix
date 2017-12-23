@@ -14,13 +14,7 @@ import gql from 'graphql-tag'
 import SeedSearch from './SeedSearch'
 import {SEED_TYPES} from 'x/seeds'
 import {mapGetters} from 'vuex'
-
-const formatArtists = artists => {
-  if (!artists || !artists.length || artists.length === 0) {
-    return ''
-  }
-  return artists.map(a => a.name).join(', ')
-}
+import { formatArtists } from '@/utils'
 
 export default {
   components: {

@@ -7,7 +7,8 @@ const state = {
 }
 
 const getters = {
-  results: state => state.results
+  results: state => state.results,
+  hasResults: state => state.results.length > 0
 }
 
 const actions = {
