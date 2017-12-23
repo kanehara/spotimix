@@ -33,8 +33,10 @@ const search = async (accessToken, params) => fetch(`/search?${querystring.strin
 const getGenres = async accessToken => fetch(`/recommendations/available-genre-seeds`, accessToken)
   .then(data => data.genres)
 
-app.use('/graphql', graphqlHTTP(async req => {
-  const accessTokenRes = await axios
+let CLIENT_CRED_TOKEN = null
+
+async function fetchClientCredentialsToken () {
+  return axios
     .post('https://accounts.spotify.com/api/token',
       querystring.stringify({grant_type: 'client_credentials'}), {
         headers: {
@@ -42,7 +44,32 @@ app.use('/graphql', graphqlHTTP(async req => {
           'Authorization': `Basic ${Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64')}`
         }
       })
-  const accessToken = accessTokenRes.data.access_token
+}
+
+function setTokenRefreshTimeout (timeout) {
+  setTimeout(async () => {
+    const res = await fetchClientCredentialsToken()
+    CLIENT_CRED_TOKEN = res.status === 200 && res.data.access_token
+      ? res.data.access_token
+      : null
+    const refreshTimeout = res.data.expires_in ? (Number(res.data.expires_in) - 60) * 1000 : 0
+    setTokenRefreshTimeout(refreshTimeout)
+  }, timeout)
+}
+
+async function getClientCredentialsToken () {
+  if (CLIENT_CRED_TOKEN) {
+    return CLIENT_CRED_TOKEN
+  }
+  const res = await fetchClientCredentialsToken()
+  CLIENT_CRED_TOKEN = res.status === 200 && res.data.access_token ? res.data.access_token : null
+  const refreshTimeout = res.data.expires_in ? (Number(res.data.expires_in) - 60) * 1000 : 0
+  setTokenRefreshTimeout(refreshTimeout)
+  return CLIENT_CRED_TOKEN
+}
+
+app.use('/graphql', graphqlHTTP(async req => {
+  const accessToken = await getClientCredentialsToken()
   return {
     schema,
     context: {
