@@ -21,7 +21,7 @@ export default {
       el.style.opacity = 0
     },
     enter(el, done) {
-      const delay = el.dataset.index * 50
+      const delay = el.dataset.index * 80
       setTimeout(function () {
         Velocity(
           el,
@@ -31,7 +31,7 @@ export default {
       }, delay)
     },
     leave(el, done) {
-      const delay = el.dataset.index * 50
+      const delay = el.dataset.index * 80
       setTimeout(function () {
         Velocity(
           el,

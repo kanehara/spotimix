@@ -19,7 +19,7 @@
 }
 
 #content {
-  max-width: 1440px;
+  margin: auto;
   height: 100%;
   background-color: $contentBackground;
   
@@ -44,6 +44,10 @@ body {
   
   @include minTablet {
     font-size: 1rem;
+  }
+
+  @include minDisplay {
+    font-size: 2rem;
   }
 }
 
