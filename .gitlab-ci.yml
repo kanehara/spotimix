@@ -1,0 +1,33 @@
+image: node:8.9.3
+
+before_script:
+  - npm install -g yarn
+
+stages:
+  - build
+  - test
+  - deploy 
+
+build_server:
+  stage: build
+  script:
+    - cd server
+    - yarn install
+
+build_client:
+  stage: build
+  script:
+    - cd client
+    - yarn install
+
+server_tests:
+  stage: test
+  script:
+    - cd server
+    - yarn test
+
+client_tests:
+  stage: test
+  script:
+    - cd client
+    - yarn test
