@@ -9,7 +9,7 @@
     "start": "npm run dev",
     "e2e": "node test/e2e/runner.js",
     "jest": "jest",
-    "test": "npm run e2e && npm run jest",
+    "test": "npm run jest",
     "lint": "eslint --ext .js,.vue src test/e2e/specs",
     "build": "node build/build.js"
   },
