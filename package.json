@@ -1,0 +1,20 @@
+{
+  "name": "spotimix",
+  "version": "1.0.0",
+  "description": "Spotimix",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/kanehara/spotimix.git"
+  },
+  "keywords": [
+    "spotify",
+    "music",
+    "spotimix"
+  ],
+  "author": "Yohei Kanehara <kanehara@umich.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/kanehara/spotimix/issues"
+  },
+  "homepage": "https://gitlab.com/kanehara/spotimix#README"
+}
