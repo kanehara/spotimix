@@ -6,28 +6,18 @@ before_script:
 stages:
   - build
   - test
-  - deploy 
-
-build_server:
-  stage: build
-  script:
-    - cd server
-    - yarn install
-
-build_client:
-  stage: build
-  script:
-    - cd client
-    - yarn install
+  - deploy
 
 server_tests:
   stage: test
   script:
     - cd server
+    - yarn install
     - yarn test
 
 client_tests:
   stage: test
   script:
     - cd client
+    - yarn install
     - yarn test
