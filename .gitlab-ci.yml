@@ -1,23 +1,59 @@
-image: node:8.9.3
+image: docker:latest
+services:
+- docker:dind
 
-before_script:
-  - npm install -g yarn
+variables:
+  SERVER_TEST_IMAGE: ykanehara/spotimix-server:$CI_BUILD_REF_NAME
+  CLIENT_TEST_IMAGE: ykanehara/spotimix-client:$CI_BUILD_REF_NAME
+  SERVER_RELEASE_IMAGE: ykanehara/spotimix-server:latest
+  CLIENT_RELEASE_IMAGE: ykanehara/spotimix-client:latest
 
 stages:
   - build
   - test
-  - deploy
+  - release
 
-server_tests:
+before_script:
+  - docker login -u ykanehara -p $CI_DOCKERHUB_PASSWORD
+
+build-server:
+  stage: build
+  script:
+    - docker build --pull -t $SERVER_TEST_IMAGE ./server
+    - docker push $SERVER_TEST_IMAGE
+
+build-client:
+  stage: build
+  script:
+    - docker build --pull -t $CLIENT_TEST_IMAGE ./client
+    - docker push $CLIENT_TEST_IMAGE
+
+test-server:
   stage: test
   script:
-    - cd server
-    - yarn install
-    - yarn test
+    - docker pull $SERVER_TEST_IMAGE
+    - docker run $SERVER_TEST_IMAGE yarn test
 
-client_tests:
+test-client:
   stage: test
   script:
-    - cd client
-    - yarn install
-    - yarn test
+    - docker pull $CLIENT_TEST_IMAGE
+    - docker run $CLIENT_TEST_IMAGE yarn test
+
+release-server:
+  stage: release
+  script:
+    - docker pull $SERVER_TEST_IMAGE
+    - docker tag $SERVER_TEST_IMAGE $SERVER_RELEASE_IMAGE
+    - docker push $SERVER_RELEASE_IMAGE
+  only:
+    - master
+
+release-client:
+  stage: release
+  script:
+    - docker pull $CLIENT_TEST_IMAGE
+    - docker tag $CLIENT_TEST_IMAGE $CLIENT_RELEASE_IMAGE
+    - docker push $CLIENT_RELEASE_IMAGE
+  only:
+    - master
