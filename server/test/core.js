@@ -1,5 +1,5 @@
 const request = require('supertest')
-const app = require('../app')
+const app = require('../src/app')
 
 module.exports = test => {
   test('healthz check', t => {
