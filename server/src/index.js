@@ -1,4 +1,4 @@
-require('dotenv').config({path: `${__dirname}/.env`})
+require('dotenv').config({path: `${__dirname}/../.env`})
 const app = require('./app')
 const morgan = require('morgan')
 const logger = require('./logger')
