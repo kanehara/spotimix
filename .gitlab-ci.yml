@@ -70,6 +70,9 @@ deploy-server:
   environment:
     name: production
   script:
+    - apk update
+    - apk add ca-certificates
+    - update-ca-certificates
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
     - heroku container:login
@@ -85,6 +88,9 @@ deploy-client:
   environment:
     name: production
   script:
+    - apk update
+    - apk add ca-certificates
+    - update-ca-certificates
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
     - heroku container:login
