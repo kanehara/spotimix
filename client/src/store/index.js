@@ -3,10 +3,10 @@ import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
 import createPersistedState from 'vuex-persistedstate'
 import Cookies from 'js-cookie'
+import mixer from './modules/mixer'
 import attributes from './modules/attributes'
 import auth from './modules/auth'
 import seeds from './modules/seeds'
-import mix from './modules/mix'
 
 Vue.use(Vuex)
 
@@ -17,7 +17,7 @@ export default new Vuex.Store({
     attributes,
     auth,
     seeds,
-    mix
+    mixer
   },
   strict: debug,
   plugins: debug ? [createLogger(), createPersistedState()] : [createPersistedState({

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import Vue from 'vue'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
@@ -8,7 +9,7 @@ Vue.use(VueApollo)
 
 const apolloClient = new ApolloClient({
   link: createHttpLink({
-    uri: `http://localhost:4000/graphql`
+    uri: `${API_HOST}/graphql`
   }),
   cache: new InMemoryCache(),
   connectToDevTools: process.env.NODE_ENV !== 'production'

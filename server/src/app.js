@@ -8,6 +8,7 @@ const axios = require('axios')
 const cors = require('cors')
 const logger = require('./logger')
 const initRoutes = require('./routes')
+const config = require('./config')
 
 app.use(cookieParser())
 app.use(cors())
@@ -15,7 +16,7 @@ app.use(cors())
 // TODO: Move loaders to own module
 const fetch = async (path, accessToken) => {
   try {
-    const res = await axios.get(`${process.env.API_HOST}/v1${path}`, {
+    const res = await axios.get(`${config.SPOTIFY_API_HOST}/v1${path}`, {
       headers: { 'Authorization': 'Bearer ' + accessToken }
     })
     return res.status === 200 ? res.data : null
@@ -41,7 +42,7 @@ async function fetchClientCredentialsToken () {
       querystring.stringify({grant_type: 'client_credentials'}), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Basic ${Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64')}`
+          'Authorization': `Basic ${Buffer.from(config.SPOTIFY_CLIENT_ID + ':' + config.SPOTIFY_CLIENT_SECRET).toString('base64')}`
         }
       })
 }
