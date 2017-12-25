@@ -4,9 +4,11 @@ services:
 
 variables:
   SERVER_TEST_IMAGE: registry.gitlab.com/kanehara/spotimix/server:$CI_BUILD_REF_NAME
-  CLIENT_TEST_IMAGE: registry.gitlab.com/kanehara/spotimix/client:$CI_BUILD_REF_NAME
   SERVER_RELEASE_IMAGE: registry.gitlab.com/kanehara/spotimix/server:latest
+  SERVER_HEROKU_IMAGE: registry.heroku.com/spotimix-server/web
+  CLIENT_TEST_IMAGE: registry.gitlab.com/kanehara/spotimix/client:$CI_BUILD_REF_NAME
   CLIENT_RELEASE_IMAGE: registry.gitlab.com/kanehara/spotimix/client:latest
+  CLIENT_HEROKU_IMAGE: registry.heroku.com/spotimix-client/web
 
 stages:
   - build
@@ -71,8 +73,9 @@ deploy-server:
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
     - heroku container:login
-    - cd server
-    - heroku container:push web -a spotimix-server
+    - docker pull $CLIENT_RELEASE_IMAGE
+    - docker tag $CLIENT_RELEASE_IMAGE $CLIENT_HEROKU_IMAGE
+    - docker push $CLIENT_HEROKU_IMAGE
 
 deploy-client:
   stage: deploy
@@ -85,5 +88,6 @@ deploy-client:
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
     - heroku container:login
-    - cd client
-    - heroku container:push web -a spotimix-client
+    - docker pull $SERVER_RELEASE_IMAGE
+    - docker tag $SERVER_RELEASE_IMAGE $SERVER_HEROKU_IMAGE
+    - docker push $SERVER_HEROKU_IMAGE
