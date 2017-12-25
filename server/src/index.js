@@ -5,5 +5,6 @@ const logger = require('./logger')
 
 app.use(morgan('combined', {stream: logger.stream}))
 
-app.listen(4000)
-logger.info('Listening on port 4000')
+const PORT = process.env.PORT || 4000
+app.listen(PORT)
+logger.info(`Listening on port ${PORT}`)

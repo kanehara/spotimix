@@ -6,6 +6,6 @@ WORKDIR /app
 COPY . /app
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 RUN yarn install
+RUN yarn build
 
-CMD ["yarn", "build"]
-CMD ["yarn", "start:prod"]
+CMD PORT=$PORT yarn start:prod

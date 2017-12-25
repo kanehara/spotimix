@@ -8,4 +8,4 @@ RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 RUN yarn install
 
 
-CMD ["yarn", "start"]
+CMD PORT=$PORT yarn start:prod
