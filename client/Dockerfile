@@ -7,5 +7,5 @@ COPY . /app
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 RUN yarn install
 
-
+CMD ["yarn", "build"]
 CMD ["yarn", "start:prod"]
