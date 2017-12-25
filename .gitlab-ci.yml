@@ -75,10 +75,10 @@ deploy-server:
     - apt-get install bash
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
-    - heroku login -u $HEROKU_USER -p $HEROKU_PASS
-    - heroku container:login
     - docker pull $CLIENT_RELEASE_IMAGE
     - docker tag $CLIENT_RELEASE_IMAGE $CLIENT_HEROKU_IMAGE
+    - heroku login -u $HEROKU_USER -p $HEROKU_PASS
+    - heroku container:login
     - docker push $CLIENT_HEROKU_IMAGE
 
 deploy-client:
@@ -94,8 +94,8 @@ deploy-client:
     - apt-get install bash
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
-    - heroku login -u $HEROKU_USER -p $HEROKU_PASS
-    - heroku container:login
     - docker pull $SERVER_RELEASE_IMAGE
     - docker tag $SERVER_RELEASE_IMAGE $SERVER_HEROKU_IMAGE
+    - heroku login -u $HEROKU_USER -p $HEROKU_PASS
+    - heroku container:login
     - docker push $SERVER_HEROKU_IMAGE
