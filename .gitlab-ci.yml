@@ -70,6 +70,9 @@ deploy-server:
   environment:
     name: production
   script:
+    - apt-get update
+    - apt-get install curl
+    - apt-get install bash
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
@@ -86,6 +89,9 @@ deploy-client:
   environment:
     name: production
   script:
+    - apt-get update
+    - apt-get install curl
+    - apt-get install bash
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
