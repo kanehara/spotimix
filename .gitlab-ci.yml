@@ -70,10 +70,8 @@ deploy-server:
   environment:
     name: production
   script:
-    - apk update
-    - apk add ca-certificates
-    - update-ca-certificates
-    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - yarn global add heroku-cli
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
     - heroku container:login
     - docker pull $CLIENT_RELEASE_IMAGE
@@ -88,10 +86,8 @@ deploy-client:
   environment:
     name: production
   script:
-    - apk update
-    - apk add ca-certificates
-    - update-ca-certificates
-    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - yarn global add heroku-cli
     - heroku login -u $HEROKU_USER -p $HEROKU_PASS
     - heroku container:login
     - docker pull $SERVER_RELEASE_IMAGE
