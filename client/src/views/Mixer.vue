@@ -18,11 +18,11 @@
 <script>
 /* eslint-disable camelcase */
 import gql from 'graphql-tag'
+import { MIX, RECEIVE_RESULTS } from 'x/mixer/mutation-types'
 import Mixer from '@/views/Mixer'
 import SearchSection from '@/views/SearchSection'
 import SliderContainer from '@/views/SliderContainer'
 import SubmitButton from '@/components/SubmitButton'
-import { MIX, RECEIVE_RESULTS } from 'x/mix/mutation-types'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {

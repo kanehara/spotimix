@@ -4,6 +4,7 @@ const logger = require('../logger')
 const querystring = require('querystring')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 /**
  * Generates a random string containing numbers and letters
@@ -30,9 +31,9 @@ router.get('/login', (req, res) => {
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
-      client_id: process.env.CLIENT_ID,
+      client_id: config.SPOTIFY_CLIENT_ID,
       scope: scope,
-      redirect_uri: process.env.REDIRECT_URI,
+      redirect_uri: config.SPOTIFY_REDIRECT_URI,
       state: state
     }))
 })
@@ -43,7 +44,7 @@ router.get('/callback', async (req, res) => {
   const storedState = req.cookies ? req.cookies[STATE_KEY] : null
 
   if (state === null || state !== storedState) {
-    res.redirect(process.env.APP_HOST + '?' +
+    res.redirect(config.APP_HOST + '?' +
       querystring.stringify({
         error: 'state_mismatch'
       }))
@@ -52,7 +53,7 @@ router.get('/callback', async (req, res) => {
     const URL = 'https://accounts.spotify.com/api/token'
     const DATA = {
       code: code,
-      redirect_uri: process.env.REDIRECT_URI,
+      redirect_uri: config.SPOTIFY_REDIRECT_URI,
       grant_type: 'authorization_code'
     }
 
@@ -60,7 +61,7 @@ router.get('/callback', async (req, res) => {
       const authRes = await axios.post(URL, querystring.stringify(DATA), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Basic ${Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64')}`
+          'Authorization': `Basic ${Buffer.from(config.SPOTIFY_CLIENT_ID + ':' + config.SPOTIFY_CLIENT_SECRET).toString('base64')}`
         }
       })
       if (authRes.status === 200) {
@@ -68,12 +69,12 @@ router.get('/callback', async (req, res) => {
         logger.info(body)
 
         // TODO: handle jwt token on client on user scoped permissions (e.g. save playlist)
-        res.redirect(process.env.APP_HOST + '?' +
+        res.redirect(config.APP_HOST + '?' +
          querystring.stringify({
-           jwt: jwt.sign(body, process.env.JWT_SECRET)
+           jwt: jwt.sign(body, config.JWT_SECRET)
          }))
       } else {
-        res.redirect(process.env.APP_HOST + '?' +
+        res.redirect(config.APP_HOST + '?' +
           querystring.stringify({
             error: 'invalid_token'
           }))

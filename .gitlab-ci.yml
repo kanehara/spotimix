@@ -15,18 +15,19 @@ stages:
   - deploy
 
 before_script:
+  - docker info
   - docker login -u $GITLAB_USER -p $CI_TOKEN registry.gitlab.com
 
 build-server:
   stage: build
   script:
-    - docker build --pull -t $SERVER_TEST_IMAGE ./server
+    - docker build --pull --build-arg GITLAB_USER=$GITLAB_USER --build-arg CI_TOKEN=$CI_TOKEN -t $SERVER_TEST_IMAGE ./server
     - docker push $SERVER_TEST_IMAGE
 
 build-client:
   stage: build
   script:
-    - docker build --pull -t $CLIENT_TEST_IMAGE ./client
+    - docker build --pull --build-arg API_HOST=https://spotimix-server.herokuapp.com -t $CLIENT_TEST_IMAGE ./client
     - docker push $CLIENT_TEST_IMAGE
 
 test-server:

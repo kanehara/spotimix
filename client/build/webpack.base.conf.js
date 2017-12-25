@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const webpack = require('webpack')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -79,5 +80,10 @@ module.exports = {
   },
   node: {
     fs: 'empty'
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'API_HOST': JSON.stringify(process.env.API_HOST || 'http://localhost:4000')
+    })
+  ]
 }
