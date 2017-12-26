@@ -73,6 +73,7 @@ deploy-server:
     - apk update
     - apk add --no-cache curl
     - apk add --no-cache bash
+    - touch ~/.bash_profile
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
     - docker pull $CLIENT_RELEASE_IMAGE
@@ -92,6 +93,7 @@ deploy-client:
     - apk update
     - apk add --no-cache curl
     - apk add --no-cache bash
+    - touch ~/.bash_profile
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
     - docker pull $SERVER_RELEASE_IMAGE
