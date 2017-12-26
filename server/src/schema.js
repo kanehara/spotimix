@@ -99,6 +99,10 @@ const Track = new GraphQLObjectType({
     duration_ms: {
       type: GraphQLInt,
       resolve: data => data.duration_ms
+    },
+    preview_url: {
+      type: GraphQLString,
+      resolve: data => data.preview_url
     }
   })
 })

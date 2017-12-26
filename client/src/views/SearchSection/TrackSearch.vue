@@ -2,10 +2,11 @@
   <div>
     <label for="track" @click.prevent><h5>Track</h5></label>
     <SeedSearch 
-      :seedType="seedType"
       id="track" 
       v-model="query" 
-      :suggestions="suggestions"/>
+      :seedType="seedType"
+      :suggestions="suggestions"
+      @select="query = ''"/>
   </div>
 </template>
 

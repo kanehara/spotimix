@@ -86,7 +86,11 @@ const state = {
     type: ATTRIBUTE_TYPES.POPULARITY,
     ...createAttribute({
       name: 'Popularity',
-      valueMapper: v => Math.round(v * 100),
+      min: 0,
+      max: 100,
+      step: 1,
+      labelMapper: v => v,
+      valueMapper: v => v,
     })
   },
   [ATTRIBUTE_TYPES.SPEECHINESS]: {
@@ -95,7 +99,13 @@ const state = {
   },
   [ATTRIBUTE_TYPES.TEMPO]: {
     type: ATTRIBUTE_TYPES.TEMPO,
-    ...createAttribute({name: 'Tempo'})
+    ...createAttribute({
+      name: 'Tempo',
+      min: 0,
+      max: 200,
+      step: 1,
+      labelMapper: v => v
+    })
   },
 }
 
