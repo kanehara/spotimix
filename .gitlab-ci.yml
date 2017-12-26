@@ -70,9 +70,9 @@ deploy-server:
   environment:
     name: production
   script:
-    - apt-get update
-    - apt-get install curl
-    - apt-get install bash
+    - apk update
+    - apk add --no-cache curl
+    - apk add --no-cache bash
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
     - docker pull $CLIENT_RELEASE_IMAGE
@@ -89,9 +89,9 @@ deploy-client:
   environment:
     name: production
   script:
-    - apt-get update
-    - apt-get install curl
-    - apt-get install bash
+    - apk update
+    - apk add --no-cache curl
+    - apk add --no-cache bash
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add heroku-cli
     - docker pull $SERVER_RELEASE_IMAGE
