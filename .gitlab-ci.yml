@@ -70,16 +70,9 @@ deploy-server:
   environment:
     name: production
   script:
-    - apk update
-    - apk add --no-cache curl
-    - apk add --no-cache bash
-    - touch ~/.bash_profile
-    - curl -o- -L https://yarnpkg.com/install.sh | bash
-    - yarn global add heroku-cli
     - docker pull $CLIENT_RELEASE_IMAGE
     - docker tag $CLIENT_RELEASE_IMAGE $CLIENT_HEROKU_IMAGE
-    - heroku login -u $HEROKU_USER -p $HEROKU_PASS
-    - heroku container:login
+    - docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com
     - docker push $CLIENT_HEROKU_IMAGE
 
 deploy-client:
@@ -90,14 +83,7 @@ deploy-client:
   environment:
     name: production
   script:
-    - apk update
-    - apk add --no-cache curl
-    - apk add --no-cache bash
-    - touch ~/.bash_profile
-    - curl -o- -L https://yarnpkg.com/install.sh | bash
-    - yarn global add heroku-cli
     - docker pull $SERVER_RELEASE_IMAGE
     - docker tag $SERVER_RELEASE_IMAGE $SERVER_HEROKU_IMAGE
-    - heroku login -u $HEROKU_USER -p $HEROKU_PASS
-    - heroku container:login
+    - docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com
     - docker push $SERVER_HEROKU_IMAGE
