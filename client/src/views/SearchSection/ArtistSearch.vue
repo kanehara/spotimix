@@ -5,7 +5,8 @@
       id="artist" 
       v-model="query" 
       :seedType="seedType"
-      :suggestions="suggestions"/>
+      :suggestions="suggestions"
+      @select="query = ''"/>
   </div>
 </template>
 

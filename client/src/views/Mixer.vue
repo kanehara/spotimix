@@ -58,9 +58,15 @@ export default {
   methods: {
     ...mapMutations([MIX, RECEIVE_RESULTS]),
     submit() {
-      this.payload.seed_tracks = this.trackSeeds.map(s => s.id).toString()
-      this.payload.seed_artists = this.artistSeeds.map(s => s.id).toString()
-      this.payload.seed_genres = this.genreSeeds.map(s => s.id).toString()
+      this.payload.seed_tracks = this.trackSeeds.length > 0
+        ? this.trackSeeds.map(s => s.id).toString()
+        : null
+      this.payload.seed_artists = this.artistSeeds.length > 0
+        ? this.artistSeeds.map(s => s.id).toString()
+        : null
+      this.payload.seed_genres = this.genreSeeds.length > 0
+        ? this.genreSeeds.map(s => s.id).toString()
+        : null
       this.disabledAttributes.forEach(a => { this.payload[`target_${a.type}`] = null })
       this.enabledAttributes.forEach(a => { this.payload[`target_${a.type}`] = a.value })
       this.MIX({payload: this.payload})
@@ -91,7 +97,7 @@ export default {
         $target_instrumentalness: Float,
         $target_key: Int,
         $target_liveness: Float,
-        $target_loudness:Float
+        $target_loudness:Float,
         $target_mode: Int,
         $target_popularity: Int,
         $target_speechiness: Float,
@@ -114,12 +120,13 @@ export default {
           target_popularity: $target_popularity,
           target_speechiness: $target_speechiness,
           target_tempo: $target_tempo,
-          target_valence: $target_valence,
+          target_valence: $target_valence
         ) {
           tracks {
             id
             name
             duration_ms
+            preview_url
             external_urls {
               spotify
             }
@@ -154,21 +161,21 @@ export default {
         } = this.payload
         return {
           limit,
-          seed_artists,
-          seed_tracks,
-          seed_genres,
-          ...target_acousticness && { target_acousticness },
-          ...target_danceability && { target_danceability },
-          ...target_energy && { target_energy },
-          ...target_instrumentalness && { target_instrumentalness },
-          ...target_key && { target_key },
-          ...target_liveness && { target_liveness },
-          ...target_loudness && { target_loudness },
-          ...target_mode && { target_mode },
-          ...target_popularity && { target_popularity },
-          ...target_speechiness && { target_speechiness },
-          ...target_tempo && { target_tempo },
-          ...target_valence && { target_valence }
+          ...(seed_artists !== null) && { seed_artists },
+          ...(seed_tracks !== null) && { seed_tracks },
+          ...(seed_genres !== null) && { seed_genres },
+          ...(target_acousticness !== null) && { target_acousticness },
+          ...(target_danceability !== null) && { target_danceability },
+          ...(target_energy !== null) && { target_energy },
+          ...(target_instrumentalness !== null) && { target_instrumentalness },
+          ...(target_key !== null) && { target_key },
+          ...(target_liveness !== null) && { target_liveness },
+          ...(target_loudness !== null) && { target_loudness },
+          ...(target_mode !== null) && { target_mode },
+          ...(target_popularity !== null) && { target_popularity },
+          ...(target_speechiness !== null) && { target_speechiness },
+          ...(target_tempo !== null) && { target_tempo },
+          ...(target_valence !== null) && { target_valence }
         }
       },
       skip () {
@@ -176,7 +183,10 @@ export default {
       },
       loadingKey: 'loadingCount',
       result(res) {
-        this.RECEIVE_RESULTS({results: this.recommendations.tracks})
+        const results = this.recommendations && this.recommendations.tracks
+          ? this.recommendations.tracks
+          : []
+        this.RECEIVE_RESULTS({results})
         this.$router.push('results?animate=true')
       }
     },

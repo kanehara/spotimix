@@ -6,6 +6,18 @@
   </div>
 </template>
 
+<script>
+export default {
+  mounted() {
+    // TODO: #17 web player
+    // window.onSpotifyWebPlaybackSDKReady = () => {
+    //   console.log('Spotify WebPlayer SDK initialized')
+    // }
+  }
+}
+</script>
+
+
 <style lang="scss">
 @import '~styles/colors';
 @import '~styles/breakpoints';

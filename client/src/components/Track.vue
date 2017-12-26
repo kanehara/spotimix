@@ -61,6 +61,8 @@ export default {
 
   .cell {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
   .title, .artist, .duration {

@@ -4,7 +4,8 @@
     <SeedSearch id="genre" 
       v-model="query"
       :seedType="seedType"
-      :suggestions="suggestions">
+      :suggestions="suggestions"
+      @select="query = ''">
     </SeedSearch>
   </div>
 </template>
