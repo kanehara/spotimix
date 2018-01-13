@@ -1,7 +1,10 @@
 <template>
 <span class="track">
   <span class="cell">
-    <span class="title" @click="onTrackClick">{{track.name}}</span>
+    <span class="title" @click="onTrackClick">
+      <i class="play icon"/>
+      {{track.name}}
+    </span>
   </span>
   <span class="artistContainer cell">
     <span class="artist" 
@@ -54,9 +57,16 @@ export default {
 
   padding: 2px 20px;
   transition: transform .2s;
+  .play.icon {
+    visibility: hidden;
+  }
   &:hover {
     background-color: $theme2;
     transform: translateX(1.5px);
+
+    .play.icon {
+      visibility: initial;
+    }
   }
 
   .cell {
@@ -75,6 +85,14 @@ export default {
       color: $theme4;
       font-weight: bold;
       cursor: pointer;
+
+      .play.icon {
+        color: white;
+
+        &:hover {
+          color: $theme4;
+        }
+      }
     }
   }
 

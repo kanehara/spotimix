@@ -15,6 +15,7 @@
         </div>
       </div>
     </div>
+    <Player/>
   </div>
 </template>
 
@@ -22,13 +23,15 @@
 import Track from '@/components/Track'
 import Header from '@/views/Header'
 import Stagger from '@/transitions/group/Stagger'
+import Player from '@/views/Player'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     Header,
     Track,
-    Stagger
+    Stagger,
+    Player
   },
   computed: {
     ...mapGetters(['results']),

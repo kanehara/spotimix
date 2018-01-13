@@ -1,7 +1,7 @@
 <template>
   <div class="sliderContainer" :class="{ disabled: disabled }">
     <span class="sliderLabel" :data-attribute-type="attribute.name">{{attribute.name}}</span>
-    <Slider 
+    <RangeInput 
       class="slider"
       :initialValue="attribute.value"
       :initialDisabled="attribute.disabled"
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Slider from '@/components/Slider'
+import RangeInput from '@/components/RangeInput'
 import { mapMutations } from 'vuex'
 import {
   EDIT_ATTRIBUTE,
@@ -27,7 +27,7 @@ import {
 export default {
   props: ['attribute', 'disabled'],
   components: {
-    Slider
+    RangeInput
   },
   methods: {
     ...mapMutations([EDIT_ATTRIBUTE, ENABLE_ATTRIBUTE, DISABLE_ATTRIBUTE]),
