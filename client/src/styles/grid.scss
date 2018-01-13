@@ -17,3 +17,10 @@
     grid-template-columns: 40% 40% 10%;
   }
 }
+
+@mixin player-grid {
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  align-items: center;
+  height: 100%;
+}
