@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import {DISPATCH_LOGIN} from './action-types'
 import {LOGIN_SUCCESS, LOGIN_FAIL} from './mutation-types'
-import axios from 'axios'
 
 const state = {
   isLoggedIn: false
