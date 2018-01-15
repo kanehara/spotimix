@@ -1,0 +1,1 @@
+export const DISPATCH_LOGIN = 'DISPATCH_LOGIN'

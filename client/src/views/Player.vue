@@ -1,21 +1,29 @@
 <template>
   <div id="player">
-    <Player/>
+    <SpotifyLogin v-if="!isLoggedIn" id="spotifyLogin"/>
+    <Player :class="{ notLoggedIn: !isLoggedIn }"/>
   </div>
 </template>
 
 <script>
 import Player from '@/components/Player'
+import SpotifyLogin from '@/components/SpotifyLogin'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    Player
+    Player,
+    SpotifyLogin
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~styles/colors';
+@import '~styles/z-index';
 
 #player {
   position: fixed;
@@ -26,5 +34,16 @@ export default {
   border-top: 1.5px solid $theme4;
   width: 100%;
 }
-</style>
 
+#spotifyLogin {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: $z-5;
+}
+
+.notLoggedIn {
+  opacity: 0.25;
+}
+
+</style>
