@@ -1,4 +1,9 @@
-# spotimix
+# [spotimix](http://www.spotimix.com)
 
-[![pipeline status](https://gitlab.com/kanehara/spotimix/badges/master/pipeline.svg)](https://gitlab.com/kanehara/spotimix/commits/master)
-[![coverage report](https://gitlab.com/kanehara/spotimix/badges/master/coverage.svg)](https://gitlab.com/kanehara/spotimix/commits/master)
+A webapp to query against Spotify's recommendation endpoint.  You can feed a combination of songs,
+artists, genres, and song features to generate a playlist.  Check it out [here](http://www.spotimix.com)
+
+Stack:
+* GraphQL
+* Vue.js
+* Express/Node.js
