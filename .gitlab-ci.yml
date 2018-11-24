@@ -75,6 +75,5 @@ deploy:
   environment:
     name: production
   script:
-    - apk update && apk add openssh
     - chmod +x ./bin/deploy.sh
     - ./bin/deploy.sh
