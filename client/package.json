@@ -22,6 +22,7 @@
     "express": "^4.16.2",
     "graphql": "^0.12.0",
     "graphql-tag": "^2.6.0",
+    "http-proxy-middleware": "^0.19.0",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "semantic-ui-icon": "^2.2.12",
