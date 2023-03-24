@@ -37,13 +37,13 @@ test-server:
   stage: test
   script:
     - docker pull $SERVER_TEST_IMAGE
-    - docker run $SERVER_TEST_IMAGE yarn test
+    - docker run $SERVER_TEST_IMAGE npm test
 
 test-client:
   stage: test
   script:
     - docker pull $CLIENT_TEST_IMAGE
-    - docker run $CLIENT_TEST_IMAGE yarn test
+    - docker run $CLIENT_TEST_IMAGE npm test
 
 release-server:
   stage: release

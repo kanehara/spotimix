@@ -1,4 +1,4 @@
-FROM node:8.9.3
+FROM node:19
 
 # Args
 ARG API_HOST
@@ -9,9 +9,8 @@ WORKDIR /app
 
 # Copy and build
 COPY . /app
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash
-RUN yarn install
-RUN yarn build
+RUN npm install --legacy-peer-deps 
+RUN npm run build
 
 ENV API_HOST=$API_HOST
-CMD PORT=$PORT yarn start:prod
+CMD PORT=$PORT npm start:prod

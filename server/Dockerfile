@@ -1,4 +1,4 @@
-FROM node:8.9.3
+FROM node:19
 
 # Args
 ARG GITLAB_USER
@@ -15,7 +15,6 @@ RUN rm -rf spotimix-env
 
 # Copy and build
 COPY . /app
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash
-RUN yarn install
+RUN npm install
 
-CMD PORT=$PORT yarn start:prod
+CMD PORT=$PORT npm start:prod
