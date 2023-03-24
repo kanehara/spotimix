@@ -1,5 +1,5 @@
 <template>
-  <div class="slidercontainer">
+  <div class="slidercontainer"  @click="toggle">
     <ToggleButton :disabled.sync="disabled" className="toggleButton"/>
     <input
       v-model.number="value"
@@ -58,6 +58,11 @@ export default {
     input (e) {
       this.value = e.target.value
       this.$emit('input', Number(e.target.value))
+    },
+    toggle() {
+      if (this.disabled) {
+        this.disabled = false
+      }
     }
   }
 }
@@ -69,6 +74,7 @@ export default {
 .slidercontainer {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .slider[type="range"] {

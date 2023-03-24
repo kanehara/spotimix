@@ -1,5 +1,5 @@
 <template>
-  <button @click="click" class="button" :class="[className, {disabled: disabled}]"></button>
+  <button @click.stop="click" class="button" :class="[className, {disabled: disabled}]"></button>
 </template>
 
 <script>

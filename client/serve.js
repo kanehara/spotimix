@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // serve index
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'dist/index.html')));
 // graphql server proxy
-app.use('/graphql', proxy({target: 'http://www.spotimix.com:4000', changeOrigin: true}));
+app.use('/graphql', proxy({target: 'http://localhost:4000', changeOrigin: true}));
 // start server
 app.listen(PORT, (err) => {
   if (err) {
