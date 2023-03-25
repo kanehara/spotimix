@@ -80,6 +80,10 @@ const Track = new GraphQLObjectType({
       type: GraphQLString,
       resolve: data => data.id
     },
+    uri: {
+      type: GraphQLString,
+      resolve: data => data.uri
+    },
     name: {
       type: GraphQLString,
       resolve: data => data.name

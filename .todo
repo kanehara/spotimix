@@ -1,0 +1,10 @@
+
+Todo:
+  - Refresh token on the client side to prevent short sessions
+  - Show devices to play songs for (filter out "is_restricted")
+  - Integrate web player
+  - Clear all
+  - Highlight playing song while playing in Spotify
+  - Show logo of artist in dropdown
+  - Tooltip 
+  - Logo -> shuffle for the "x"

@@ -124,6 +124,7 @@ export default {
         ) {
           tracks {
             id
+            uri
             name
             duration_ms
             preview_url
