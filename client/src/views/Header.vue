@@ -3,15 +3,37 @@
   <span class="left">
     <slot name="left"></slot>
   </span>
-  <router-link to="/" class="spotimix">Spotimix</router-link>
+  <router-link to="/" class="spotimix">
+    <div class="icon-container">
+      <SpotimixIcon fill="#2AB759"/>
+    </div>
+  </router-link>
   <span class="right">
     <slot name="right"></slot>
   </span>
 </div>
 </template>
 
+<script>
+import SpotimixIcon from '@/components/SpotimixIcon'
+
+export default {
+  components: {
+    SpotimixIcon
+  }
+}
+</script>
+
+
 <style scoped lang="scss">
 @import '~styles/colors';
+
+.icon-container {
+  max-width: 200px;
+  display: flex;
+  align-content: center;
+  margin: auto;
+}
 
 #header {
   background-color: $contentBackground;
@@ -36,7 +58,8 @@
   }
 
   .spotimix {
-    font-size: 2em;
+    padding: 0;
+    font-weight: 100;
   }
 }
 
