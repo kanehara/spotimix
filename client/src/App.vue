@@ -2,8 +2,8 @@
   <div id="app">
     <div id="content">
       <router-view/>
-      <Player/>
     </div>
+    <Player/>
   </div>
 </template>
 
@@ -46,6 +46,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  
   color: $primaryFontColor;
 }
 
@@ -55,14 +56,17 @@ export default {
   background-color: $contentBackground;
   
   padding: 10px 20px;
+  padding-bottom: 7rem;
   @include minMobile {
     padding: 30px 5%;
+    padding-bottom: 7rem;
   }
 }
 
 body, html {
   margin: 0;
   background-color: $bodyBackground;
+  overscroll-behavior: none;
 }
 
 html {
