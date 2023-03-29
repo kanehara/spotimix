@@ -87,6 +87,45 @@ const generateShopifyToken = async (data) => {
   })
 }
 
+router.put('/refresh_token', async (req, res) => {
+  const accessToken = req.cookies ? req.cookies[ACCESS_TOKEN_COOKIE_KEY] : null
+  const refreshToken = req.cookies ? req.cookies[REFRESH_TOKEN_COOKIE_KEY] : null
+  if (!accessToken || !refreshToken) {
+    res.sendStatus(401)
+    return
+  }
+
+  let authRes
+  try {
+    authRes = await generateShopifyToken({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    })
+  } catch (e) {
+    logger.error('Error requesting Shopify refresh token:\n', e.message, e.response && e.response.data)
+    res.clearCookie(ACCESS_TOKEN_COOKIE_KEY)
+    res.clearCookie(REFRESH_TOKEN_COOKIE_KEY)
+    res.sendStatus(440)
+    return
+  }
+  if (authRes.status === 200) {
+    const body = authRes.data
+    const refreshedAccessToken = body.access_token
+    res.cookie(ACCESS_TOKEN_COOKIE_KEY, refreshedAccessToken)
+    if (body.refresh_token) {
+      res.cookie(REFRESH_TOKEN_COOKIE_KEY, body.refresh_token)
+    }
+    res.send({
+      access_token: refreshedAccessToken
+    })
+  } else {
+    res.clearCookie(ACCESS_TOKEN_COOKIE_KEY)
+    res.clearCookie(REFRESH_TOKEN_COOKIE_KEY)
+    logger.error('Unexpected status refreshing token:\n', authRes.status)
+    res.sendStatus(500)
+  }
+})
+
 router.put('/play', async (req, res) => {
   const accessToken = req.cookies ? req.cookies[ACCESS_TOKEN_COOKIE_KEY] : null
   const refreshToken = req.cookies ? req.cookies[REFRESH_TOKEN_COOKIE_KEY] : null
@@ -118,7 +157,9 @@ router.put('/play', async (req, res) => {
     const body = authRes.data
     const refreshedAccessToken = body.access_token
     res.cookie(ACCESS_TOKEN_COOKIE_KEY, refreshedAccessToken)
-    res.cookie(REFRESH_TOKEN_COOKIE_KEY, body.refresh_token)
+    if (body.refresh_token) {
+      res.cookie(REFRESH_TOKEN_COOKIE_KEY, body.refresh_token)
+    }
 
     axios.put('https://api.spotify.com/v1/me/player/play', {
       uris

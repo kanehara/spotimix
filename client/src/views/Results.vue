@@ -36,6 +36,7 @@ import { RESET_PLAY_TRACKS_REQUEST } from 'x/mixer/mutation-types'
 import Cookies from 'js-cookie'
 
 const ACCESS_TOKEN_COOKIE_KEY = 'spotify_access_token'
+const REFRESH_TOKEN_COOKIE_KEY = 'spotify_refresh_token'
 
 export default {
   components: {
@@ -66,6 +67,7 @@ export default {
     },
     logout() {
       Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
+      Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
       location.reload()
     },
   }

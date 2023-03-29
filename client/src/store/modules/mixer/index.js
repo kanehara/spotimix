@@ -19,7 +19,7 @@ const getters = {
 const actions = {
   [ACTION_TYPES.PLAY_TRACKS_IN_SPOTIFY]({ commit, state }) {
     if (state.results.length > 0) {
-      axios.put(`${API_HOST}/play`, { uris: state.results.map(r => r.uri) }, { withCredentials: true }) // eslint-disable-line
+      axios.put(`${API_HOST}/play`, { uris: state.results.map(r => r.uri) }) // eslint-disable-line
         .then(() => commit(MUTATION_TYPES.PLAY_TRACKS_SUCCESS))
         .catch((e) => {
           if (e && e.response && e.response.status === 440) {

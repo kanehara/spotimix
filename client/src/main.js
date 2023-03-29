@@ -6,9 +6,12 @@ import router from './router'
 import VueApollo from 'vue-apollo'
 import apolloClient from './apollo-client'
 import store from './store'
+import axios from 'axios'
 require('semantic-ui-icon/icon.min.css')
 
 Vue.config.productionTip = false
+
+axios.defaults.withCredentials = true
 
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient

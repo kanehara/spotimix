@@ -63,7 +63,7 @@ function setTokenRefreshTimeout (timeout) {
   }, timeout)
 }
 
-async function getClientCredentialsToken () {
+async function startClientCredentialsTokenLoader () {
   if (CLIENT_CRED_TOKEN) {
     return CLIENT_CRED_TOKEN
   }
@@ -75,11 +75,11 @@ async function getClientCredentialsToken () {
 }
 
 app.use('/graphql', graphqlHTTP(async req => {
-  const accessToken = await getClientCredentialsToken()
+  await startClientCredentialsTokenLoader()
   return {
     schema,
     context: {
-      accessToken,
+      accessToken: () => CLIENT_CRED_TOKEN,
       // ... loaders
       services: {
         getMe,

@@ -7,8 +7,30 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import axios from 'axios'
+
+const ACCESS_TOKEN_COOKIE_KEY = 'spotify_access_token'
+
 export default {
+  computed: {
+    isLoggedIn() {
+      return !!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
+    }
+  },
   mounted() {
+    if (this.isLoggedIn) {
+      setInterval(async () => {
+        try {
+          await axios.put(`${API_HOST}/refresh_token`) // eslint-disable-line
+        } catch (e) {
+          if (e && e.response && e.response.status === 440) {
+            location.reload()
+          }
+        }
+      }, 20000)
+    }
+
     // TODO: #17 web player
     // window.onSpotifyWebPlaybackSDKReady = () => {
     //   console.log('Spotify WebPlayer SDK initialized')
