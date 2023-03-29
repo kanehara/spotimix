@@ -14,9 +14,17 @@ const getters = {
   isPlaying: state => state.isPlaying
 }
 
+const triggerOauthIfNotLoggedIn = () => {
+  if (!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)) {
+    window.open(`${API_HOST}/login`)
+    return false
+  }
+  return true
+}
+
 const actions = {
   [ACTION_TYPES.TOGGLE_PLAY]({ state }) {
-    if (state.player) {
+    if (triggerOauthIfNotLoggedIn() && state.player) {
       state.player.getCurrentState().then(playerState => {
         if (!playerState) {
           axios.put(`${API_HOST}/transfer`, {

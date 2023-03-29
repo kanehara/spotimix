@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoggedIn" class="player">
+  <div v-if="hasResults" class="player">
     <div class="inner-container">
     <div class="controls">
       <button @click="TOGGLE_PLAY" class="toggle-play-button" :class="{ clicking: isTogglePlayClicking }" @mousedown="handleTogglePlayFocus" @mouseup="handleTogglePlayUnfocus" @mouseleave="handleTogglePlayUnfocus">
@@ -14,8 +14,6 @@
 <script>
 import PlayIcon from '@/components/PlayIcon'
 import PauseIcon from '@/components/PauseIcon'
-import Cookies from 'js-cookie'
-import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
 import { mapActions, mapGetters } from 'vuex'
 import { INIT_SPOTIFY_PLAYER, TOGGLE_PLAY } from 'x/player/action-types'
 
@@ -28,10 +26,7 @@ export default {
     this.INIT_SPOTIFY_PLAYER()
   },
   computed: {
-    ...mapGetters(['isPlaying']),
-    isLoggedIn() {
-      return !!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
-    }
+    ...mapGetters(['isPlaying', 'hasResults']),
   },
   methods: {
     ...mapActions([INIT_SPOTIFY_PLAYER, TOGGLE_PLAY]),
