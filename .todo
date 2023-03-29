@@ -1,8 +1,8 @@
 
 Todo:
-  - Refresh token on the client side to prevent short sessions
-  - Show devices to play songs for (filter out "is_restricted")
+  ~- Refresh token on the client side to prevent short sessions~
   - Integrate web player
+  - Show devices to play songs for (filter out "is_restricted")
   - Clear all
   - Highlight playing song while playing in Spotify
   - Show logo of artist in dropdown

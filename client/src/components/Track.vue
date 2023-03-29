@@ -52,7 +52,7 @@ export default {
 .track {
   @include result-grid;
 
-  padding: 2px 20px;
+  padding: 2px;
   transition: transform .2s;
   &:hover {
     background-color: $theme2;

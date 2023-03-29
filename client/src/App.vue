@@ -2,17 +2,19 @@
   <div id="app">
     <div id="content">
       <router-view/>
+      <Player/>
     </div>
   </div>
 </template>
 
 <script>
 import Cookies from 'js-cookie'
+import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
 import axios from 'axios'
-
-const ACCESS_TOKEN_COOKIE_KEY = 'spotify_access_token'
+import Player from '@/components/Player'
 
 export default {
+  components: {Player},
   computed: {
     isLoggedIn() {
       return !!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
@@ -30,11 +32,6 @@ export default {
         }
       }, 20000)
     }
-
-    // TODO: #17 web player
-    // window.onSpotifyWebPlaybackSDKReady = () => {
-    //   console.log('Spotify WebPlayer SDK initialized')
-    // }
   }
 }
 </script>
@@ -68,20 +65,20 @@ body, html {
   background-color: $bodyBackground;
 }
 
-body {
-  font-size: .6rem;
+html {
+  font-size: 9px;
   
   @include minMobile {
     padding: 0 5%;
-    font-size: .8rem;
+    font-size: 12px;
   }
   
   @include minTablet {
-    font-size: 1rem;
+    font-size: 14px;
   }
 
   @include minDisplay {
-    font-size: 2rem;
+    font-size: 18px;
   }
 }
 

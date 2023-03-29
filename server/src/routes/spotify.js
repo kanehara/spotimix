@@ -29,7 +29,7 @@ router.get('/login', (req, res) => {
   res.cookie(STATE_KEY, state)
 
   // your application requests authorization
-  const scope = 'user-modify-playback-state'
+  const scope = 'user-modify-playback-state streaming'
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -52,14 +52,12 @@ router.get('/callback', async (req, res) => {
       }))
   } else {
     res.clearCookie(STATE_KEY)
-    const DATA = {
-      code: code,
-      redirect_uri: config.SPOTIFY_REDIRECT_URI,
-      grant_type: 'authorization_code'
-    }
-
     try {
-      const authRes = await generateShopifyToken(DATA)
+      const authRes = await generateShopifyToken({
+        code: code,
+        redirect_uri: config.SPOTIFY_REDIRECT_URI,
+        grant_type: 'authorization_code'
+      })
       if (authRes.status === 200) {
         const body = authRes.data
         res.cookie(ACCESS_TOKEN_COOKIE_KEY, body.access_token)
@@ -126,17 +124,11 @@ router.put('/refresh_token', async (req, res) => {
   }
 })
 
-router.put('/play', async (req, res) => {
+const spotifyMiddleware = async (req, res, next) => {
   const accessToken = req.cookies ? req.cookies[ACCESS_TOKEN_COOKIE_KEY] : null
   const refreshToken = req.cookies ? req.cookies[REFRESH_TOKEN_COOKIE_KEY] : null
   if (!accessToken || !refreshToken) {
     res.sendStatus(401)
-    return
-  }
-
-  const uris = req.body && req.body.uris
-  if (!uris || !uris.length) {
-    res.status(400).send('missing uris to play')
     return
   }
 
@@ -154,32 +146,65 @@ router.put('/play', async (req, res) => {
     return
   }
   if (authRes.status === 200) {
-    const body = authRes.data
-    const refreshedAccessToken = body.access_token
+    const refreshedAccessToken = authRes.data.access_token
     res.cookie(ACCESS_TOKEN_COOKIE_KEY, refreshedAccessToken)
-    if (body.refresh_token) {
-      res.cookie(REFRESH_TOKEN_COOKIE_KEY, body.refresh_token)
+    if (authRes.data.refresh_token) {
+      res.cookie(REFRESH_TOKEN_COOKIE_KEY, authRes.data.refresh_token)
     }
-
-    axios.put('https://api.spotify.com/v1/me/player/play', {
-      uris
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${refreshedAccessToken}`
-      }
-    }).then((playRes) => {
-      if (playRes.status !== 204) {
-        logger.error('Received non-204 response trying to play tracks in Shopify:\n', playRes)
-        res.sendStatus(500)
-      } else {
-        res.sendStatus(200)
-      }
-    }).catch(e => {
-      logger.error('Error trying to play tracks in Shopify:\n', e.message, e.response && e.response.data)
-      res.sendStatus(500)
-    })
+    req.shopifyAccessToken = refreshedAccessToken
+    next()
+  } else {
+    res.status(authRes.status)
   }
+}
+
+router.put('/play', spotifyMiddleware, async (req, res) => {
+  const uris = req.body && req.body.uris
+  if (!uris || !uris.length) {
+    res.status(400).send('missing uris to play')
+    return
+  }
+
+  axios.put('https://api.spotify.com/v1/me/player/play', {
+    uris
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${req.shopifyAccessToken}`
+    }
+  }).then((playRes) => {
+    if (playRes.status !== 204) {
+      logger.error('Received non-204 response trying to play tracks in Shopify:\n', playRes)
+      res.sendStatus(500)
+    } else {
+      res.sendStatus(200)
+    }
+  }).catch(e => {
+    logger.error('Error trying to play tracks in Shopify:\n', e.message, e.response && e.response.data)
+    res.sendStatus(500)
+  })
+})
+
+router.put('/transfer', spotifyMiddleware, async (req, res) => {
+  const deviceId = req.body && req.body.deviceId
+  if (!deviceId) {
+    res.status(400).send('missing deviceId')
+    return
+  }
+
+  axios.put('https://api.spotify.com/v1/me/player', {
+    device_ids: [deviceId]
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${req.shopifyAccessToken}`
+    }
+  }).then(() => {
+    res.sendStatus(200)
+  }).catch(e => {
+    logger.error('Error trying to transfer playback:\n', e.message, e.response && e.response.data)
+    res.sendStatus(500)
+  })
 })
 
 module.exports = router

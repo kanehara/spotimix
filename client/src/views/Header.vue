@@ -29,9 +29,9 @@ export default {
 @import '~styles/colors';
 
 .icon-container {
-  max-width: 200px;
   display: flex;
-  align-content: center;
+  max-height: 2.5rem;
+  justify-content: center;
   margin: auto;
 }
 
