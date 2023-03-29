@@ -3,15 +3,16 @@ import * as MUTATION_TYPES from './mutation-types'
 import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import { get } from 'lodash'
 
 const state = {
   player: null,
+  playbackState: null,
   deviceId: null,
-  isPlaying: false,
 }
 
 const getters = {
-  isPlaying: state => state.isPlaying
+  isPlaying: state => get(state, 'playbackState.paused') === false,
 }
 
 const triggerOauthIfNotLoggedIn = () => {
@@ -22,23 +23,35 @@ const triggerOauthIfNotLoggedIn = () => {
   return true
 }
 
+const ensureTransferedPlayback = (player, cb) => {
+  player.getCurrentState().then(playerState => {
+    if (!playerState) {
+      axios.put(`${API_HOST}/transfer`, {
+        deviceId: state.deviceId,
+      }).then(cb).catch((e) => {
+        // todo handle error
+        console.error('failed to transfer playback', e)
+      })
+    } else {
+      cb()
+    }
+  })
+}
+
 const actions = {
   [ACTION_TYPES.TOGGLE_PLAY]({ state }) {
     if (triggerOauthIfNotLoggedIn() && state.player) {
-      state.player.getCurrentState().then(playerState => {
-        if (!playerState) {
-          axios.put(`${API_HOST}/transfer`, {
-            deviceId: state.deviceId,
-          }).then(() => {
-            state.player.togglePlay()
-          }).catch((e) => {
-            // todo handle error
-            console.error('failed to transfer playback', e)
-          })
-        } else {
-          state.player.togglePlay()
-        }
-      })
+      ensureTransferedPlayback(state.player, () => state.player.togglePlay())
+    }
+  },
+  [ACTION_TYPES.NEXT_TRACK]({ state }) {
+    if (triggerOauthIfNotLoggedIn() && state.player) {
+      ensureTransferedPlayback(state.player, () => state.player.nextTrack())
+    }
+  },
+  [ACTION_TYPES.PREVIOUS_TRACK]({ state }) {
+    if (triggerOauthIfNotLoggedIn() && state.player) {
+      ensureTransferedPlayback(state.player, () => state.player.previousTrack())
     }
   },
   [ACTION_TYPES.INIT_SPOTIFY_PLAYER]({ commit, state }) {
@@ -56,7 +69,7 @@ const actions = {
 
         player.addListener('player_state_changed', (data) => {
           console.log('player state changed', data)
-          commit(MUTATION_TYPES.TOGGLE_PLAY_STATE, !data.paused)
+          commit(MUTATION_TYPES.SET_PLAYBACK_STATE, data)
         })
 
         // Not Ready
@@ -87,8 +100,8 @@ const mutations = {
   [MUTATION_TYPES.SET_SPOTIFY_PLAYER] (state, {player}) {
     state.player = player
   },
-  [MUTATION_TYPES.TOGGLE_PLAY_STATE] (state, isPlaying) {
-    state.isPlaying = isPlaying
+  [MUTATION_TYPES.SET_PLAYBACK_STATE] (state, playbackState) {
+    state.playbackState = playbackState
   },
   [MUTATION_TYPES.SET_DEVICE_ID] (state, deviceId) {
     state.deviceId = deviceId

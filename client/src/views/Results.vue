@@ -91,6 +91,7 @@ export default {
   @include result-grid;
 
   border-bottom: 1px solid $theme4;
+  padding-right: $resultsGridPaddingRight;
 
   .trackNumber {
     text-align: right;

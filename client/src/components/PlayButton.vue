@@ -1,8 +1,10 @@
 <template>
-<button @click="click" class="toggle-play-button" :class="{ clicking: isTogglePlayClicking, isSmall }" @mousedown="handleTogglePlayFocus" @mouseup="handleTogglePlayUnfocus" @mouseleave="handleTogglePlayUnfocus">
-  <PauseIcon v-if="isPlaying" />
-  <PlayIcon v-else />
-</button>
+  <div class="container" :class="{ isSmall }">
+    <button @click="click" class="toggle-play-button" :class="{clicking: isTogglePlayClicking}" @mousedown="handleTogglePlayFocus" @mouseup="handleTogglePlayUnfocus" @mouseleave="handleTogglePlayUnfocus">
+      <PauseIcon v-if="isPlaying" />
+      <PlayIcon v-else />
+    </button>
+  </div>
 </template>
 
 <script>
@@ -45,6 +47,53 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$mdSize: 2rem;
+$mdClickedSize: 1.9rem;
+
+$smSize: 1.1rem;
+$smClickedSize: 1rem;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  width: $mdSize;
+  height: $mdSize;
+  
+  .toggle-play-button {
+    padding: .425rem;
+    width: $mdSize;
+    height: $mdSize;
+    border-radius: $mdSize;
+  }
+  .toggle-play-button.clicking {
+    width: $mdClickedSize;
+    border-radius: $mdClickedSize;
+    height: $mdClickedSize;
+  }
+
+  &.isSmall {
+    width: $smSize;
+    height: $smSize;
+    
+    .toggle-play-button {
+      padding: .25rem;
+      border-radius: $smSize;
+      width: $smSize;
+      border-radius: $smSize;
+      height: $smSize;
+    }
+
+    .toggle-play-button.clicking {
+      width: $smClickedSize;
+      border-radius: $smClickedSize;
+      height: $smClickedSize;
+    }
+  }
+}
+
+
 .toggle-play-button {
   background: white;
   display: flex;
@@ -53,28 +102,5 @@ export default {
   cursor: pointer;
   border: none;
   outline: none;
-  
-  
-  padding: .425rem;
-  width: 2rem;
-  border-radius: 2rem;
-  height: 2rem;
-  &.clicking {
-    width: 2.1rem;
-    border-radius: 2.1rem;
-    height: 2.1rem;
-  }
-
-  &.isSmall {
-    padding: .25rem;
-    width: 1.1rem;
-    border-radius: 1.1rem;
-    height: 1.1rem;
-    &.clicking {
-      width: 1.2rem;
-      border-radius: 1.2rem;
-      height: 1.2rem;
-    }
-  }
 }
 </style>

@@ -76,6 +76,7 @@ export default {
   border-radius: 5px;
   
   min-height: 4rem;
+  padding-right: $resultsGridPaddingRight;
 
   .titleArtist {
     display: flex;

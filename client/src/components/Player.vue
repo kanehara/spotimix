@@ -2,7 +2,15 @@
   <div v-if="hasResults" class="player">
     <div class="inner-container">
     <div class="controls">
-      <PlayButton :isPlaying="isPlaying" @click="TOGGLE_PLAY" />
+      <div class="control-container">
+        <PrevNextButton kind="prev" @click="PREVIOUS_TRACK" />
+      </div>
+      <div class="control-container">
+        <PlayButton :isPlaying="isPlaying" @click="TOGGLE_PLAY" />
+      </div>
+      <div class="control-container">
+        <PrevNextButton kind="next" @click="NEXT_TRACK" />
+      </div>
     </div>
     </div>
   </div>
@@ -10,11 +18,12 @@
 
 <script>
 import PlayButton from '@/components/PlayButton'
+import PrevNextButton from '@/components/PrevNextButton'
 import { mapActions, mapGetters } from 'vuex'
-import { INIT_SPOTIFY_PLAYER, TOGGLE_PLAY } from 'x/player/action-types'
+import { INIT_SPOTIFY_PLAYER, TOGGLE_PLAY, PREVIOUS_TRACK, NEXT_TRACK } from 'x/player/action-types'
 
 export default {
-  components: {PlayButton},
+  components: {PlayButton, PrevNextButton},
   created() {
     this.INIT_SPOTIFY_PLAYER()
   },
@@ -22,13 +31,22 @@ export default {
     ...mapGetters(['isPlaying', 'hasResults']),
   },
   methods: {
-    ...mapActions([INIT_SPOTIFY_PLAYER, TOGGLE_PLAY]),
+    ...mapActions([INIT_SPOTIFY_PLAYER, TOGGLE_PLAY, PREVIOUS_TRACK, NEXT_TRACK]),
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~styles/colors';
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.control-container {
+  margin: 0 1rem;
+}
 
 .player {
   position: fixed;
@@ -38,26 +56,6 @@ export default {
   left: 0;
   right: 0;
   height: 4rem;
-}
-
-.toggle-play-button {
-  background: white;
-  width: 2rem;
-  border-radius: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: .425rem;
-  cursor: pointer;
-  border: none;
-  outline: none;
-
-  &.clicking {
-    width: 2.1rem;
-    border-radius: 2.1rem;
-    height: 2.1rem;
-  }
 }
 
 .inner-container {
