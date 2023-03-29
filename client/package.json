@@ -36,6 +36,7 @@
     "vuex-persistedstate": "^2.4.2"
   },
   "devDependencies": {
+    "@vue/runtime-dom": "^3.2.47",
     "autoprefixer": "^7.2.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.0.3",

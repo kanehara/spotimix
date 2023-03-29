@@ -128,15 +128,15 @@ export default {
             name
             duration_ms
             preview_url
-            external_urls {
-              spotify
+            album {
+              id
+              name
+              uri
             }
             artists {
               id
               name
-              external_urls {
-                spotify
-              }
+              uri
             }
           }
         }

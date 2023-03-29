@@ -2,26 +2,19 @@
   <div v-if="hasResults" class="player">
     <div class="inner-container">
     <div class="controls">
-      <button @click="TOGGLE_PLAY" class="toggle-play-button" :class="{ clicking: isTogglePlayClicking }" @mousedown="handleTogglePlayFocus" @mouseup="handleTogglePlayUnfocus" @mouseleave="handleTogglePlayUnfocus">
-        <PauseIcon v-if="isPlaying" />
-        <PlayIcon v-else/>
-      </button>
+      <PlayButton :isPlaying="isPlaying" @click="TOGGLE_PLAY" />
     </div>
     </div>
   </div>
 </template>
 
 <script>
-import PlayIcon from '@/components/PlayIcon'
-import PauseIcon from '@/components/PauseIcon'
+import PlayButton from '@/components/PlayButton'
 import { mapActions, mapGetters } from 'vuex'
 import { INIT_SPOTIFY_PLAYER, TOGGLE_PLAY } from 'x/player/action-types'
 
 export default {
-  components: {PlayIcon, PauseIcon},
-  data: () => ({
-    isTogglePlayClicking: false,
-  }),
+  components: {PlayButton},
   created() {
     this.INIT_SPOTIFY_PLAYER()
   },
@@ -30,12 +23,6 @@ export default {
   },
   methods: {
     ...mapActions([INIT_SPOTIFY_PLAYER, TOGGLE_PLAY]),
-    handleTogglePlayFocus() {
-      this.isTogglePlayClicking = true
-    },
-    handleTogglePlayUnfocus() {
-      this.isTogglePlayClicking = false
-    }
   }
 }
 </script>

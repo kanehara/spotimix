@@ -4,13 +4,14 @@
       <h1 v-if="hasNoResults">No Results!</h1>
       <div v-else>
         <div class="header">
+          <h4 class="trackNumber">#</h4>
           <h4 class="title">Title</h4>
-          <h4 class="artist">Artist</h4>
-          <h4 class="duration">Duration</h4>
+          <h4 class="album">Album</h4>
+          <h4 class="duration"><ClockIcon /></h4>
         </div>
         <div class="results">
           <Stagger :appear="!!animate">
-            <Track v-for="(r, index) in results" :track="r" :key="r.id" :data-index="index"/>
+            <Track v-for="(r, index) in results" :track="r" :key="r.id" :data-index="index" :trackNumber="index+1"/>
           </Stagger>
         </div>
       </div>
@@ -20,6 +21,7 @@
 
 <script>
 import Track from '@/components/Track'
+import ClockIcon from '@/components/ClockIcon'
 import Header from '@/views/Header'
 import Stagger from '@/transitions/group/Stagger'
 import { mapGetters } from 'vuex'
@@ -30,7 +32,8 @@ export default {
   components: {
     Header,
     Track,
-    Stagger
+    Stagger,
+    ClockIcon
   },
   computed: {
     ...mapGetters(['results']),
@@ -89,8 +92,15 @@ export default {
 
   border-bottom: 1px solid $theme4;
 
-  .title, .artist, .duration {
+  .trackNumber {
+    text-align: right;
+  }
+
+  .title {
     text-align: left;
+  }
+  .album, .duration {
+    text-align: right;
   }
 
   margin-bottom: 20px;

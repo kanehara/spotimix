@@ -70,7 +70,7 @@ body, html {
 }
 
 html {
-  font-size: 9px;
+  font-size: 10px;
   
   @include minMobile {
     padding: 0 5%;
@@ -78,11 +78,11 @@ html {
   }
   
   @include minTablet {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   @include minDisplay {
-    font-size: 18px;
+    font-size: 22px;
   }
 }
 

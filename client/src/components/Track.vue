@@ -1,16 +1,32 @@
 <template>
 <span class="track">
-  <span class="cell">
-    <span class="title" @click="onTrackClick">{{track.name}}</span>
-  </span>
-  <span class="artistContainer cell">
-    <span class="artist" 
-    v-for="artist in artists" 
-    :key="artist.id"
-    @click="onArtistClick(artist.id)">
-      {{artist.name}}</span>
+  <span class="right cell">
+    <p class="hideOnHover trackNumber">{{ trackNumber }}</p>
+    <div class="play-button-container showOnHover">
+      <PlayButton size="sm" :isPlaying="isPlaying" @click="TOGGLE_PLAY" />
+    </div>
   </span>
   <span class="cell">
+    <div class="titleArtist">
+      <h4 class="title" @click="onTrackClick(track)">{{track.name}}</h4>
+      <div class="artistContainer">
+        <span class="artist" 
+          v-for="artist in artists" 
+          :key="artist.id"
+          @click="onArtistClick(artist)">
+        {{artist.name}}</span>
+      </div>
+    </div>
+  </span>
+  <span class="right cell">
+      <span class="albumContainer">
+        <span class="album" 
+          @click="onAlbumClick(album)">
+          {{album.name}}
+        </span>
+      </span>
+  </span>
+  <span class="right cell">
     <span class="duration">{{duration}}</span>
   </span>
 </span>
@@ -18,28 +34,31 @@
 
 <script>
 import { msToMinAndSec } from '@/utils'
+import PlayButton from '@/components/PlayButton'
 
 export default {
-  props: ['track'],
+  props: ['track', 'trackNumber'],
+  components: {PlayButton},
   computed: {
     artists() {
       return this.track.artists
+    },
+    album() {
+      return this.track.album
     },
     duration() {
       return msToMinAndSec(this.track.duration_ms)
     }
   },
   methods: {
-    onTrackClick() {
-      if (this.track.external_urls && this.track.external_urls.spotify) {
-        window.open(this.track.external_urls.spotify, '_blank')
-      }
+    onTrackClick({uri}) {
+      window.open(uri)
     },
-    onArtistClick(id) {
-      const artist = this.track.artists.find(a => a.id === id)
-      if (artist && artist.external_urls && artist.external_urls.spotify) {
-        window.open(artist.external_urls.spotify, '_blank')
-      }
+    onArtistClick({uri}) {
+      window.open(uri)
+    },
+    onAlbumClick({uri}) {
+      window.open(uri)
     }
   }
 }
@@ -48,29 +67,89 @@ export default {
 <style lang="scss" scoped>
 @import '~styles/colors';
 @import '~styles/grid';
+@import '~styles/breakpoints';
 
 .track {
   @include result-grid;
 
-  padding: 2px;
   transition: transform .2s;
+  border-radius: 5px;
+  
+  min-height: 4rem;
+
+  .titleArtist {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .artistContainer {
+    text-align: left;
+    font-size: .8rem;
+  }
+  .albumContainer {
+    max-width: 7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include minTablet {
+      max-width: 30rem;
+    }
+  }
+  .album {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .showOnHover {
+    display: none;
+  }
+  .hideOnHover {
+    display: inline;
+  }
+
   &:hover {
     background-color: $theme2;
-    transform: translateX(1.5px);
+
+    .showOnHover {
+      display: inline;
+    }
+    .hideOnHover {
+      display: none;
+    }
   }
 
   .cell {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+
+    &.right {
+      justify-content: flex-end;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+
+  }
+  .trackNumber {
+    font-size: .8rem;
+    min-width: 1rem;
   }
 
-  .title, .artist, .duration {
-    text-align: left;
+  .title, .album, .duration {
     margin: 10px 0;
   }
+  .title {
+    text-align: left;
+  }
 
-  .title, .artist {
+  .album, .duration {
+    text-align: right;
+  }
+
+  .title, .album, .artist {
     &:hover {
       color: $theme4;
       font-weight: bold;
@@ -78,7 +157,7 @@ export default {
     }
   }
 
-  .title, .artistContainer {
+  .title, .artistContainer, .albumContainer {
     &:hover {
       transform: translateX(-2.5px);
       transition: transform .2s;
@@ -87,8 +166,7 @@ export default {
 
   .artist {
     &::after {
-      margin: 0 10px;
-      content: '|';
+      content: ',';
       color: white;
       font-weight: normal;
     }
