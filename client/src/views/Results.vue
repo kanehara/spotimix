@@ -11,7 +11,7 @@
         </div>
         <div class="results">
           <Stagger :appear="!!animate">
-            <Track v-for="(r, index) in results" :track="r" :key="r.id" :data-index="index" :trackNumber="index+1" @play="handleTrackPlay(index)"/>
+            <Track v-for="(r, index) in results" :track="r" :key="r.id" :data-index="index" :trackNumber="index+1" @play="handleTrackPlay(index)" @pause="handleTrackPause()"/>
           </Stagger>
         </div>
       </div>
@@ -48,9 +48,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['PLAY_TRACKS']),
+    ...mapActions(['PLAY_TRACKS', 'TOGGLE_PLAY']),
     handleTrackPlay(idx) {
       this.PLAY_TRACKS({uris: this.results.slice(idx).map(r => r.uri)})
+    },
+    handleTrackPause() {
+      this.TOGGLE_PLAY()
     }
   }
 }

@@ -1,13 +1,13 @@
 <template>
-<span class="track" :class="{isPlaying}">
+<span class="track" :class="{isTrackPlaying}">
   <span class="right cell">
     <p class="hideOnHover trackNumber">{{ trackNumber }}</p>
     <div class="play-button-container showOnHover">
-      <PlayButton size="sm" :isPlaying="isPlaying" @click="onPlayToggle" />
+      <PlayButton size="sm" :isPlaying="isTrackPlaying" @click="onPlayToggle" />
     </div>
   </span>
   <span class="cell">
-    <TrackNameAndArtists :isPlaying="isPlaying" :track="track" :artists="artists" />
+    <TrackNameAndArtists :isPlaying="isTrackPlaying" :track="track" :artists="artists" />
   </span>
   <span class="right cell">
       <span class="albumContainer">
@@ -34,7 +34,7 @@ export default {
   props: ['track', 'trackNumber'],
   components: {PlayButton, TrackNameAndArtists},
   computed: {
-    ...mapGetters(['currentlyPlayingTrack']),
+    ...mapGetters(['currentlyPlayingTrack', 'isPlaying']),
     artists() {
       return this.track.artists
     },
@@ -47,8 +47,8 @@ export default {
     duration() {
       return msToMinAndSec(this.track.duration_ms)
     },
-    isPlaying() {
-      if (!this.currentlyPlayingTrack) {
+    isTrackPlaying() {
+      if (!this.isPlaying || !this.currentlyPlayingTrack) {
         return false
       }
       // cannot rely on uri since Spotify will undeterministically play a differnt URI of the same track
@@ -56,12 +56,11 @@ export default {
     }
   },
   methods: {
-
     onAlbumClick({uri}) {
       window.open(uri)
     },
     onPlayToggle() {
-      if (this.isPlaying) {
+      if (this.isTrackPlaying) {
         this.$emit('pause')
       } else {
         this.$emit('play')
