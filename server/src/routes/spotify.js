@@ -164,8 +164,13 @@ router.put('/play', spotifyMiddleware, async (req, res) => {
     res.status(400).send('missing uris to play')
     return
   }
+  const deviceId = req.body && req.body.deviceId
+  if (!deviceId) {
+    res.status(400).send('missing device id')
+    return
+  }
 
-  axios.put('https://api.spotify.com/v1/me/player/play', {
+  axios.put(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
     uris
   }, {
     headers: {
@@ -173,8 +178,8 @@ router.put('/play', spotifyMiddleware, async (req, res) => {
       'Authorization': `Bearer ${req.shopifyAccessToken}`
     }
   }).then((playRes) => {
-    if (playRes.status !== 204) {
-      logger.error('Received non-204 response trying to play tracks in Shopify:\n', playRes)
+    if (playRes.state < 200 || playRes.status > 299) {
+      logger.error('Received non-2XX response trying to play tracks in Shopify:\n', playRes.status)
       res.sendStatus(500)
     } else {
       res.sendStatus(200)

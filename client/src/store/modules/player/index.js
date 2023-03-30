@@ -13,6 +13,7 @@ const state = {
 
 const getters = {
   isPlaying: state => get(state, 'playbackState.paused') === false,
+  currentlyPlayingUri: state => get(state, 'playbackState.track_window.current_track.uri')
 }
 
 const triggerOauthIfNotLoggedIn = () => {
@@ -52,6 +53,16 @@ const actions = {
   [ACTION_TYPES.PREVIOUS_TRACK]({ state }) {
     if (triggerOauthIfNotLoggedIn() && state.player) {
       ensureTransferedPlayback(state.player, () => state.player.previousTrack())
+    }
+  },
+  [ACTION_TYPES.PLAY_TRACKS]({ state }, { uris }) {
+    if (triggerOauthIfNotLoggedIn() && state.player && state.deviceId) {
+      ensureTransferedPlayback(state.player, () => {
+        axios.put(`${API_HOST}/play`, { uris, deviceId: state.deviceId })
+          .catch((error) => {
+            alert(`An error occurred trying to play tracks:\n${(error && error.message) || 'unknown error'}`)
+          })
+      })
     }
   },
   [ACTION_TYPES.INIT_SPOTIFY_PLAYER]({ commit, state }) {

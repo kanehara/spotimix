@@ -1,9 +1,9 @@
 <template>
-<span class="track">
+<span class="track" :class="{isPlaying}">
   <span class="right cell">
     <p class="hideOnHover trackNumber">{{ trackNumber }}</p>
     <div class="play-button-container showOnHover">
-      <PlayButton size="sm" :isPlaying="isPlaying" @click="TOGGLE_PLAY" />
+      <PlayButton size="sm" :isPlaying="isPlaying" @click="onPlayToggle" />
     </div>
   </span>
   <span class="cell">
@@ -35,11 +35,13 @@
 <script>
 import { msToMinAndSec } from '@/utils'
 import PlayButton from '@/components/PlayButton'
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['track', 'trackNumber'],
   components: {PlayButton},
   computed: {
+    ...mapGetters(['currentlyPlayingUri']),
     artists() {
       return this.track.artists
     },
@@ -48,6 +50,9 @@ export default {
     },
     duration() {
       return msToMinAndSec(this.track.duration_ms)
+    },
+    isPlaying() {
+      return this.track.uri === this.currentlyPlayingUri
     }
   },
   methods: {
@@ -59,6 +64,13 @@ export default {
     },
     onAlbumClick({uri}) {
       window.open(uri)
+    },
+    onPlayToggle() {
+      if (this.isPlaying) {
+        this.$emit('pause')
+      } else {
+        this.$emit('play')
+      }
     }
   }
 }
@@ -68,6 +80,13 @@ export default {
 @import '~styles/colors';
 @import '~styles/grid';
 @import '~styles/breakpoints';
+
+.track.isPlaying {
+  .title {
+    color: $theme4;
+    font-weight: bold;
+  }
+}
 
 .track {
   @include result-grid;

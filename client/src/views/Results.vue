@@ -11,7 +11,7 @@
         </div>
         <div class="results">
           <Stagger :appear="!!animate">
-            <Track v-for="(r, index) in results" :track="r" :key="r.id" :data-index="index" :trackNumber="index+1"/>
+            <Track v-for="(r, index) in results" :track="r" :key="r.id" :data-index="index" :trackNumber="index+1" @play="handleTrackPlay(index)"/>
           </Stagger>
         </div>
       </div>
@@ -24,7 +24,7 @@ import Track from '@/components/Track'
 import ClockIcon from '@/components/ClockIcon'
 import Header from '@/views/Header'
 import Stagger from '@/transitions/group/Stagger'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
 import Cookies from 'js-cookie'
 
@@ -45,6 +45,12 @@ export default {
     },
     isLoggedIn() {
       return !!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
+    }
+  },
+  methods: {
+    ...mapActions(['PLAY_TRACKS']),
+    handleTrackPlay(idx) {
+      this.PLAY_TRACKS({uris: this.results.slice(idx).map(r => r.uri)})
     }
   }
 }
