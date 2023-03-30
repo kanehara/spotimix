@@ -70,6 +70,16 @@ const actions = {
       })
     }
   },
+  [ACTION_TYPES.SEEK]({ state }, { percentage }) {
+    if (triggerOauthIfNotLoggedIn() && state.player) {
+      ensureTransferedPlayback(state.player, () => {
+        const duration = get(state, 'playbackState.duration')
+        if (duration) {
+          state.player.seek(duration * percentage)
+        }
+      })
+    }
+  },
   [ACTION_TYPES.INIT_SPOTIFY_PLAYER]({ commit, state }) {
     if (Cookies.get(ACCESS_TOKEN_COOKIE_KEY)) {
       window.onSpotifyWebPlaybackSDKReady = () => {

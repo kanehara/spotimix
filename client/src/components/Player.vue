@@ -25,7 +25,7 @@
         </div>
         <div class="bottom-controls"> 
           <p class="seeker-timestamp position" :style="{ visibility: playbackDuration ? 'visible' : 'hidden' }">{{ playbackPosition | msToMinAndSec }}</p>
-          <div class="seeker-controller">
+          <div class="seeker-controller" @click="handleSeek">
             <div class="seeker-container">
               <div class="seeker-played" :style="{ width: `${playbackPercentage}%` }" />
             </div>
@@ -42,7 +42,7 @@ import PlayButton from '@/components/PlayButton'
 import PrevNextButton from '@/components/PrevNextButton'
 import TrackNameAndArtists from '@/components/TrackNameAndArtists'
 import { mapActions, mapGetters } from 'vuex'
-import { INIT_SPOTIFY_PLAYER, TOGGLE_PLAY, PREVIOUS_TRACK, NEXT_TRACK } from 'x/player/action-types'
+import { INIT_SPOTIFY_PLAYER, TOGGLE_PLAY, PREVIOUS_TRACK, NEXT_TRACK, SEEK } from 'x/player/action-types'
 import {get} from 'lodash'
 import { msToMinAndSec } from '@/utils'
 
@@ -66,7 +66,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions([INIT_SPOTIFY_PLAYER, TOGGLE_PLAY, PREVIOUS_TRACK, NEXT_TRACK]),
+    ...mapActions([INIT_SPOTIFY_PLAYER, TOGGLE_PLAY, PREVIOUS_TRACK, NEXT_TRACK, SEEK]),
+    handleSeek(e) {
+      this.SEEK({percentage: e.offsetX / e.target.offsetWidth})
+    }
   }
 }
 </script>
@@ -176,6 +179,7 @@ $playerHeight: 5.75rem;
   align-items: center;
   width: 100%;
   height: 1rem;
+  margin: 0 .7rem;
 
   &:hover {
     cursor: pointer;
@@ -192,7 +196,6 @@ $playerHeight: 5.75rem;
   overflow: hidden;
   width: 100%;
   background-color: $lightgray;
-  margin: 0 .7rem;
   position: relative;
 
   .seeker-played {
