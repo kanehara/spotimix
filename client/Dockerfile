@@ -13,4 +13,4 @@ RUN npm install --legacy-peer-deps
 RUN npm run build
 
 ENV API_HOST=$API_HOST
-CMD PORT=$PORT npm start:prod
+CMD PORT=$PORT npm run start:prod
