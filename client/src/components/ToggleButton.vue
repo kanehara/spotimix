@@ -7,7 +7,7 @@ export default {
   props: ['className', 'disabled'],
   methods: {
     click () {
-      this.$emit('update:disabled', !this.disabled)
+      this.$emit('click')
     }
   }
 }

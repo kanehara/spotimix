@@ -137,6 +137,12 @@ const mutations = {
   [MUTATION_TYPES.DISABLE_ALL_ATTRIBUTES](state) {
     Object.values(state).forEach(a => { a.disabled = true })
   },
+  [MUTATION_TYPES.RESET_ALL_ATTRIBUTES](state) {
+    Object.values(ATTRIBUTE_TYPES).forEach(a => {
+      state[a].disabled = true
+      state[a].value = state[a].min
+    })
+  },
 }
 
 export default {

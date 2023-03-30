@@ -44,7 +44,7 @@ const mutations = {
     }
   },
   [MUTATION_TYPES.REMOVE_ALL_SEEDS] (state) {
-    Object.values(SEED_TYPES).forEach(s => { state[s] = [] })
+    Object.values(SEED_TYPES).forEach(s => { state.seeds[s] = [] })
   },
   [MUTATION_TYPES.FOCUS_SEED_INPUT] (state, {type}) {
     state.focusedSeedInput = type

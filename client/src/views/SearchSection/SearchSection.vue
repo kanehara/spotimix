@@ -1,7 +1,17 @@
 <template>
   <div class="searchSectionContainer">
     <div class="searchSectionHeader">
-      <h4>Please select up to 5 seeds</h4>
+      <h4>
+          Please select up to 5 seeds
+      </h4>
+      <div class="tooltip-container">
+        <Tooltip>
+          <p>Spotimix helps you discover songs on Spotify through a series of seeds and parameters.</p>
+          <p>1. Select up to 5 combination of tracks, artists, and genres to feed the algorithm 🧪</p>
+          <p>2. (Optional) Tweak additional parameters such as danceability 🕺</p>
+          <p>3. Hit mix and see what you find! 🎛️</p>
+        </Tooltip>
+      </div>
     </div>
     <div class="searchSection">
       <div class="item">
@@ -14,6 +24,9 @@
         <GenreSearch/>
       </div>
     </div>
+    <div class="reset-container" :class="{visible: totalSeeds > 0}">
+      <p @click="handleReset" class="reset-text">Reset</p>
+    </div>
   </div>
 </template>
 
@@ -21,12 +34,25 @@
 import TrackSearch from './TrackSearch'
 import ArtistSearch from './ArtistSearch'
 import GenreSearch from './GenreSearch'
+import Tooltip from '@/components/Tooltip'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   components: {
     TrackSearch,
     ArtistSearch,
-    GenreSearch
+    GenreSearch,
+    Tooltip
+  },
+  computed: {
+    ...mapGetters(['totalSeeds'])
+  },
+  methods: {
+    ...mapMutations(['RESET_ALL_ATTRIBUTES', 'REMOVE_ALL_SEEDS']),
+    handleReset() {
+      this.RESET_ALL_ATTRIBUTES()
+      this.REMOVE_ALL_SEEDS()
+    }
   }
 }
 </script>
@@ -34,6 +60,28 @@ export default {
 <style scoped lang="scss" >
 @import '~styles/breakpoints';
 @import '~styles/colors';
+
+.reset-container {
+  visibility: hidden;
+  margin-top: .7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .reset-text {
+    margin: 0;
+    color: $red;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 900;
+    }
+  }
+
+  &.visible {
+    visibility: visible;
+  }
+}
 
 .searchSectionContainer {
   background: $theme2;
@@ -44,8 +92,18 @@ export default {
 }
 
 .searchSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   h4 {
     margin: 0;
+  }
+
+  .tooltip-container {
+    margin-left: .75rem;
+    display: flex;
+    justify-self: center;
   }
 }
 
