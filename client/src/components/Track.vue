@@ -7,16 +7,7 @@
     </div>
   </span>
   <span class="cell">
-    <div class="titleArtist">
-      <h4 class="title" @click="onTrackClick(track)">{{track.name}}</h4>
-      <div class="artistContainer">
-        <span class="artist" 
-          v-for="artist in artists" 
-          :key="artist.id"
-          @click="onArtistClick(artist)">
-        {{artist.name}}</span>
-      </div>
-    </div>
+    <TrackNameAndArtists :isPlaying="isPlaying" :track="track" :artists="artists" />
   </span>
   <span class="right cell">
       <span class="albumContainer">
@@ -35,12 +26,13 @@
 <script>
 import { msToMinAndSec } from '@/utils'
 import PlayButton from '@/components/PlayButton'
+import TrackNameAndArtists from '@/components/TrackNameAndArtists'
 import { mapGetters } from 'vuex'
 import {every, includes} from 'lodash'
 
 export default {
   props: ['track', 'trackNumber'],
-  components: {PlayButton},
+  components: {PlayButton, TrackNameAndArtists},
   computed: {
     ...mapGetters(['currentlyPlayingTrack']),
     artists() {
@@ -64,12 +56,7 @@ export default {
     }
   },
   methods: {
-    onTrackClick({uri}) {
-      window.open(uri)
-    },
-    onArtistClick({uri}) {
-      window.open(uri)
-    },
+
     onAlbumClick({uri}) {
       window.open(uri)
     },
@@ -105,15 +92,6 @@ export default {
   min-height: 4rem;
   padding-right: $resultsGridPaddingRight;
 
-  .titleArtist {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .artistContainer {
-    text-align: left;
-    font-size: .8rem;
-  }
   .albumContainer {
     max-width: 7rem;
     overflow: hidden;
@@ -151,6 +129,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin: 10px 0;
 
     &.right {
       justify-content: flex-end;
@@ -166,18 +145,11 @@ export default {
     min-width: 1rem;
   }
 
-  .title, .album, .duration {
-    margin: 10px 0;
-  }
-  .title {
-    text-align: left;
-  }
-
   .album, .duration {
     text-align: right;
   }
 
-  .title, .album, .artist {
+  .album {
     &:hover {
       color: $theme4;
       font-weight: bold;
@@ -185,25 +157,10 @@ export default {
     }
   }
 
-  .title, .artistContainer, .albumContainer {
+  .albumContainer {
     &:hover {
       transform: translateX(-2.5px);
       transition: transform .2s;
-    }
-  }
-
-  .artist {
-    &::after {
-      content: ',';
-      color: white;
-      font-weight: normal;
-    }
-
-    &:last-child {
-      &::after {
-        content: '';
-        margin: 0;
-      } 
     }
   }
 }

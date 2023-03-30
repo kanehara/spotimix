@@ -13,7 +13,8 @@ const state = {
 
 const getters = {
   isPlaying: state => get(state, 'playbackState.paused') === false,
-  currentlyPlayingTrack: state => get(state, 'playbackState.track_window.current_track')
+  currentlyPlayingTrack: state => get(state, 'playbackState.track_window.current_track'),
+  currentlyPlayingArtists: state => get(state, 'playbackState.track_window.current_track.artists')
 }
 
 const triggerOauthIfNotLoggedIn = () => {

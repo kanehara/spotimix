@@ -176,6 +176,10 @@ const Album = new GraphQLObjectType({
     external_urls: {
       type: ExternalUrls,
       resolve: data => data.external_urls
+    },
+    images: {
+      type: new GraphQLList(Image),
+      resolve: data => data.images
     }
   })
 })

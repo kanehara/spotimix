@@ -132,6 +132,9 @@ export default {
               id
               name
               uri
+              images {
+                url
+              }
             }
             artists {
               id
