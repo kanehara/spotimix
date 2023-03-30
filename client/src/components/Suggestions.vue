@@ -2,8 +2,13 @@
   <transition name="slideDown">
     <div v-if="show && suggestions && suggestions.length > 0" class="suggestions">
       <div class="cell" v-for="s in suggestions" :key="s.id" @click="select({id: s.id, name: s.name})">
-        <div class="detail" v-if="s.detail">{{s.detail}}</div>
-        <div class="name" v-if="s.name">{{s.name}}</div>
+        <div class="img-container" v-if="s.imgUrl">
+          <img :src="s.imgUrl" />
+        </div>
+        <div class="content-container">
+          <div class="detail" v-if="s.detail">{{s.detail}}</div>
+          <div class="name" v-if="s.name">{{s.name}}</div>
+        </div>
       </div>
     </div>
   </transition>
@@ -39,7 +44,25 @@ $b-radius: 10px;
   max-height: 300px;
   overflow-y: scroll;
   
+  .content-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .img-container {
+    margin-right: .2rem;
+    padding: .1rem .5rem;
+
+    img {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 2rem;
+    }
+  }
+
   .cell {
+    display: flex;
+    align-items: center;
     border: 1px solid $theme2;
     padding: 6px;
     background: $theme0;

@@ -146,6 +146,10 @@ const Artist = new GraphQLObjectType({
       type: GraphQLString,
       resolve: data => data.uri
     },
+    images: {
+      type: new GraphQLList(Image),
+      resolve: data => data.images
+    },
     external_urls: {
       type: ExternalUrls,
       resolve: data => data.external_urls
