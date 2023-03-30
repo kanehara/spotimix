@@ -25,8 +25,10 @@
         </div>
         <div class="bottom-controls"> 
           <p class="seeker-timestamp position" :style="{ visibility: playbackDuration ? 'visible' : 'hidden' }">{{ playbackPosition | msToMinAndSec }}</p>
-          <div class="seeker-container">
-            <div class="seeker-played" :style="{ width: `${playbackPercentage}%` }" />
+          <div class="seeker-controller">
+            <div class="seeker-container">
+              <div class="seeker-played" :style="{ width: `${playbackPercentage}%` }" />
+            </div>
           </div>
           <p class="seeker-timestamp duration" :style="{ visibility: playbackDuration ? 'visible' : 'hidden' }">{{ playbackDuration | msToMinAndSec }}</p>
         </div>
@@ -166,6 +168,21 @@ $playerHeight: 5.75rem;
   
   @include minDisplay {
     grid-template-columns: minmax(13rem, 1fr) minmax(10rem,40rem) minmax(13rem, 1fr);
+  }
+}
+
+.seeker-controller {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 1rem;
+
+  &:hover {
+    cursor: pointer;
+
+    .seeker-played {
+      background-color: $spotifyGreen;
+    }
   }
 }
 
