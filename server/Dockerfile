@@ -17,4 +17,4 @@ RUN rm -rf spotimix-env
 COPY . /app
 RUN npm install
 
-CMD PORT=$PORT npm start:prod
+CMD PORT=$PORT npm run start:prod
