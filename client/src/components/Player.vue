@@ -169,7 +169,7 @@ $playerHeight: 5.75rem;
   justify-items: flex-start;
   height: 100%;
   
-  @include minDisplay {
+  @include minMobile {
     grid-template-columns: minmax(13rem, 1fr) minmax(10rem,40rem) minmax(13rem, 1fr);
   }
 }
