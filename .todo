@@ -2,9 +2,9 @@
 Todo:
   ~- Refresh token on the client side to prevent short sessions~
   ~- Integrate web player~
-  - Playing tracks in results
+  ~- Playing tracks in results~
   - Clear all attributes
-  - Highlight playing song while playing in Spotify
+  ~- Highlight playing song while playing in Spotify~
   - Show logo of artist in dropdown
   - How to Tooltip 
   ~- Logo -> shuffle for the "x"~
