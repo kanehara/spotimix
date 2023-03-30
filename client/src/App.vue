@@ -3,16 +3,35 @@
     <div id="content">
       <router-view/>
     </div>
+    <Player/>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
+import axios from 'axios'
+import Player from '@/components/Player'
+
 export default {
+  components: {Player},
+  computed: {
+    isLoggedIn() {
+      return !!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
+    }
+  },
   mounted() {
-    // TODO: #17 web player
-    // window.onSpotifyWebPlaybackSDKReady = () => {
-    //   console.log('Spotify WebPlayer SDK initialized')
-    // }
+    if (this.isLoggedIn) {
+      setInterval(async () => {
+        try {
+          await axios.put(`${API_HOST}/refresh_token`) // eslint-disable-line
+        } catch (e) {
+          if (e && e.response && e.response.status === 440) {
+            location.reload()
+          }
+        }
+      }, 20000)
+    }
   }
 }
 </script>
@@ -27,6 +46,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  
   color: $primaryFontColor;
 }
 
@@ -36,30 +56,33 @@ export default {
   background-color: $contentBackground;
   
   padding: 10px 20px;
+  padding-bottom: 7rem;
   @include minMobile {
     padding: 30px 5%;
+    padding-bottom: 7rem;
   }
 }
 
 body, html {
   margin: 0;
   background-color: $bodyBackground;
+  overscroll-behavior: none;
 }
 
-body {
-  font-size: .6rem;
+html {
+  font-size: 10px;
   
   @include minMobile {
     padding: 0 5%;
-    font-size: .8rem;
+    font-size: 12px;
   }
   
   @include minTablet {
-    font-size: 1rem;
+    font-size: 14px;
   }
 
   @include minDisplay {
-    font-size: 2rem;
+    font-size: 18px;
   }
 }
 

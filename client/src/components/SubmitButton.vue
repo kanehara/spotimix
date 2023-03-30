@@ -1,13 +1,11 @@
 <template>
   <div class="submitButtonContainer">  
     <button 
-    v-show="!loading"
     id="submitButton" 
     @click="click" 
-    :disabled="disabled">
+    :disabled="disabled || loading">
       <h1>{{ label }}</h1>
     </button>
-    <h1 v-show="loading">Loading...</h1>
   </div>
 </template>
 

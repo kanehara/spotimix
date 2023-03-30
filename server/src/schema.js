@@ -63,11 +63,11 @@ const Top = new GraphQLObjectType({
   fields: () => ({
     tracks: {
       type: new GraphQLList(Track),
-      resolve: (data, args, context) => context.services.getMyTopTracks(context.accessToken)
+      resolve: (data, args, context) => context.services.getMyTopTracks(context.accessToken())
     },
     artists: {
       type: new GraphQLList(Artist),
-      resolve: (data, args, context) => context.services.getMyTopArtists(context.accessToken)
+      resolve: (data, args, context) => context.services.getMyTopArtists(context.accessToken())
     }
   })
 })
@@ -80,6 +80,10 @@ const Track = new GraphQLObjectType({
       type: GraphQLString,
       resolve: data => data.id
     },
+    uri: {
+      type: GraphQLString,
+      resolve: data => data.uri
+    },
     name: {
       type: GraphQLString,
       resolve: data => data.name
@@ -87,6 +91,10 @@ const Track = new GraphQLObjectType({
     href: {
       type: GraphQLString,
       resolve: data => data.href
+    },
+    album: {
+      type: Album,
+      resolve: data => data.album
     },
     artists: {
       type: new GraphQLList(Artist),
@@ -134,9 +142,48 @@ const Artist = new GraphQLObjectType({
       type: GraphQLString,
       resolve: data => data.href
     },
+    uri: {
+      type: GraphQLString,
+      resolve: data => data.uri
+    },
+    images: {
+      type: new GraphQLList(Image),
+      resolve: data => data.images
+    },
     external_urls: {
       type: ExternalUrls,
       resolve: data => data.external_urls
+    }
+  })
+})
+
+const Album = new GraphQLObjectType({
+  name: 'Album',
+  description: 'A spotify album',
+  fields: () => ({
+    id: {
+      type: GraphQLString,
+      resolve: data => data.id
+    },
+    name: {
+      type: GraphQLString,
+      resolve: data => data.name
+    },
+    href: {
+      type: GraphQLString,
+      resolve: data => data.href
+    },
+    uri: {
+      type: GraphQLString,
+      resolve: data => data.uri
+    },
+    external_urls: {
+      type: ExternalUrls,
+      resolve: data => data.external_urls
+    },
+    images: {
+      type: new GraphQLList(Image),
+      resolve: data => data.images
     }
   })
 })
@@ -159,7 +206,7 @@ const Search = new GraphQLObjectType({
     tracks: {
       type: new GraphQLList(Track),
       resolve: (q, args, context) =>
-        context.services.search(context.accessToken, {
+        context.services.search(context.accessToken(), {
           type: 'track',
           q,
           limit: 10
@@ -168,7 +215,7 @@ const Search = new GraphQLObjectType({
     artists: {
       type: new GraphQLList(Artist),
       resolve: (q, args, context) =>
-        context.services.search(context.accessToken, {
+        context.services.search(context.accessToken(), {
           type: 'artist',
           q,
           limit: 10
@@ -184,12 +231,12 @@ module.exports = new GraphQLSchema({
     fields: () => ({
       me: {
         type: Me,
-        resolve: (root, args, context) => context.services.getMe(context.accessToken)
+        resolve: (root, args, context) => context.services.getMe(context.accessToken())
       },
       recommendations: {
         type: Recommendations,
         resolve: (root, args, context) => (args.seed_artists || args.seed_genres || args.seed_tracks)
-          ? context.services.getRecommendations(context.accessToken, args)
+          ? context.services.getRecommendations(context.accessToken(), args)
           : [],
         args: {
           limit: {
@@ -300,7 +347,7 @@ module.exports = new GraphQLSchema({
       },
       genres: {
         type: new GraphQLList(GraphQLString),
-        resolve: async (root, args, context) => context.services.getGenres(context.accessToken)
+        resolve: async (root, args, context) => context.services.getGenres(context.accessToken())
       }
     })
   })

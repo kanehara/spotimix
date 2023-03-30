@@ -9,9 +9,14 @@ const cors = require('cors')
 const logger = require('./logger')
 const initRoutes = require('./routes')
 const config = require('./config')
+const bodyParser = require('body-parser')
 
+app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(cors())
+app.use(cors({
+  credentials: true,
+  origin: config.APP_HOST
+}))
 
 // TODO: Move loaders to own module
 const fetch = async (path, accessToken) => {
@@ -58,7 +63,7 @@ function setTokenRefreshTimeout (timeout) {
   }, timeout)
 }
 
-async function getClientCredentialsToken () {
+async function startClientCredentialsTokenLoader () {
   if (CLIENT_CRED_TOKEN) {
     return CLIENT_CRED_TOKEN
   }
@@ -70,11 +75,11 @@ async function getClientCredentialsToken () {
 }
 
 app.use('/graphql', graphqlHTTP(async req => {
-  const accessToken = await getClientCredentialsToken()
+  await startClientCredentialsTokenLoader()
   return {
     schema,
     context: {
-      accessToken,
+      accessToken: () => CLIENT_CRED_TOKEN,
       // ... loaders
       services: {
         getMe,

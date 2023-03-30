@@ -1,5 +1,5 @@
-const authCodeRouter = require('./authorization_code')
+const spotify = require('./spotify')
 
 module.exports = app => {
-  app.use('/', authCodeRouter)
+  app.use('/', spotify)
 }

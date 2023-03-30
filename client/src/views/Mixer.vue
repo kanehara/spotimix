@@ -124,18 +124,22 @@ export default {
         ) {
           tracks {
             id
+            uri
             name
             duration_ms
             preview_url
-            external_urls {
-              spotify
+            album {
+              id
+              name
+              uri
+              images {
+                url
+              }
             }
             artists {
               id
               name
-              external_urls {
-                spotify
-              }
+              uri
             }
           }
         }
