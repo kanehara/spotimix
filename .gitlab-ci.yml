@@ -9,7 +9,7 @@ variables:
   CLIENT_TEST_IMAGE: registry.gitlab.com/kanehara/spotimix/client:$CI_COMMIT_REF_NAME-test
   CLIENT_RELEASE_IMAGE: registry.gitlab.com/kanehara/spotimix/client:$CI_COMMIT_TAG
   CLIENT_LATEST_IMAGE: registry.gitlab.com/kanehara/spotimix/client:latest
-  PRODUCTION_API_HOST: https://www.spotimix.com
+  PRODUCTION_API_HOST: https://www.spotimix.com/server
 
 stages:
   - build
