@@ -52,7 +52,7 @@ export default {
   position: fixed;
   bottom: 0;
   background: $onix;
-  border-top: .25rem solid $spotifyGreen;
+  border-top: .1rem solid $spotifyGreen;
   left: 0;
   right: 0;
   height: 4rem;

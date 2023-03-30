@@ -36,14 +36,18 @@
 import { msToMinAndSec } from '@/utils'
 import PlayButton from '@/components/PlayButton'
 import { mapGetters } from 'vuex'
+import {every, includes} from 'lodash'
 
 export default {
   props: ['track', 'trackNumber'],
   components: {PlayButton},
   computed: {
-    ...mapGetters(['currentlyPlayingUri']),
+    ...mapGetters(['currentlyPlayingTrack']),
     artists() {
       return this.track.artists
+    },
+    artistUris() {
+      return this.artists.map(a => a.uri)
     },
     album() {
       return this.track.album
@@ -52,7 +56,11 @@ export default {
       return msToMinAndSec(this.track.duration_ms)
     },
     isPlaying() {
-      return this.track.uri === this.currentlyPlayingUri
+      if (!this.currentlyPlayingTrack) {
+        return false
+      }
+      // cannot rely on uri since Spotify will undeterministically play a differnt URI of the same track
+      return this.track.name === this.currentlyPlayingTrack.name && this.currentlyPlayingTrack.artists.length === this.artists.length && every(this.currentlyPlayingTrack.artists, a => includes(this.artistUris, a.uri))
     }
   },
   methods: {
