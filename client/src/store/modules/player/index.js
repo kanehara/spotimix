@@ -1,6 +1,6 @@
 import * as ACTION_TYPES from './action-types'
 import * as MUTATION_TYPES from './mutation-types'
-import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
+import { ACCESS_TOKEN_COOKIE_KEY } from '@/utils'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { get } from 'lodash'
@@ -9,12 +9,16 @@ const state = {
   player: null,
   playbackState: null,
   deviceId: null,
+  playbackStatePollingInteveralId: null,
 }
 
 const getters = {
   isPlaying: state => get(state, 'playbackState.paused') === false,
   currentlyPlayingTrack: state => get(state, 'playbackState.track_window.current_track'),
-  currentlyPlayingArtists: state => get(state, 'playbackState.track_window.current_track.artists')
+  currentlyPlayingArtists: state => get(state, 'playbackState.track_window.current_track.artists'),
+  playbackPosition: state => get(state, 'playbackState.position') || 0,
+  playbackDuration: state => get(state, 'playbackState.duration') || 0,
+  playbackPercentage: state => get(state, 'playbackState.position') && get(state, 'playbackState.duration') ? (get(state, 'playbackState.position') / get(state, 'playbackState.duration')) * 100 : 0
 }
 
 const triggerOauthIfNotLoggedIn = () => {
@@ -82,6 +86,26 @@ const actions = {
         player.addListener('player_state_changed', (data) => {
           console.log('player state changed', data)
           commit(MUTATION_TYPES.SET_PLAYBACK_STATE, data)
+          if (data && !data.paused) {
+            if (!state.playbackStatePollingInteveralId) {
+              let id
+              id = setInterval(() => { // retrieve playback state for track seeking
+                player.getCurrentState().then(playbackState => {
+                  if (playbackState) {
+                    commit(MUTATION_TYPES.SET_PLAYBACK_STATE, playbackState)
+                  } else {
+                    clearInterval(id)
+                  }
+                })
+              }, 1000)
+              commit(MUTATION_TYPES.SET_PLAYBACK_STATE_POLLING_INTERVAL_ID, id)
+            }
+          } else {
+            if (state.playbackStatePollingInteveralId) {
+              clearInterval(state.playbackStatePollingInteveralId)
+              commit(MUTATION_TYPES.SET_PLAYBACK_STATE_POLLING_INTERVAL_ID, null)
+            }
+          }
         })
 
         // Not Ready
@@ -117,6 +141,9 @@ const mutations = {
   },
   [MUTATION_TYPES.SET_DEVICE_ID] (state, deviceId) {
     state.deviceId = deviceId
+  },
+  [MUTATION_TYPES.SET_PLAYBACK_STATE_POLLING_INTERVAL_ID] (state, id) {
+    state.playbackStatePollingInteveralId = id
   },
 }
 

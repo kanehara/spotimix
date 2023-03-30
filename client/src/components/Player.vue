@@ -12,14 +12,23 @@
         </div>
       </div>
       <div class="controls">
-        <div class="control-container">
-          <PrevNextButton kind="prev" @click="PREVIOUS_TRACK" />
+        <div class="top-controls">
+          <div class="control-btn-container">
+            <PrevNextButton kind="prev" @click="PREVIOUS_TRACK" />
+          </div>
+          <div class="control-btn-container">
+            <PlayButton :isPlaying="isPlaying" @click="TOGGLE_PLAY" />
+          </div>
+          <div class="control-btn-container">
+            <PrevNextButton kind="next" @click="NEXT_TRACK" />
+          </div>
         </div>
-        <div class="control-container">
-          <PlayButton :isPlaying="isPlaying" @click="TOGGLE_PLAY" />
-        </div>
-        <div class="control-container">
-          <PrevNextButton kind="next" @click="NEXT_TRACK" />
+        <div class="bottom-controls"> 
+          <p class="seeker-timestamp position" :style="{ visibility: playbackDuration ? 'visible' : 'hidden' }">{{ playbackPosition | msToMinAndSec }}</p>
+          <div class="seeker-container">
+            <div class="seeker-played" :style="{ width: `${playbackPercentage}%` }" />
+          </div>
+          <p class="seeker-timestamp duration" :style="{ visibility: playbackDuration ? 'visible' : 'hidden' }">{{ playbackDuration | msToMinAndSec }}</p>
         </div>
       </div>
     </div>
@@ -33,14 +42,20 @@ import TrackNameAndArtists from '@/components/TrackNameAndArtists'
 import { mapActions, mapGetters } from 'vuex'
 import { INIT_SPOTIFY_PLAYER, TOGGLE_PLAY, PREVIOUS_TRACK, NEXT_TRACK } from 'x/player/action-types'
 import {get} from 'lodash'
+import { msToMinAndSec } from '@/utils'
 
 export default {
   components: {PlayButton, PrevNextButton, TrackNameAndArtists},
   created() {
     this.INIT_SPOTIFY_PLAYER()
   },
+  filters: {
+    msToMinAndSec(v) {
+      return msToMinAndSec(v)
+    }
+  },
   computed: {
-    ...mapGetters(['isPlaying', 'hasResults', 'currentlyPlayingTrack', 'currentlyPlayingArtists']),
+    ...mapGetters(['isPlaying', 'hasResults', 'currentlyPlayingTrack', 'currentlyPlayingArtists', 'playbackPercentage', 'playbackPosition', 'playbackDuration']),
     trackImage() {
       return get(this.currentlyPlayingTrack, 'album.images[0].url')
     },
@@ -56,8 +71,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '~styles/colors';
+@import '~styles/breakpoints';
 
-$playerHeight: 4rem;
+$playerHeight: 5.75rem;
 
 .track-image-container {
   margin-right: 1rem;
@@ -91,11 +107,42 @@ $playerHeight: 4rem;
 
 .controls {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-self: center;
+  justify-content: center;
+  width: 80%;
 }
 
-.control-container {
+.top-controls {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+.bottom-controls {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+}
+
+.seeker-timestamp {
+  font-size: .7rem;
+  padding: 0;
+  margin: 0;
+  min-width: 2rem;
+
+  &.position {
+    text-align: right;
+  }
+
+  &.duration {
+    text-align: left;
+  }
+}
+
+.control-btn-container {
   margin: 0 1rem;
 }
 
@@ -113,9 +160,30 @@ $playerHeight: 4rem;
   padding: 0 1rem;
   display: grid;
   grid-column-gap: 1.5rem;
-  grid-template-columns: minmax(13rem, 20rem) minmax(10rem,auto) minmax(13rem, 20rem);
+  grid-template-columns: minmax(10rem, .5fr) minmax(10rem,2fr);
   justify-items: flex-start;
   height: 100%;
+  
+  @include minDisplay {
+    grid-template-columns: minmax(13rem, 1fr) minmax(10rem,40rem) minmax(13rem, 1fr);
+  }
+}
+
+.seeker-container {
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  width: 100%;
+  background-color: $lightgray;
+  margin: 0 .7rem;
+  position: relative;
+
+  .seeker-played {
+    background-color: white;
+    position: absolute;
+    border-radius: 2px;
+    height: 4px;
+  }
 }
 
 </style>

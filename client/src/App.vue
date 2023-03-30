@@ -78,11 +78,11 @@ html {
   }
   
   @include minTablet {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   @include minDisplay {
-    font-size: 22px;
+    font-size: 18px;
   }
 }
 
