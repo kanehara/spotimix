@@ -1,6 +1,6 @@
 <template>
   <div class="slidercontainer"  @click="toggle">
-    <ToggleButton :disabled.sync="disabled" className="toggleButton"/>
+    <ToggleButton :disabled="disabled" @click="toggle" className="toggleButton"/>
     <input
       v-model.number="value"
       @input="input"
@@ -19,8 +19,8 @@ import ToggleButton from './ToggleButton'
 
 export default {
   props: {
-    initialValue: Number,
-    initialDisabled: Boolean,
+    value: Number,
+    disabled: Boolean,
     min: Number,
     max: Number,
     labelMapper: {
@@ -34,12 +34,6 @@ export default {
   },
   components: {
     ToggleButton
-  },
-  data () {
-    return {
-      disabled: this.initialDisabled,
-      value: this.initialValue
-    }
   },
   filters: {
     format(v, labelMapper) {
@@ -56,12 +50,13 @@ export default {
   },
   methods: {
     input (e) {
-      this.value = e.target.value
       this.$emit('input', Number(e.target.value))
     },
     toggle() {
       if (this.disabled) {
-        this.disabled = false
+        this.$emit('enable')
+      } else {
+        this.$emit('disable')
       }
     }
   }

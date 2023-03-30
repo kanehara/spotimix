@@ -3,8 +3,8 @@
     <span class="sliderLabel" :data-attribute-type="attribute.name">{{attribute.name}}</span>
     <Slider 
       class="slider"
-      :initialValue="attribute.value"
-      :initialDisabled="attribute.disabled"
+      :value="attribute.value"
+      :disabled="attribute.disabled"
       :min="attribute.min" 
       :max="attribute.max" 
       :step="attribute.step"

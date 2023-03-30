@@ -15,6 +15,7 @@ import gql from 'graphql-tag'
 import SeedSearch from './SeedSearch'
 import {SEED_TYPES} from 'x/seeds'
 import {mapGetters} from 'vuex'
+import {get} from 'lodash'
 
 export default {
   components: {
@@ -30,9 +31,14 @@ export default {
   computed: {
     ...mapGetters(['artistSeeds']),
     suggestions() {
+      console.log('this.search.artists', this.search.artists)
       return this.query.length > 0
         ? this.search.artists
           .filter(a => this.artistSeeds.every(s => s.id !== a.id))
+          .map(a => ({
+            ...a,
+            imgUrl: get(a, 'images[0].url')
+          }))
         : []
     },
   },
@@ -43,6 +49,9 @@ export default {
           artists {
             id,
             name
+            images {
+              url
+            }
           }
         }
       }`,

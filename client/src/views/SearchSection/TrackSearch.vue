@@ -16,6 +16,7 @@ import SeedSearch from './SeedSearch'
 import {SEED_TYPES} from 'x/seeds'
 import {mapGetters} from 'vuex'
 import { formatArtists } from '@/utils'
+import {get} from 'lodash'
 
 export default {
   components: {
@@ -36,7 +37,8 @@ export default {
           .map(t => ({
             id: t.id,
             detail: formatArtists(t.artists),
-            name: t.name
+            name: t.name,
+            imgUrl: get(t, 'album.images[0].url')
           }))
           .filter(t => this.trackSeeds.every(s => s.id !== t.id))
         : []
@@ -51,6 +53,11 @@ export default {
             name,
             artists {
               name
+            }
+            album {
+              images {
+                url
+              }
             }
           }
         }
