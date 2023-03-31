@@ -1,4 +1,4 @@
-FROM node:8.9.3
+FROM node:14.9.0
 
 # Args
 ARG GITLAB_USER
