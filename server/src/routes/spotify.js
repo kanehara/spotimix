@@ -120,7 +120,7 @@ router.put('/refresh_token', async (req, res) => {
     res.clearCookie(ACCESS_TOKEN_COOKIE_KEY)
     res.clearCookie(REFRESH_TOKEN_COOKIE_KEY)
     logger.error('Unexpected status refreshing token:\n', authRes.status)
-    res.sendStatus(500)
+    res.sendStatus(authRes.status)
   }
 })
 
@@ -180,13 +180,13 @@ router.put('/play', spotifyMiddleware, async (req, res) => {
   }).then((playRes) => {
     if (playRes.state < 200 || playRes.status > 299) {
       logger.error('Received non-2XX response trying to play tracks in Shopify:\n', playRes.status)
-      res.sendStatus(500)
+      res.sendStatus(playRes.status)
     } else {
       res.sendStatus(200)
     }
   }).catch(e => {
     logger.error('Error trying to play tracks in Shopify:\n', e.message, e.response && e.response.data)
-    res.sendStatus(500)
+    res.sendStatus((e.response && e.response.status) || 500)
   })
 })
 
@@ -208,7 +208,7 @@ router.put('/transfer', spotifyMiddleware, async (req, res) => {
     res.sendStatus(200)
   }).catch(e => {
     logger.error('Error trying to transfer playback:\n', e.message, e.response && e.response.data)
-    res.sendStatus(500)
+    res.sendStatus((e.response && e.response.status) || 500)
   })
 })
 

@@ -1,6 +1,6 @@
 import * as ACTION_TYPES from './action-types'
 import * as MUTATION_TYPES from './mutation-types'
-import { ACCESS_TOKEN_COOKIE_KEY } from '@/utils'
+import { ACCESS_TOKEN_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY } from '@/utils'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { get } from 'lodash'
@@ -29,14 +29,17 @@ const triggerOauthIfNotLoggedIn = () => {
   return true
 }
 
-const ensureTransferedPlayback = (player, cb) => {
-  player.getCurrentState().then(playerState => {
+const ensureTransferedPlayback = (state, cb) => {
+  state.player.getCurrentState().then(playerState => {
     if (!playerState) {
       axios.put(`${API_HOST}/transfer`, {
         deviceId: state.deviceId,
       }).then(cb).catch((e) => {
         console.error('failed to transfer playback', e)
         alert('Spotify is having issues transferring playback, try again later')
+        Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
+        Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
+        location.reload()
       })
     } else {
       cb()
@@ -47,22 +50,22 @@ const ensureTransferedPlayback = (player, cb) => {
 const actions = {
   [ACTION_TYPES.TOGGLE_PLAY]({ state }) {
     if (triggerOauthIfNotLoggedIn() && state.player) {
-      ensureTransferedPlayback(state.player, () => state.player.togglePlay())
+      ensureTransferedPlayback(state, () => state.player.togglePlay())
     }
   },
   [ACTION_TYPES.NEXT_TRACK]({ state }) {
     if (triggerOauthIfNotLoggedIn() && state.player) {
-      ensureTransferedPlayback(state.player, () => state.player.nextTrack())
+      ensureTransferedPlayback(state, () => state.player.nextTrack())
     }
   },
   [ACTION_TYPES.PREVIOUS_TRACK]({ state }) {
     if (triggerOauthIfNotLoggedIn() && state.player) {
-      ensureTransferedPlayback(state.player, () => state.player.previousTrack())
+      ensureTransferedPlayback(state, () => state.player.previousTrack())
     }
   },
   [ACTION_TYPES.PLAY_TRACKS]({ state }, { uris }) {
     if (triggerOauthIfNotLoggedIn() && state.player && state.deviceId) {
-      ensureTransferedPlayback(state.player, () => {
+      ensureTransferedPlayback(state, () => {
         axios.put(`${API_HOST}/play`, { uris, deviceId: state.deviceId })
           .catch((error) => {
             alert(`An error occurred trying to play tracks:\n${(error && error.message) || 'unknown error'}`)
@@ -72,7 +75,7 @@ const actions = {
   },
   [ACTION_TYPES.SEEK]({ state }, { percentage }) {
     if (triggerOauthIfNotLoggedIn() && state.player) {
-      ensureTransferedPlayback(state.player, () => {
+      ensureTransferedPlayback(state, () => {
         const duration = get(state, 'playbackState.duration')
         if (duration) {
           state.player.seek(duration * percentage)
