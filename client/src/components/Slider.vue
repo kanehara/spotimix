@@ -1,9 +1,10 @@
 <template>
-  <div class="slidercontainer"  @click="toggle">
+  <div class="slidercontainer"  @click="outterToggle">
     <ToggleButton :disabled="disabled" @click="toggle" className="toggleButton"/>
     <input
       v-model.number="value"
       @input="input"
+      @click.stop
       type="range" 
       class="slider"  
       :min="min" 
@@ -51,6 +52,11 @@ export default {
   methods: {
     input (e) {
       this.$emit('input', Number(e.target.value))
+    },
+    outterToggle() {
+      if (this.disabled) {
+        this.$emit('enable')
+      }
     },
     toggle() {
       if (this.disabled) {
