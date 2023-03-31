@@ -26,7 +26,7 @@ const REFRESH_TOKEN_COOKIE_KEY = 'spotify_refresh_token'
 
 router.get('/login', (req, res) => {
   const state = generateRandomString(16)
-  res.cookie(STATE_KEY, state, {sameSite: 'none', secure: true})
+  res.cookie(STATE_KEY, state)
 
   // your application requests authorization
   const scope = 'user-modify-playback-state streaming'
