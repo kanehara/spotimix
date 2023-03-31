@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Copy and build
 COPY . /app
-RUN npm install
+RUN npm install --legacy-peer-deps 
 RUN npm run build
 
 ENV API_HOST=$API_HOST
