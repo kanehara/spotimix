@@ -35,8 +35,8 @@ const ensureTransferedPlayback = (player, cb) => {
       axios.put(`${API_HOST}/transfer`, {
         deviceId: state.deviceId,
       }).then(cb).catch((e) => {
-        // todo handle error
         console.error('failed to transfer playback', e)
+        alert('Spotify is having issues transferring playback, try again later')
       })
     } else {
       cb()
