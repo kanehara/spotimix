@@ -94,6 +94,15 @@ const actions = {
         player.addListener('ready', ({ device_id }) => { // eslint-disable-line
           console.log('Ready with Device ID', device_id)
           commit(MUTATION_TYPES.SET_DEVICE_ID, device_id)
+
+          // https://github.com/spotify/web-playback-sdk/issues/75#issuecomment-487325589
+          const iframe = document.querySelector('iframe[src="https://sdk.scdn.co/embedded/index.html"]')
+          if (iframe) {
+            iframe.style.display = 'block'
+            iframe.style.position = 'absolute'
+            iframe.style.top = '-1000px'
+            iframe.style.left = '-1000px'
+          }
         })
 
         player.addListener('player_state_changed', (data) => {
