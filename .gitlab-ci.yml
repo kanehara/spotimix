@@ -69,7 +69,6 @@ release-client:
 
 deploy:
   stage: deploy
-  when: manual
   only:
     - tags
   environment:
