@@ -58,7 +58,6 @@ router.get('/callback', async (req, res) => {
       }))
   } else {
     res.clearCookie(STATE_KEY)
-    res.clearCookie(TRACK_INDEX_KEY)
     try {
       const authRes = await generateShopifyToken({
         code: code,

@@ -13,3 +13,4 @@ export function msToMinAndSec(millis) {
 
 export const ACCESS_TOKEN_COOKIE_KEY = 'spotify_access_token'
 export const REFRESH_TOKEN_COOKIE_KEY = 'spotify_refresh_token'
+export const TRACK_INDEX_KEY = 'mixceed_track_index'

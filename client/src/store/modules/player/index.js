@@ -1,6 +1,6 @@
 import * as ACTION_TYPES from './action-types'
 import * as MUTATION_TYPES from './mutation-types'
-import { ACCESS_TOKEN_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY } from '@/utils'
+import { ACCESS_TOKEN_COOKIE_KEY, REFRESH_TOKEN_COOKIE_KEY, TRACK_INDEX_KEY } from '@/utils'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { get } from 'lodash'
@@ -102,13 +102,10 @@ const actions = {
         // Ready
         player.addListener('ready', ({ device_id }) => { // eslint-disable-line
           commit(MUTATION_TYPES.SET_DEVICE_ID, device_id)
-          const qs = window.location.href.split('?')
-          if (qs.length > 1) {
-            const urlParams = new URLSearchParams('?' + qs[1])
-            const trackIndex = urlParams.get('trackIndex')
-            if (trackIndex && !isNaN(trackIndex)) {
-              dispatch(ACTION_TYPES.PLAY_TRACKS, { index: parseInt(trackIndex) })
-            }
+          const trackIndex = Cookies.get(TRACK_INDEX_KEY)
+          if (trackIndex && !isNaN(trackIndex)) {
+            dispatch(ACTION_TYPES.PLAY_TRACKS, { index: parseInt(trackIndex) })
+            Cookies.remove(TRACK_INDEX_KEY)
           }
 
           // https://github.com/spotify/web-playback-sdk/issues/75#issuecomment-487325589
