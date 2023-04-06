@@ -21,12 +21,17 @@ function generateRandomString (length) {
 };
 
 const STATE_KEY = 'mixceed_auth_state'
+const TRACK_INDEX_KEY = 'mixceed_track_index'
 const ACCESS_TOKEN_COOKIE_KEY = 'spotify_access_token'
 const REFRESH_TOKEN_COOKIE_KEY = 'spotify_refresh_token'
 
 router.get('/login', (req, res) => {
   const state = generateRandomString(16)
   res.cookie(STATE_KEY, state)
+  const trackIndex = req.query.trackIndex || null
+  if (trackIndex) {
+    res.cookie(TRACK_INDEX_KEY, trackIndex)
+  }
 
   // your application requests authorization
   const scope = 'user-modify-playback-state streaming'
@@ -44,6 +49,7 @@ router.get('/callback', async (req, res) => {
   const code = req.query.code || null
   const state = req.query.state || null
   const storedState = req.cookies ? req.cookies[STATE_KEY] : null
+  const storedTrackIndex = req.cookies ? req.cookies[TRACK_INDEX_KEY] : null
 
   if (state === null || state !== storedState) {
     res.redirect(config.APP_HOST + '/#/results?' +
@@ -52,6 +58,7 @@ router.get('/callback', async (req, res) => {
       }))
   } else {
     res.clearCookie(STATE_KEY)
+    res.clearCookie(TRACK_INDEX_KEY)
     try {
       const authRes = await generateShopifyToken({
         code: code,
@@ -62,7 +69,9 @@ router.get('/callback', async (req, res) => {
         const body = authRes.data
         res.cookie(ACCESS_TOKEN_COOKIE_KEY, body.access_token)
         res.cookie(REFRESH_TOKEN_COOKIE_KEY, body.refresh_token)
-        res.redirect(config.APP_HOST + '/#/results')
+        res.redirect(config.APP_HOST + '/#/results?' + querystring.stringify({
+          trackIndex: storedTrackIndex
+        }))
       } else {
         res.redirect(config.APP_HOST + '/#/results?' +
           querystring.stringify({

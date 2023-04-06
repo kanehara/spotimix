@@ -50,7 +50,7 @@ export default {
   methods: {
     ...mapActions(['PLAY_TRACKS', 'TOGGLE_PLAY']),
     handleTrackPlay(idx) {
-      this.PLAY_TRACKS({uris: this.results.slice(idx).map(r => r.uri)})
+      this.PLAY_TRACKS({ index: idx })
     },
     handleTrackPause() {
       this.TOGGLE_PLAY()

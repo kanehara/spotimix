@@ -21,9 +21,13 @@ const getters = {
   playbackPercentage: state => get(state, 'playbackState.position') && get(state, 'playbackState.duration') ? (get(state, 'playbackState.position') / get(state, 'playbackState.duration')) * 100 : 0
 }
 
-const triggerOauthIfNotLoggedIn = () => {
+const triggerOauthIfNotLoggedIn = (opts) => {
   if (!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)) {
-    window.open(`${API_HOST}/login`)
+    if (opts && opts.trackIndex) {
+      window.open(`${API_HOST}/login?trackIndex=${opts.trackIndex}`, '_self')
+    } else {
+      window.open(`${API_HOST}/login`, '_self')
+    }
     return false
   }
   return true
@@ -49,28 +53,33 @@ const ensureTransferedPlayback = (state, cb) => {
 
 const actions = {
   [ACTION_TYPES.TOGGLE_PLAY]({ state }) {
-    if (triggerOauthIfNotLoggedIn() && state.player) {
+    if (triggerOauthIfNotLoggedIn({trackIndex: 0}) && state.player) {
       ensureTransferedPlayback(state, () => state.player.togglePlay())
     }
   },
   [ACTION_TYPES.NEXT_TRACK]({ state }) {
-    if (triggerOauthIfNotLoggedIn() && state.player) {
+    if (triggerOauthIfNotLoggedIn({trackIndex: 0}) && state.player) {
       ensureTransferedPlayback(state, () => state.player.nextTrack())
     }
   },
   [ACTION_TYPES.PREVIOUS_TRACK]({ state }) {
-    if (triggerOauthIfNotLoggedIn() && state.player) {
+    if (triggerOauthIfNotLoggedIn({trackIndex: 0}) && state.player) {
       ensureTransferedPlayback(state, () => state.player.previousTrack())
     }
   },
-  [ACTION_TYPES.PLAY_TRACKS]({ state }, { uris }) {
-    if (triggerOauthIfNotLoggedIn() && state.player && state.deviceId) {
-      ensureTransferedPlayback(state, () => {
-        axios.put(`${API_HOST}/play`, { uris, deviceId: state.deviceId })
-          .catch((error) => {
-            alert(`An error occurred trying to play tracks:\n${(error && error.message) || 'unknown error'}`)
-          })
-      })
+  [ACTION_TYPES.PLAY_TRACKS]({ state, rootState }, { index }) {
+    if (triggerOauthIfNotLoggedIn({trackIndex: index}) && state.player && state.deviceId) {
+      const uris = rootState.mixer.results.slice(index).map(r => r.uri)
+      if (uris && uris.length > 0) {
+        ensureTransferedPlayback(state, () => {
+          axios.put(`${API_HOST}/play`, { uris, deviceId: state.deviceId })
+            .catch((error) => {
+              alert(`An error occurred trying to play tracks:\n${(error && error.message) || 'unknown error'}`)
+              Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
+              Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
+            })
+        })
+      }
     }
   },
   [ACTION_TYPES.SEEK]({ state }, { percentage }) {
@@ -83,7 +92,7 @@ const actions = {
       })
     }
   },
-  [ACTION_TYPES.INIT_SPOTIFY_PLAYER]({ commit, state }) {
+  [ACTION_TYPES.INIT_SPOTIFY_PLAYER]({ commit, state, dispatch }) {
     if (Cookies.get(ACCESS_TOKEN_COOKIE_KEY)) {
       window.onSpotifyWebPlaybackSDKReady = () => {
         const player = new window.Spotify.Player({
@@ -92,8 +101,15 @@ const actions = {
         })
         // Ready
         player.addListener('ready', ({ device_id }) => { // eslint-disable-line
-          console.log('Ready with Device ID', device_id)
           commit(MUTATION_TYPES.SET_DEVICE_ID, device_id)
+          const qs = window.location.href.split('?')
+          if (qs.length > 1) {
+            const urlParams = new URLSearchParams('?' + qs[1])
+            const trackIndex = urlParams.get('trackIndex')
+            if (trackIndex && !isNaN(trackIndex)) {
+              dispatch(ACTION_TYPES.PLAY_TRACKS, { index: parseInt(trackIndex) })
+            }
+          }
 
           // https://github.com/spotify/web-playback-sdk/issues/75#issuecomment-487325589
           const iframe = document.querySelector('iframe[src="https://sdk.scdn.co/embedded/index.html"]')
