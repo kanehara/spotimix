@@ -1,7 +1,7 @@
 {
-  "name": "spotimix-server",
+  "name": "mixceed-server",
   "version": "1.0.0",
-  "description": "Server for the spotimix app",
+  "description": "Server for the mixceed app",
   "main": "index.js",
   "scripts": {
     "start:prod": "node src/index.js",
@@ -10,7 +10,7 @@
     "eslint:fix": "standard --fix"
   },
   "keywords": [
-    "spotimix",
+    "mixceed",
     "spotify",
     "music"
   ],

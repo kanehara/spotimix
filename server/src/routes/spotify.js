@@ -20,7 +20,7 @@ function generateRandomString (length) {
   return text
 };
 
-const STATE_KEY = 'spotimix_auth_state'
+const STATE_KEY = 'mixceed_auth_state'
 const ACCESS_TOKEN_COOKIE_KEY = 'spotify_access_token'
 const REFRESH_TOKEN_COOKIE_KEY = 'spotify_refresh_token'
 

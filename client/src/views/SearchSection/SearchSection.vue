@@ -6,7 +6,7 @@
       </h4>
       <div class="tooltip-container">
         <Tooltip>
-          <p>Spotimix helps you discover songs on Spotify through a series of seeds and parameters.</p>
+          <p>Mixceed helps you discover songs on Spotify through a series of seeds and parameters.</p>
           <p>1. Select up to 5 combination of tracks, artists, and genres to feed the algorithm 🧪</p>
           <p>2. (Optional) Tweak additional parameters such as danceability 🕺</p>
           <p>3. Hit mix and see what you find! 🎛️</p>
