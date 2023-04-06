@@ -1,7 +1,7 @@
 {
-  "name": "spotimix",
+  "name": "Mixceed",
   "version": "1.0.0",
-  "description": "Spotimix",
+  "description": "Mixceed",
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/kanehara/spotimix.git"
@@ -9,7 +9,7 @@
   "keywords": [
     "spotify",
     "music",
-    "spotimix"
+    "mixceed"
   ],
   "author": "Yohei Kanehara <kanehara@umich.edu>",
   "license": "MIT",

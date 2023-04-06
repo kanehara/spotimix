@@ -3,10 +3,13 @@
     <SearchSection/>
     <SubmitButton 
       class="submitButton" 
-      label="Mix" 
       @click="submit" 
       :loading="loadingCount !== 0"
-      :disabled="totalSeeds === 0 || totalSeeds > 5"/>
+      :disabled="totalSeeds === 0 || totalSeeds > 5">
+      <div class="icon-container">
+        <MixceedIcon/>
+      </div>
+    </SubmitButton>
     <SliderContainer 
       v-for="a in allAttributes" 
       :key="a.name" 
@@ -24,13 +27,15 @@ import SearchSection from '@/views/SearchSection'
 import SliderContainer from '@/views/SliderContainer'
 import SubmitButton from '@/components/SubmitButton'
 import { mapGetters, mapMutations } from 'vuex'
+import MixceedIcon from '@/components/MixceedIcon.vue'
 
 export default {
   components: {
     SliderContainer,
     Mixer,
     SearchSection,
-    SubmitButton
+    SubmitButton,
+    MixceedIcon
   },
   data() {
     return {
@@ -201,5 +206,13 @@ export default {
 <style lang="scss" scoped>
 .submitButton {
   margin-bottom: 20px;
+
+  .icon-container {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>

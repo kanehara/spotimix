@@ -1,3 +1,3 @@
-# Server for Spotimix
+# Server for Mixceed
 
-GraphQL server for the spotimix app
+GraphQL server for the mixceed app

@@ -87,7 +87,7 @@ const actions = {
     if (Cookies.get(ACCESS_TOKEN_COOKIE_KEY)) {
       window.onSpotifyWebPlaybackSDKReady = () => {
         const player = new window.Spotify.Player({
-          name: 'Spotimix',
+          name: 'Mixceed',
           getOAuthToken: cb => { cb(Cookies.get(ACCESS_TOKEN_COOKIE_KEY)) }
         })
         // Ready

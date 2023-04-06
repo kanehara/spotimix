@@ -105,23 +105,30 @@ export default {
     white-space: nowrap;
     overflow: hidden;
   }
-
-  .showOnHover {
+  
+  .hideOnHover {
     display: none;
   }
-  .hideOnHover {
-    display: inline;
+  @include minTablet {
+    .showOnHover {
+      display: none;
+    }
+    .hideOnHover {
+      display: inline;
+    }
+
+    &:hover {
+      .showOnHover {
+        display: inline;
+      }
+      .hideOnHover {
+        display: none;
+      }
+    }
   }
 
   &:hover {
     background-color: $theme2;
-
-    .showOnHover {
-      display: inline;
-    }
-    .hideOnHover {
-      display: none;
-    }
   }
 
   .cell {

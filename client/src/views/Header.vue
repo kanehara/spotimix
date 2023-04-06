@@ -3,9 +3,9 @@
   <span class="left">
     <slot name="left"></slot>
   </span>
-  <router-link to="/" class="spotimix">
+  <router-link to="/" class="mixceed">
     <div class="icon-container">
-      <SpotimixIcon fill="#2AB759"/>
+      <MixceedIcon fill="#2AB759"/>
     </div>
   </router-link>
   <span class="right">
@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import SpotimixIcon from '@/components/SpotimixIcon'
+import MixceedIcon from '@/components/MixceedIcon'
 
 export default {
   components: {
-    SpotimixIcon
+    MixceedIcon
   }
 }
 </script>
@@ -57,7 +57,7 @@ export default {
     transform: translateY(-50%);
   }
 
-  .spotimix {
+  .mixceed {
     padding: 0;
     font-weight: 100;
   }
