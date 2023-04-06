@@ -171,7 +171,12 @@ router.put('/play', spotifyMiddleware, async (req, res) => {
   }
 
   // Disable shuffle ignoring errors
-  axios.put(`https://api.spotify.com/v1/me/player/shuffle?device_id=${deviceId}&state=false`).catch(e => {
+  await axios.put(`https://api.spotify.com/v1/me/player/shuffle?state=false`, null, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${req.shopifyAccessToken}`
+    }
+  }).catch(e => {
     logger.error('Error trying to disable shuffle in Shopify:\n', e.message, e.response && e.response.data)
   })
 
