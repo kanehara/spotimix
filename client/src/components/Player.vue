@@ -1,7 +1,7 @@
 <template>
   <div v-if="hasResults" class="player">
     <div class="inner-container">
-      <div>
+      <div class="track-info-container">
         <div v-if="currentlyPlayingTrack" class="track-info">
           <div class="track-image-container" v-if="hasTrackImage">
             <img class="track-image" :src="trackImage" />
@@ -79,6 +79,7 @@ export default {
 @import '~styles/breakpoints';
 
 $playerHeight: 5.75rem;
+$playerHeightMobile: 8rem;
 
 .track-image-container {
   margin-right: 1rem;
@@ -102,6 +103,18 @@ $playerHeight: 5.75rem;
 
   p {
     margin: 0;
+  }
+}
+
+.track-info-container {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  @include minTablet {
+    margin-bottom: 0;
   }
 }
 
@@ -158,18 +171,24 @@ $playerHeight: 5.75rem;
   border-top: .1rem solid $spotifyGreen;
   left: 0;
   right: 0;
-  height: $playerHeight;
+  height: $playerHeightMobile;
+  padding: 1rem 0 2rem 0;
+  
+  @include minTablet {
+    padding: 0;
+    height: $playerHeight;
+  }
 }
 
 .inner-container {
-  padding: 0 1rem;
   display: grid;
   grid-column-gap: 1.5rem;
-  grid-template-columns: minmax(10rem, .5fr) minmax(10rem,2fr);
+  grid-template-columns: 1fr;
   justify-items: flex-start;
   height: 100%;
+  padding: 0 1rem;
   
-  @include minMobile {
+  @include minTablet {
     grid-template-columns: minmax(13rem, 1fr) minmax(10rem,40rem) minmax(13rem, 1fr);
   }
 }

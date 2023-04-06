@@ -4,7 +4,7 @@
     id="submitButton" 
     @click="click" 
     :disabled="disabled || loading">
-      <h1>{{ label }}</h1>
+      <slot />
     </button>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
 @import '~styles/colors';
 
 #submitButton {
-  padding: 0 50px; 
+  padding: 10px 50px; 
   border-radius: 7.5px;
   outline: 0;
   background: $theme4;
