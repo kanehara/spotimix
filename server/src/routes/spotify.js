@@ -170,6 +170,11 @@ router.put('/play', spotifyMiddleware, async (req, res) => {
     return
   }
 
+  // Disable shuffle ignoring errors
+  axios.put(`https://api.spotify.com/v1/me/player/shuffle?device_id=${deviceId}&state=false`).catch(e => {
+    logger.error('Error trying to disable shuffle in Shopify:\n', e.message, e.response && e.response.data)
+  })
+
   axios.put(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
     uris
   }, {
