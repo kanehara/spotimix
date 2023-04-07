@@ -33,65 +33,41 @@ const triggerOauthIfNotLoggedIn = (opts) => {
   return true
 }
 
-const ensureTransferedPlayback = (state, cb) => {
-  state.player.getCurrentState().then(playerState => {
-    if (!playerState) {
-      state.player.activateElement().then(() => {
-        axios.put(`${API_HOST}/transfer`, {
-          deviceId: state.deviceId,
-        }).then(cb).catch((e) => {
-          console.error('failed to transfer playback', e)
-          alert('Spotify is having issues transferring playback, try again later')
-          Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
-          Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
-          location.reload()
-        })
-      })
-    } else {
-      cb()
-    }
-  })
-}
-
 const actions = {
   [ACTION_TYPES.TOGGLE_PLAY]({ state }) {
     if (triggerOauthIfNotLoggedIn({trackIndex: 0}) && state.player) {
-      ensureTransferedPlayback(state, () => state.player.togglePlay())
+      state.player.togglePlay()
     }
   },
   [ACTION_TYPES.NEXT_TRACK]({ state }) {
     if (triggerOauthIfNotLoggedIn({trackIndex: 0}) && state.player) {
-      ensureTransferedPlayback(state, () => state.player.nextTrack())
+      state.player.nextTrack()
     }
   },
   [ACTION_TYPES.PREVIOUS_TRACK]({ state }) {
     if (triggerOauthIfNotLoggedIn({trackIndex: 0}) && state.player) {
-      ensureTransferedPlayback(state, () => state.player.previousTrack())
+      state.player.previousTrack()
     }
   },
   [ACTION_TYPES.PLAY_TRACKS]({ state, rootState }, { index }) {
     if (triggerOauthIfNotLoggedIn({trackIndex: index}) && state.player && state.deviceId) {
       const uris = rootState.mixer.results.slice(index).map(r => r.uri)
       if (uris && uris.length > 0) {
-        ensureTransferedPlayback(state, () => {
-          axios.put(`${API_HOST}/play`, { uris, deviceId: state.deviceId })
-            .catch((error) => {
-              alert(`An error occurred trying to play tracks:\n${(error && error.message) || 'unknown error'}`)
-              Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
-              Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
-            })
-        })
+        axios.put(`${API_HOST}/play`, { uris, deviceId: state.deviceId })
+          .catch((error) => {
+            alert(`An error occurred trying to play tracks:\n${(error && error.message) || 'unknown error'}`)
+            Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
+            Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
+          })
       }
     }
   },
   [ACTION_TYPES.SEEK]({ state }, { percentage }) {
     if (triggerOauthIfNotLoggedIn() && state.player) {
-      ensureTransferedPlayback(state, () => {
-        const duration = get(state, 'playbackState.duration')
-        if (duration) {
-          state.player.seek(duration * percentage)
-        }
-      })
+      const duration = get(state, 'playbackState.duration')
+      if (duration) {
+        state.player.seek(duration * percentage)
+      }
     }
   },
   [ACTION_TYPES.INIT_SPOTIFY_PLAYER]({ commit, state, dispatch }) {
