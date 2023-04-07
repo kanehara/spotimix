@@ -28,6 +28,8 @@ import SliderContainer from '@/views/SliderContainer'
 import SubmitButton from '@/components/SubmitButton'
 import { mapGetters, mapMutations } from 'vuex'
 import MixceedIcon from '@/components/MixceedIcon.vue'
+import Cookies from 'js-cookie'
+import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
 
 export default {
   components: {
@@ -93,6 +95,7 @@ export default {
     recommendations: {
       query: gql`query Recommendations(
         $limit: Int,
+        $from_token: String,
         $seed_artists: String,
         $seed_tracks: String,
         $seed_genres: String,
@@ -111,6 +114,7 @@ export default {
       ) {
         recommendations(
           limit: $limit,
+          from_token: $from_token,
           seed_artists: $seed_artists,
           seed_tracks: $seed_tracks,
           seed_genres: $seed_genres,
@@ -168,8 +172,10 @@ export default {
           target_tempo,
           target_valence,
         } = this.payload
+        const from_token = Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
         return {
           limit,
+          ...(from_token && { from_token }),
           ...(seed_artists !== null) && { seed_artists },
           ...(seed_tracks !== null) && { seed_tracks },
           ...(seed_genres !== null) && { seed_genres },

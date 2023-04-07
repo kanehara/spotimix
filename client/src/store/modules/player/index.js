@@ -36,14 +36,16 @@ const triggerOauthIfNotLoggedIn = (opts) => {
 const ensureTransferedPlayback = (state, cb) => {
   state.player.getCurrentState().then(playerState => {
     if (!playerState) {
-      axios.put(`${API_HOST}/transfer`, {
-        deviceId: state.deviceId,
-      }).then(cb).catch((e) => {
-        console.error('failed to transfer playback', e)
-        alert('Spotify is having issues transferring playback, try again later')
-        Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
-        Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
-        location.reload()
+      state.player.activateElement().then(() => {
+        axios.put(`${API_HOST}/transfer`, {
+          deviceId: state.deviceId,
+        }).then(cb).catch((e) => {
+          console.error('failed to transfer playback', e)
+          alert('Spotify is having issues transferring playback, try again later')
+          Cookies.remove(ACCESS_TOKEN_COOKIE_KEY)
+          Cookies.remove(REFRESH_TOKEN_COOKIE_KEY)
+          location.reload()
+        })
       })
     } else {
       cb()

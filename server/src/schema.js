@@ -239,6 +239,10 @@ module.exports = new GraphQLSchema({
           ? context.services.getRecommendations(context.accessToken(), args)
           : [],
         args: {
+          from_token: {
+            type: GraphQLString,
+            description: 'from_tokent to use for track relinking'
+          },
           limit: {
             type: GraphQLInt,
             description: 'Result size limit'

@@ -49,7 +49,6 @@ router.get('/callback', async (req, res) => {
   const code = req.query.code || null
   const state = req.query.state || null
   const storedState = req.cookies ? req.cookies[STATE_KEY] : null
-  const storedTrackIndex = req.cookies ? req.cookies[TRACK_INDEX_KEY] : null
 
   if (state === null || state !== storedState) {
     res.redirect(config.APP_HOST + '/#/results?' +
