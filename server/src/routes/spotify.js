@@ -68,9 +68,7 @@ router.get('/callback', async (req, res) => {
         const body = authRes.data
         res.cookie(ACCESS_TOKEN_COOKIE_KEY, body.access_token)
         res.cookie(REFRESH_TOKEN_COOKIE_KEY, body.refresh_token)
-        res.redirect(config.APP_HOST + '/#/results?' + querystring.stringify({
-          trackIndex: storedTrackIndex
-        }))
+        res.redirect(config.APP_HOST + '/#/results')
       } else {
         res.redirect(config.APP_HOST + '/#/results?' +
           querystring.stringify({
