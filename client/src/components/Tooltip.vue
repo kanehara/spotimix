@@ -22,7 +22,7 @@ export default {
   display: none;
   position: absolute;
   top: 1.5rem;
-  right: 0;
+  left: 0;
   z-index: 1000;
   border-radius: 5px;
   padding: .5rem;

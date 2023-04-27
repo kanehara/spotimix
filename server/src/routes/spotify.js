@@ -205,6 +205,21 @@ router.put('/play', spotifyMiddleware, async (req, res) => {
   })
 })
 
+router.get('/currently-playing', spotifyMiddleware, async (req, res) => {
+  axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${req.shopifyAccessToken}`
+    }
+  }).then((r) => {
+    res.send(r.data)
+    res.sendStatus(200)
+  }).catch(e => {
+    logger.error('Error retrieving currently playing state:\n', e.message, e.response && e.response.data)
+    res.sendStatus((e.response && e.response.status) || 500)
+  })
+})
+
 router.put('/transfer', spotifyMiddleware, async (req, res) => {
   const deviceId = req.body && req.body.deviceId
   if (!deviceId) {

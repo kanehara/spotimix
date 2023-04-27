@@ -6,9 +6,7 @@
       @click="submit" 
       :loading="loadingCount !== 0"
       :disabled="totalSeeds === 0 || totalSeeds > 5">
-      <div class="icon-container">
-        <MixceedIcon/>
-      </div>
+      Mix
     </SubmitButton>
     <SliderContainer 
       v-for="a in allAttributes" 

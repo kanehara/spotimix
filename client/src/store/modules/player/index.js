@@ -14,6 +14,7 @@ const state = {
 
 const getters = {
   isPlaying: state => get(state, 'playbackState.paused') === false,
+  isPlayerActive: state => state.playbackState,
   currentlyPlayingTrack: state => get(state, 'playbackState.track_window.current_track'),
   currentlyPlayingArtists: state => get(state, 'playbackState.track_window.current_track.artists'),
   playbackPosition: state => get(state, 'playbackState.position') || 0,
@@ -117,6 +118,7 @@ const actions = {
             if (state.playbackStatePollingInteveralId) {
               clearInterval(state.playbackStatePollingInteveralId)
               commit(MUTATION_TYPES.SET_PLAYBACK_STATE_POLLING_INTERVAL_ID, null)
+              commit(MUTATION_TYPES.SET_PLAYBACK_STATE, null)
             }
           }
         })

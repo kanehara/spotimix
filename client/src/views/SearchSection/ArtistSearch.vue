@@ -31,7 +31,6 @@ export default {
   computed: {
     ...mapGetters(['artistSeeds']),
     suggestions() {
-      console.log('this.search.artists', this.search.artists)
       return this.query.length > 0
         ? this.search.artists
           .filter(a => this.artistSeeds.every(s => s.id !== a.id))

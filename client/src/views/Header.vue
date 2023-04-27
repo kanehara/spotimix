@@ -1,17 +1,19 @@
 <template>
-<div id="header">
-  <span class="left">
-    <slot name="left"></slot>
-  </span>
-  <router-link to="/" class="mixceed">
-    <div class="icon-container">
-      <MixceedIcon fill="#2AB759"/>
+  <div class="container">
+    <div id="header">
+      <span class="left">
+        <slot name="left"></slot>
+      </span>
+      <router-link to="/" class="mixceed">
+        <div class="icon-container">
+          <MixceedIcon fill="#1DB954"/>
+        </div>
+      </router-link>
+      <span class="right">
+        <slot name="right"></slot>
+      </span>
     </div>
-  </router-link>
-  <span class="right">
-    <slot name="right"></slot>
-  </span>
-</div>
+  </div>
 </template>
 
 <script>
@@ -28,20 +30,33 @@ export default {
 <style scoped lang="scss">
 @import '~styles/colors';
 
+.spotify-logo-container {
+  max-height: 50px;
+  img {
+    object-fit: cover;
+    max-height: 40px;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1.25px solid $theme3;
+  border-top: 1.25px solid $theme3;
+  padding: 15px;
+  margin-bottom: 1rem;
+}
+
 .icon-container {
   display: flex;
+  flex-direction: column;
   max-height: 2.5rem;
   justify-content: center;
   margin: auto;
 }
 
 #header {
-  background-color: $contentBackground;
-  border-bottom: 1.25px solid $theme3;
-  border-top: 1.25px solid $theme3;
-  padding: 15px;
   position: relative;
-  margin-bottom: 25px;
 
   .left {
     position: absolute;

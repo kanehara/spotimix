@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasResults" class="player">
+  <div v-if="hasResults && isPlayerActive" class="player">
     <div class="inner-container">
       <div class="track-info-container">
         <div v-if="currentlyPlayingTrack" class="track-info">
@@ -7,6 +7,9 @@
             <img class="track-image" :src="trackImage" />
           </div>
           <div class="track-artist">
+            <div class="spotify-logo-container">
+              <img src="/static/spotify_logo.png" />
+            </div>
             <TrackNameAndArtists skinny="true" :track="currentlyPlayingTrack" :artists="currentlyPlayingArtists" />
           </div>
         </div>
@@ -57,7 +60,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isPlaying', 'hasResults', 'currentlyPlayingTrack', 'currentlyPlayingArtists', 'playbackPercentage', 'playbackPosition', 'playbackDuration']),
+    ...mapGetters([
+      'isPlaying',
+      'hasResults',
+      'currentlyPlayingTrack',
+      'currentlyPlayingArtists',
+      'isPlayerActive',
+      'playbackPercentage',
+      'playbackPosition',
+      'playbackDuration'
+    ]),
     trackImage() {
       return get(this.currentlyPlayingTrack, 'album.images[0].url')
     },
@@ -78,8 +90,8 @@ export default {
 @import '~styles/colors';
 @import '~styles/breakpoints';
 
-$playerHeight: 5.75rem;
-$playerHeightMobile: 8rem;
+$playerHeight: 6.8rem;
+$playerHeightMobile: 9rem;
 
 .track-image-container {
   margin-right: 1rem;
@@ -106,6 +118,16 @@ $playerHeightMobile: 8rem;
   }
 }
 
+.spotify-logo-container {
+  object-fit: contain;
+
+  img {
+    object-fit: cover;
+    max-height: 1rem;
+    margin-bottom: .25rem;
+  }
+}
+
 .track-info-container {
   display: flex;
   align-items: center;
@@ -121,6 +143,7 @@ $playerHeightMobile: 8rem;
 .track-artist {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .controls {
@@ -168,11 +191,11 @@ $playerHeightMobile: 8rem;
   position: fixed;
   bottom: 0;
   background: $onix;
-  border-top: .1rem solid $spotifyGreen;
+  border-top: .1rem solid $theme4;
   left: 0;
   right: 0;
   height: $playerHeightMobile;
-  padding: 1rem 0 2rem 0;
+  padding: 1rem 0 3rem 0;
   
   @include minTablet {
     padding: 0;
@@ -204,7 +227,7 @@ $playerHeightMobile: 8rem;
     cursor: pointer;
 
     .seeker-played {
-      background-color: $spotifyGreen;
+      background-color: $theme4;
     }
   }
 }

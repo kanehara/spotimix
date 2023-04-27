@@ -1,9 +1,6 @@
 <template>
   <div class="searchSectionContainer">
-    <div class="searchSectionHeader">
-      <h4>
-          Please select up to 5 seeds
-      </h4>
+    <div class="top-section">
       <div class="tooltip-container">
         <Tooltip>
           <p>Mixceed helps you discover songs on Spotify through a series of seeds and parameters.</p>
@@ -12,6 +9,10 @@
           <p>3. Hit mix and see what you find! 🎛️</p>
         </Tooltip>
       </div>
+      <div class="spotify-logo-container">
+        <img src="/static/spotify_logo.png" />
+      </div>
+      <div />
     </div>
     <div class="searchSection">
       <div class="item">
@@ -41,8 +42,8 @@ export default {
   components: {
     TrackSearch,
     ArtistSearch,
+    Tooltip,
     GenreSearch,
-    Tooltip
   },
   computed: {
     ...mapGetters(['totalSeeds'])
@@ -60,6 +61,20 @@ export default {
 <style scoped lang="scss" >
 @import '~styles/breakpoints';
 @import '~styles/colors';
+
+.top-section {
+  display: grid;
+  grid-template-columns: 1rem 1fr 1rem;
+}
+
+.spotify-logo-container {
+  object-fit: contain;
+
+  img {
+    object-fit: cover;
+    max-height: 1.5rem;
+  }
+}
 
 .reset-container {
   visibility: hidden;
@@ -99,12 +114,6 @@ export default {
   h4 {
     margin: 0;
   }
-
-  .tooltip-container {
-    margin-left: .75rem;
-    display: flex;
-    justify-self: center;
-  }
 }
 
 .searchSection {
@@ -115,10 +124,6 @@ export default {
   @include minTablet {
     flex-direction: row;
   }
-}
-
-h5 {
-  margin: 10px 0;
 }
 
 .item {

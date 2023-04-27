@@ -24,7 +24,7 @@ export default {
   components: {
     Header,
     Slide,
-    Fade
+    Fade,
   },
   data() {
     return {

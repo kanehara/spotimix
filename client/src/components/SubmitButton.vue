@@ -24,12 +24,14 @@ export default {
 @import '~styles/colors';
 
 #submitButton {
-  padding: 10px 50px; 
+  padding: .5rem 2rem; 
   border-radius: 7.5px;
   outline: 0;
   background: $theme4;
   color: white;
   border: none;
+  font-weight: bold;
+  font-size: 1rem;
 
   &:hover {
     cursor: pointer;

@@ -1,13 +1,16 @@
 <template>
   <div>
     <div class="container">
+      <div class="spotify-logo-container">
+        <img src="/static/spotify_logo.png" />
+      </div>
       <h1 v-if="hasNoResults">No Results!</h1>
       <div v-else>
         <div class="header">
-          <h4 class="trackNumber">#</h4>
-          <h4 class="title">Title</h4>
-          <h4 class="album">Album</h4>
-          <h4 class="duration"><ClockIcon /></h4>
+          <h4 class="trackNumber h">#</h4>
+          <h4 class="title h">Title</h4>
+          <h4 class="album h">Album</h4>
+          <h4 class="duration h"><ClockIcon /></h4>
         </div>
         <div class="results">
           <Stagger :appear="!!animate">
@@ -25,8 +28,6 @@ import ClockIcon from '@/components/ClockIcon'
 import Header from '@/views/Header'
 import Stagger from '@/transitions/group/Stagger'
 import { mapActions, mapGetters } from 'vuex'
-import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
-import Cookies from 'js-cookie'
 
 export default {
   components: {
@@ -36,16 +37,13 @@ export default {
     ClockIcon
   },
   computed: {
-    ...mapGetters(['results']),
+    ...mapGetters(['results', 'isLoggedIn']),
     animate() {
       return this.$route.query.animate
     },
     hasNoResults() {
       return this.results.length === 0
     },
-    isLoggedIn() {
-      return !!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
-    }
   },
   methods: {
     ...mapActions(['PLAY_TRACKS', 'TOGGLE_PLAY']),
@@ -65,6 +63,19 @@ export default {
 
 .container {
   padding-top: 0;
+}
+
+.spotify-logo-container {
+  object-fit: contain;
+
+  img {
+    object-fit: cover;
+    max-height: 1.5rem;
+  }
+}
+
+.h {
+  margin: 0.75rem 0;
 }
 
 .loggedInContainer {

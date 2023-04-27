@@ -56,7 +56,6 @@ $b-radius: 10px;
     img {
       width: 2rem;
       height: 2rem;
-      border-radius: 2rem;
     }
   }
 

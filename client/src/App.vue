@@ -8,17 +8,14 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
-import {ACCESS_TOKEN_COOKIE_KEY} from '@/utils'
 import axios from 'axios'
 import Player from '@/components/Player'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {Player},
   computed: {
-    isLoggedIn() {
-      return !!Cookies.get(ACCESS_TOKEN_COOKIE_KEY)
-    }
+    ...mapGetters(['isLoggedIn']),
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -63,10 +60,20 @@ export default {
   }
 }
 
+h4 {
+  margin: .8rem 0;
+}
+
+h5 {
+  margin: .8rem 0;
+}
+
 body, html {
   margin: 0;
   background-color: $bodyBackground;
-  overscroll-behavior: none;
+  @include minTablet {
+    overscroll-behavior: none;
+  }
 }
 
 html {
