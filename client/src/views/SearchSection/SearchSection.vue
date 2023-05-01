@@ -9,9 +9,6 @@
           <p>3. Hit mix and see what you find! 🎛️</p>
         </Tooltip>
       </div>
-      <div class="spotify-logo-container">
-        <img src="/static/spotify_logo.png" />
-      </div>
       <div />
     </div>
     <div class="searchSection">

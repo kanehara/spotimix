@@ -52,10 +52,9 @@ export default {
   height: 100%;
   background-color: $contentBackground;
   
-  padding: 10px 20px;
+  padding: 1.5rem 3rem;
   padding-bottom: 7rem;
   @include minMobile {
-    padding: 30px 5%;
     padding-bottom: 7rem;
   }
 }

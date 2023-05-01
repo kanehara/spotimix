@@ -208,8 +208,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~styles/player';
+@import '~styles/breakpoints';
+
 .submitButton {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 
   .icon-container {
     width: 1.5rem;
@@ -217,6 +220,14 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+.mixer {
+  padding-bottom: $playerHeightMobile;
+
+  @include minTablet {
+    padding-bottom: $playerHeight;
   }
 }
 </style>

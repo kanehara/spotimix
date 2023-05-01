@@ -8,6 +8,17 @@
         <router-link v-if="hasResults && !isResultsRoute" to="/results">Results</router-link>
       </Fade>
     </Header>
+    <div class="sub-header">
+      <div />
+      <div class="spotify-logo-container">
+        <img src="/static/spotify_logo.png" />
+      </div>
+      <div v-if="isLoggedIn">
+        <a href="https://www.spotify.com/account/apps/" target="_blank">
+          Disconnect
+        </a>
+      </div>
+    </div>
     <Slide :direction="transitionDirection">
       <router-view/>
     </Slide>
@@ -32,7 +43,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['hasResults']),
+    ...mapGetters(['hasResults', 'isLoggedIn']),
     isResultsRoute() {
       return this.$route.path === '/results'
     }
@@ -44,4 +55,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.sub-header {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 8rem 1fr 8rem;
+}
+
+.spotify-logo-container {
+  object-fit: contain;
+  padding: 1rem 0;
+
+  img {
+    object-fit: cover;
+    max-height: 1.5rem;
+  }
+}
+</style>
 

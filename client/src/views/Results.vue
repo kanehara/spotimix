@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="container">
-      <div class="spotify-logo-container">
-        <img src="/static/spotify_logo.png" />
-      </div>
       <h1 v-if="hasNoResults">No Results!</h1>
       <div v-else>
         <div class="header">
@@ -63,15 +60,6 @@ export default {
 
 .container {
   padding-top: 0;
-}
-
-.spotify-logo-container {
-  object-fit: contain;
-
-  img {
-    object-fit: cover;
-    max-height: 1.5rem;
-  }
 }
 
 .h {

@@ -89,9 +89,7 @@ export default {
 <style lang="scss" scoped>
 @import '~styles/colors';
 @import '~styles/breakpoints';
-
-$playerHeight: 6.8rem;
-$playerHeightMobile: 9rem;
+@import '~styles/player';
 
 .track-image-container {
   margin-right: 1rem;

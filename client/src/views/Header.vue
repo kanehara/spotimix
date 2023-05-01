@@ -30,13 +30,6 @@ export default {
 <style scoped lang="scss">
 @import '~styles/colors';
 
-.spotify-logo-container {
-  max-height: 50px;
-  img {
-    object-fit: cover;
-    max-height: 40px;
-  }
-}
 
 .container {
   display: flex;
@@ -44,7 +37,6 @@ export default {
   border-bottom: 1.25px solid $theme3;
   border-top: 1.25px solid $theme3;
   padding: 15px;
-  margin-bottom: 1rem;
 }
 
 .icon-container {
