@@ -8,9 +8,9 @@ not_found_handling = "single-page-application"
 binding = "ASSETS"
 
 [vars]
-APP_HOST = "https://mixceed.yohei-kanehara.workers.dev"
+APP_HOST = "https://mixceed.com"
 SPOTIFY_API_HOST = "https://api.spotify.com"
-SPOTIFY_REDIRECT_URI = "https://mixceed.yohei-kanehara.workers.dev/api/callback"
+SPOTIFY_REDIRECT_URI = "https://mixceed.com/api/callback"
 
 [observability]
 enabled = true
