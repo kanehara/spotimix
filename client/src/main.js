@@ -7,7 +7,6 @@ import VueApollo from 'vue-apollo'
 import apolloClient from './apollo-client'
 import store from './store'
 import axios from 'axios'
-require('semantic-ui-icon/icon.min.css')
 
 Vue.config.productionTip = false
 

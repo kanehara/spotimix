@@ -1,7 +1,7 @@
 <template>
   <span class="tag" @click="click">
     <span class="label">{{label}}</span>
-    <i class="remove icon" @click.stop="remove"></i>
+    <span class="remove-icon" @click.stop="remove">×</span>
   </span>
 </template>
 
@@ -37,9 +37,12 @@ export default {
     background: $theme2;
   }
 
-  .remove.icon {
+  .remove-icon {
     margin-right: 0;
     color: $negRed;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
     &:hover {
       cursor: pointer;
       color: $negRed-hover;
