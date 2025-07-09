@@ -20,7 +20,8 @@
   "homepage": "https://gitlab.com/kanehara/mixceed#README",
   "scripts": {
     "dev": "wrangler dev",
-    "build": "cd client && npm ci --legacy-peer-deps --ignore-scripts && API_HOST=https://www.mixceed.com npm run build",
+    "client:ci": "cd client && npm ci --legacy-peer-deps --ignore-scripts && npm rebuild node-sass",
+    "build": "cd client && API_HOST=https://www.mixceed.com npm run build",
     "deploy": "wrangler deploy",
     "build:client": "cd client && npm run build"
   },
