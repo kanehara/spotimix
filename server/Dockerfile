@@ -9,9 +9,9 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Get env config
-RUN git clone https://$GITLAB_USER:$CI_TOKEN@gitlab.com/kanehara/spotimix-env.git
-RUN cp spotimix-env/server/prod/.env .env
-RUN rm -rf spotimix-env
+RUN git clone https://$GITLAB_USER:$CI_TOKEN@gitlab.com/kanehara/mixceed-env.git
+RUN cp mixceed-env/server/prod/.env .env
+RUN rm -rf mixceed-env
 
 # Copy and build
 COPY . /app

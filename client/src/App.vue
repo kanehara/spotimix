@@ -21,7 +21,7 @@ export default {
     if (this.isLoggedIn) {
       setInterval(async () => {
         try {
-          await axios.put(`${API_HOST}/refresh_token`) // eslint-disable-line
+          await axios.put(`${API_HOST}/api/refresh_token`) // eslint-disable-line
         } catch (e) {
           if (e && e.response && e.response.status === 440) {
             location.reload()

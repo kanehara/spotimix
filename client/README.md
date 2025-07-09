@@ -1,4 +1,4 @@
-# spotimix
+# mixceed
 
 > App to mix spotifiy recommendation seeds
 

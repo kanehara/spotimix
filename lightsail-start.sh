@@ -1,5 +1,5 @@
 # Startup script for lightsail
-curl -o lightsail-compose.sh https://raw.githubusercontent.com/kanehara/spotimix/master/lightsail-compose.sh
+curl -o lightsail-compose.sh https://raw.githubusercontent.com/kanehara/mixceed/master/lightsail-compose.sh
 
 chmod +x ./lightsail-compose.sh
 
