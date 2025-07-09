@@ -21,7 +21,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "client:ci": "cd client && npm ci --legacy-peer-deps",
-    "build": "cd client && API_HOST=https://www.mixceed.com npm run build",
+    "build": "cd client && API_HOST=https://mixceed.com npm run build",
     "deploy": "wrangler deploy",
     "build:client": "cd client && npm run build"
   },
